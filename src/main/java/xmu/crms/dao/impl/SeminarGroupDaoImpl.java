@@ -154,11 +154,20 @@ public class SeminarGroupDaoImpl implements SeminarGroupDao {
     }
 
     @Override
+    public void resignLeaderById(BigInteger groupId, BigInteger userId) throws IllegalArgumentException, UserNotFoundException, GroupNotFoundException, InvalidOperationException {
+        seminarGroupMapper.resignLeaderById( groupId,  userId);
+    }
+
+    @Override
     public List<SeminarGroup> listSeminarGroupNotHaveTopic(BigInteger seminarId) {
         List<SeminarGroup> list=seminarGroupMapper.selectSeminarGroupNotHaveTopic(seminarId);
         return list;
     }
 
+    @Override
+    public void deleteSeminarGroupMemberById(BigInteger seminarGroupId, BigInteger userId) {
+        seminarGroupMemberMapper.deleteSeminarGroupMemberById(seminarGroupId,userId);
+    }
 
 
 }

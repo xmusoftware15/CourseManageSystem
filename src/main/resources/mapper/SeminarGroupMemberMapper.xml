@@ -49,6 +49,10 @@
         delete from seminar_group_member
         where seminar_group_id = #{seminarGroupId,jdbcType=BIGINT}
     </delete>
+    <delete id="deleteSeminarGroupMemberById"  >
+        delete from seminar_group_member
+        where seminar_group_id = #{seminarGroupId,jdbcType=BIGINT} AND student_id=#{userId}
+    </delete>
     <insert id="insertSeminarGroupMemberById" useGeneratedKeys="true" keyProperty="id">
         insert into seminar_group_member ( seminar_group_id, student_id)
         values ( #{groupId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT})

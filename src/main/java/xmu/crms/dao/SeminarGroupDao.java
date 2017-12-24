@@ -191,6 +191,18 @@ public interface SeminarGroupDao {
     void updateSeminarGroupById(BigInteger groupId, BigInteger userId) throws
             IllegalArgumentException, UserNotFoundException, GroupNotFoundException, InvalidOperationException;
     /**
+     * 组长辞职.
+     * <p>同学按小组id和自身id成为组长<br>
+     * @param groupId 小组id
+     * @param userId  学生id
+     * @exception IllegalArgumentException 信息不合法，id格式错误
+     * @exception GroupNotFoundException 未找到小组
+     * @exception UserNotFoundException 不存在该学生
+     * @exception InvalidOperationException 已经有组长了
+     */
+    void resignLeaderById(BigInteger groupId, BigInteger userId) throws
+            IllegalArgumentException, UserNotFoundException, GroupNotFoundException, InvalidOperationException;
+    /**
      * 新增获取未选择话题的小组方法.
      *
      * @param seminarId
@@ -199,4 +211,10 @@ public interface SeminarGroupDao {
     List<SeminarGroup> listSeminarGroupNotHaveTopic(BigInteger seminarId);
 
 
+    /**
+     * 删除小组成员.
+     * @param seminarGroupId
+     * @param userId
+     */
+    void deleteSeminarGroupMemberById(BigInteger seminarGroupId, BigInteger userId);
 }

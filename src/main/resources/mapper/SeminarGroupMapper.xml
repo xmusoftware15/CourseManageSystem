@@ -74,6 +74,12 @@
         leader_id = #{userId,jdbcType=BIGINT}
         where id = #{groupId,jdbcType=BIGINT}
     </update>
+    <update id="resignLeaderById" >
+        update seminar_group
+        set
+        leader_id = NULL
+        where id = #{groupId,jdbcType=BIGINT}
+    </update>
     <select id="selectSeminarGroupNotHaveTopic" resultMap="seminarGroupTopicResultMap">
         SELECT seminar_group.id, seminar_id, report_grade,seminar_group.presentation_grade, final_grade,
         report, class_id, leader_id

@@ -34,4 +34,10 @@ SeminarGroup getSeminarGroupById(@Param("seminarId") BigInteger seminarId, @Para
   * @return List 未选择话题小组列表
   */
  List<SeminarGroup> selectSeminarGroupNotHaveTopic(BigInteger seminarId);
+ /**
+  * 组长辞职.
+  * @param groupId
+  * @param userId
+  */
+ void resignLeaderById(BigInteger groupId, BigInteger userId);
 }

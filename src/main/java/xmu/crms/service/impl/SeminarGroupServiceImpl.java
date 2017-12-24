@@ -10,6 +10,7 @@ import xmu.crms.entity.User;
 import xmu.crms.exception.*;
 import xmu.crms.service.SeminarGroupService;
 import xmu.crms.service.TopicService;
+import xmu.crms.service.UserService;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -27,7 +28,8 @@ public class SeminarGroupServiceImpl implements SeminarGroupService {
     private SeminarGroupDao seminarGroupDao;
     @Autowired
     private TopicService topicService;
-
+    @Autowired
+    private UserService userService;
     @Override
     public void deleteSeminarGroupMemberBySeminarGroupId(BigInteger seminarGroupId) {
         seminarGroupDao.deleteSeminarGroupMemberBySeminarGroupId(seminarGroupId);
@@ -222,9 +224,14 @@ public class SeminarGroupServiceImpl implements SeminarGroupService {
         if (seminarGroup.getLeader() == null) {
             throw new InvalidOperationException();
         }
-//User user=UserService.getUserByUserId(userId);
-//if(user==null){throw new UserNotFoundException();}
+User user=userService.getUserByUserId(userId);
+if(user==null){throw new UserNotFoundException();}
         seminarGroupDao.updateSeminarGroupById(groupId, null);
+    }
+
+    @Override
+    public void deleteSeminarGroupMemberById(BigInteger seminarGroupId, BigInteger userId) {
+        seminarGroupDao.deleteSeminarGroupMemberById(seminarGroupId,userId);
     }
 
 }

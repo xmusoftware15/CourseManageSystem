@@ -278,4 +278,10 @@ public interface SeminarGroupService {
 	void resignLeaderById(BigInteger groupId, BigInteger userId) throws
 			IllegalArgumentException,GroupNotFoundException,UserNotFoundException,InvalidOperationException;
 
+	/**
+	 * 删除小组成员.
+	 * @param seminarGroupId
+	 * @param userId
+	 */
+	void deleteSeminarGroupMemberById(BigInteger seminarGroupId, BigInteger userId);
 }

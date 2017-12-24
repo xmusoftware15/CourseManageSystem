@@ -52,4 +52,13 @@ public interface SeminarGroupMemberMapper {
      * @return BigInteger 若创建成功返回该小组成员表的id，失败则返回-1
      */
     Integer insertSeminarGroupMemberByGroupId(@Param("groupId") BigInteger groupId, @Param("seminarGroupMember") SeminarGroupMember seminarGroupMember);
+
+    /**
+     * 删除小组成员.
+     * @param seminarGroupId
+     * @param userId
+     */
+    void deleteSeminarGroupMemberById(@Param("seminarGroupId")BigInteger seminarGroupId,@Param("userId") BigInteger userId);
+
+
 }

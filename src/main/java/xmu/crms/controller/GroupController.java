@@ -3,15 +3,18 @@ package xmu.crms.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import xmu.crms.entity.FixGroup;
-import xmu.crms.service.TopicService;
-import xmu.crms.vo.Response;
-import xmu.crms.vo.SelectTopicVO;
+import xmu.crms.entity.*;
 import xmu.crms.entity.Topic;
-import xmu.crms.entity.User;
+import xmu.crms.exception.FixGroupNotFoundException;
+import xmu.crms.exception.GroupNotFoundException;
+import xmu.crms.exception.InvalidOperationException;
+import xmu.crms.exception.UserNotFoundException;
+import xmu.crms.service.*;
+import xmu.crms.vo.*;
 
-import javax.servlet.http.HttpServletResponse;
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
 
 
 /**
@@ -21,49 +24,98 @@ import java.math.BigInteger;
 @RestController
 @RequestMapping("/group")
 public class GroupController {
-
+@Autowired
+private GradeService gradeService;
     @Autowired
     private TopicService topicService;
+    @Autowired
+    private SeminarGroupService seminarGroupService;
+    @Autowired
+    private UserService userService;
+    @Autowired
+    private FixGroupService fixGroupService;
 
     @GetMapping("/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public FixGroup getGroupInfo(@PathVariable("id") int id) {
-        return null;
+    public GroupVO getGroupInfo(@PathVariable("id") BigInteger id) throws GroupNotFoundException,UserNotFoundException,FixGroupNotFoundException {
+        GroupVO groupVO = new GroupVO();
+        Member leader = new Member();//队长
+        List<TopicHXR> topics = new ArrayList<>();//选题
+        List<Member> members = new ArrayList<>();
+
+        List<User> users = fixGroupService.listFixGroupMemberByGroupId(id);//获得所有成员
+        Member member = new Member();
+        for (int i = 0; i <users.size() ; i++) {
+            member.setId(users.get(i).getId());
+            member.setName(users.get(i).getName());
+            members.add(member);
+        }
+
+        List<SeminarGroupTopic> listTopics= topicService.listSeminarGroupTopicByGroupId(id);//获得所有选题
+        TopicHXR topic = new TopicHXR();
+        for (int i = 0; i <listTopics.size() ; i++) {
+            topic.setId(listTopics.get(i).getId());
+            topic.setName(listTopics.get(i).getTopic().getName());
+            topics.add(topic);
+        }
+
+        SeminarGroup seminarGroup = seminarGroupService.getSeminarGroupByGroupId(id);
+        BigInteger leaderId = seminarGroupService.getSeminarGroupLeaderByGroupId(id);
+        User user = userService.getUserByUserId(leaderId);
+
+        leader.setId(user.getId());
+        leader.setName(user.getName());
+
+        groupVO.setId(seminarGroup.getId());
+        groupVO.setLeader(leader);
+        groupVO.setReport(seminarGroup.getReport());
+        groupVO.setTopics(topics);
+        groupVO.setMembers(members);
+
+        return groupVO;
     }
+
 
     @PutMapping("/{groupId}/resign")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void leaderResign(@PathVariable("groupId") int groupId,
-                             @RequestBody User leader) {
+    public void leaderResign(@PathVariable("groupId") BigInteger groupId,
+                             @RequestBody User leader) throws GroupNotFoundException,
+            UserNotFoundException,
+            InvalidOperationException
+    {
 
+        seminarGroupService.resignLeaderById(groupId,leader.getId());
     }
+
 
     @PutMapping("/{groupId}/assign")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void leaderAssign(@PathVariable("groupId") int groupId,
-                             @RequestBody User leader) {
-
+    public void leaderAssign(@PathVariable("groupId") BigInteger groupId,
+                             @RequestBody User leader) throws UserNotFoundException,GroupNotFoundException,InvalidOperationException{
+seminarGroupService.assignLeaderById(groupId,leader.getId());
     }
 
     @PutMapping("/{groupId}/remove")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void removeMember(@PathVariable("groupId") int groupId,
-                             @RequestBody User leader) {
-
+    public void removeMember(@PathVariable("groupId") BigInteger groupId,
+                             @RequestBody User student) {
+         seminarGroupService.deleteSeminarGroupMemberById(groupId,student.getId());
     }
 
     @PutMapping("/{groupId}/add")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void addMember(@PathVariable("groupId") int groupId,
-                          @RequestBody User leader) {
-
+    public void addMember(@PathVariable("groupId") BigInteger groupId,
+                          @RequestBody User student) throws GroupNotFoundException,UserNotFoundException,InvalidOperationException{
+          seminarGroupService.insertSeminarGroupMemberById(student.getId(),groupId);
     }
 
     @PostMapping("/{groupId}/topic")
     @ResponseStatus(HttpStatus.CREATED)
-    public SelectTopicVO selectTopic(@PathVariable("groupId") int groupId, @RequestBody Topic topic) {
-        SelectTopicVO ret = new SelectTopicVO();
-        ret.setUrl("/27/topic/23");
+    public SelectTopicVO chooseTopic(@PathVariable("groupId") BigInteger groupId, @RequestBody Topic topic) throws GroupNotFoundException {
+        seminarGroupService.insertTopicByGroupId(groupId,topic.getId());
+        String url="group/"+groupId+"topic/"+topic.getId();
+        SelectTopicVO ret=new SelectTopicVO();
+        ret.setUrl(url);
         return ret;
     }
 
@@ -76,32 +128,22 @@ public class GroupController {
 
     @GetMapping("/{groupId}/grade")
     @ResponseStatus(HttpStatus.OK)
-    public Object getGrade(@PathVariable("groupId") int groupId){
-//        SeminarGrade grade = new SeminarGrade();
-//        List<TopicGrade> presentationGrade = new ArrayList<>();
-//        TopicGrade topicGrade1 = new TopicGrade();
-//        topicGrade1.setTopicId(257);
-//        topicGrade1.setGrade(4);
-//        presentationGrade.add(topicGrade1);
-//        TopicGrade topicGrade2 = new TopicGrade();
-//        topicGrade2.setTopicId(285);
-//        topicGrade2.setGrade(5);
-//        presentationGrade.add(topicGrade1);
-//        grade.setPresentationGrade(presentationGrade);
-//        grade.setReportGrade(3);
-//        grade.setGrade(4);
-        return null;
+    public SeminarGroup getGrade(@PathVariable("groupId") BigInteger groupId) throws GroupNotFoundException{
+        SeminarGroup seminarGroup=seminarGroupService.getSeminarGroupByGroupId(groupId);
+        return seminarGroup;
     }
 
     @PutMapping("/{groupId}/grade/report")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void setGrade(@PathVariable("groupId") int groupId) {
-
+    public void setGrade(@RequestBody SeminarGradeDetail seminarGradeDetail,@PathVariable("groupId") BigInteger groupId) throws GroupNotFoundException,IllegalArgumentException{
+        gradeService.updateGroupByGroupId(groupId,seminarGradeDetail.getReportGrade());
     }
 
     @PutMapping("/{groupId}/grade/presentation/{studentId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void studentSetGrade(@PathVariable("groupId") int groupId, @PathVariable("studentId") int studentId) {
+    public void studentSetGrade(@RequestBody GradeVO grade, @PathVariable("groupId") BigInteger groupId, @PathVariable("studentId") BigInteger studentId) throws IllegalArgumentException {
 
-    }
+        for(PresentationGrade p:grade.getList()){
+        gradeService.insertGroupGradeByUserId(p.getTopic_id(),studentId,groupId,p.getGrade());
+    }}
 }
