@@ -1,4 +1,4 @@
-package xmu.crms.dao.Impl;
+package xmu.crms.dao.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -29,8 +29,15 @@ seminarGroupMemberMapper.deleteSeminarGroupMemberBySeminarGroupId(seminarGroupId
     }
 
     @Override
-    public void insertSeminarGroupMemberById(BigInteger id,BigInteger userId, BigInteger groupId) {
-        seminarGroupMemberMapper.insertSeminarGroupMemberById(id,userId,groupId);
+    public BigInteger insertSeminarGroupMemberById(BigInteger userId, BigInteger groupId) {
+        BigInteger id=null;
+        int res=seminarGroupMemberMapper.insertSeminarGroupMemberById(id,userId,groupId);
+        if(res>0){
+            return id;
+        }
+        else{
+            return new BigInteger("-1");
+        }
     }
 
     @Override
@@ -76,8 +83,11 @@ seminarGroupMapper.deleteSeminarGroupBySeminarId(seminarId);
 
     @Override
     public BigInteger insertSeminarGroupBySeminarId( BigInteger seminarId,BigInteger classId,SeminarGroup seminarGroup) throws IllegalArgumentException {
-        seminarGroupMapper.insertSeminarGroupBySeminarId(seminarId,classId,seminarGroup);
-        return  seminarGroup.getId();
+        int res=seminarGroupMapper.insertSeminarGroupBySeminarId(seminarId,classId,seminarGroup);
+        if(res>0) {
+            return seminarGroup.getId();
+        }
+        else {return new BigInteger("-1");}
     }
 
     @Override

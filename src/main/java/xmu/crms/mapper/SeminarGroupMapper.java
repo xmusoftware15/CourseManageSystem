@@ -15,7 +15,7 @@ public interface SeminarGroupMapper {
  BigInteger getSeminarGroupLeaderByGroupId(BigInteger groupId);
  List<SeminarGroup> listSeminarGroupBySeminarId(BigInteger seminarId);
  void deleteSeminarGroupBySeminarId(BigInteger seminarId);
- void insertSeminarGroupBySeminarId(@Param("seminarId") BigInteger seminarId,@Param("classId")BigInteger classId, @Param("seminarGroup") SeminarGroup seminarGroup);
+ Integer insertSeminarGroupBySeminarId(@Param("seminarId") BigInteger seminarId,@Param("classId")BigInteger classId, @Param("seminarGroup") SeminarGroup seminarGroup);
  /**
   * 删除讨论课小组.
   * <p>按照id删除讨论课小组<br>

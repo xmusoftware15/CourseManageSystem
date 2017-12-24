@@ -27,9 +27,7 @@ public class SeminarGroupServiceImpl implements SeminarGroupService {
 
     @Override
     public BigInteger insertSeminarGroupMemberById(BigInteger userId, BigInteger groupId) throws IllegalArgumentException, GroupNotFoundException, UserNotFoundException, InvalidOperationException {
-        BigInteger id=null;
-                seminarGroupDao.insertSeminarGroupMemberById(id,userId,groupId);
-                return id;
+                return  seminarGroupDao.insertSeminarGroupMemberById(userId,groupId);
     }
 
     @Override

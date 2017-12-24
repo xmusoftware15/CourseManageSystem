@@ -29,7 +29,7 @@ public interface SeminarGroupDao {
      *@exception UserNotFoundException (不存在该学生)
      *@exception InvalidOperationException （待添加学生已经在小组里了）
      */
-    void insertSeminarGroupMemberById(BigInteger id,BigInteger userId,BigInteger groupId)
+    BigInteger insertSeminarGroupMemberById(BigInteger userId,BigInteger groupId)
             throws IllegalArgumentException,GroupNotFoundException,UserNotFoundException,
             InvalidOperationException;
 
