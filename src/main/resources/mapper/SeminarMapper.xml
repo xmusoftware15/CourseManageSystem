@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xmu.crms.mapper.SeminarMapper">
+
+    <select id="listSeminarByCourseId" resultMap="seminarResultMap">
+        SELECT id,name,description,course_id,is_fixed,start_time,end_time
+        FROM seminar
+        WHERE course_id = #{courseId}
+    </select>
+    <resultMap id="seminarResultMap" type="xmu.crms.entity.Seminar">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="description" column="description"/>
+        <result property="course.id" column="course_id"/>
+        <result property="fixed" column="is_fixed"/>
+        <result property="startTime" column="start_time"/>
+        <result property="endTime" column="end_time"/>
+    </resultMap>
+
+    <delete id="deleteSeminarBySeminarId">
+        DELETE FROM seminar
+        WHERE id = #{seminarId}
+    </delete>
+
+    <select id="getSeminarBySeminarId" resultMap="seminarResultMap">
+        SELECT id,name,description,course_id,is_fixed,start_time,end_time
+        FROM seminar
+        WHERE id = #{seminarId}
+    </select>
+
+    <insert id="insertSeminarByCourseId" parameterType="xmu.crms.entity.Seminar" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO seminar(name,description,course_id,is_fixed,start_time,end_time)
+        VALUES(#{name},#{description},#{course.id},#{fixed},#{startTime},#{endTime})
+    </insert>
+
+    <update id="updateSeminarBySeminarId" parameterType="xmu.crms.entity.Seminar">
+        UPDATE seminar
+        SET name=#{name},description=#{description},course_id=#{course.id},is_fixed=#{fixed},start_time=#{startTime},end_time=#{endTime}
+        WHERE id=#{id}
+    </update>
+
+</mapper>

@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xmu.crms.mapper.FixGroupMapper">
+
+    <resultMap id="fixGroupResultMap" type="FixGroup">
+        <association property="classInfo" column="class_id" select="CommonMapper.selectClassInfo"/>
+        <association property="leader" column="leader_id" select="CommonMapper.selectUser"/>
+    </resultMap>
+
+    <select id="getFixGroupById" resultMap="fixGroupResultMap">
+        SELECT
+            id,
+            class_id,
+            leader_id
+        FROM fix_group
+        WHERE id = #{id}
+    </select>
+
+    <select id="listFixGroupByClassId" resultType="FixGroup">
+        SELECT *
+        FROM fix_group
+        WHERE class_id = #{classId}
+    </select>
+
+    <select id="getFixedGroupById" resultMap="fixGroupResultMap">
+        SELECT
+            fg.id,
+            fg.class_id,
+            fg.leader_id
+        FROM fix_group fg
+            INNER JOIN fix_group_member fgm ON fg.id = fgm.fix_group_id
+        WHERE fg.class_id = #{classId} AND fgm.student_id = #{userId}
+    </select>
+
+    <select id="listFixGroupMemberByGroupId" resultType="User">
+        SELECT user.*
+        FROM fix_group_member fgm
+            INNER JOIN user_info user ON fgm.student_id = user.id
+        WHERE fgm.fix_group_id = #{groupId}
+    </select>
+
+    <select id="getFixGroupMemberById" resultType="BigInteger">
+        SELECT fgm.student_id
+        FROM fix_group fg
+            INNER JOIN fix_group_member fgm
+        WHERE fg.class_id = #{classId} AND fgm.fix_group_id = fg.id AND fgm.student_id = #{userId}
+    </select>
+
+    <select id="getCourseSelectionId" resultType="BigInteger">
+        SELECT id
+        FROM course_selection
+        WHERE class_id = #{classId} AND student_id = #{userId}
+    </select>
+
+
+    <delete id="deleteFixGroupMemberByFixGroupId">
+        DELETE
+        FROM fix_group_member
+
+        WHERE fix_group_id = #{fixGroupId}
+    </delete>
+
+    <insert id="insertFixGroupMember" parameterType="FixGroupMember" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO fix_group_member
+        (fix_group_id, student_id)
+        VALUES
+        (#{fixGroup.id}, #{student.id})
+    </insert>
+
+    <select id="getClassInfoById" resultType="ClassInfo">
+        SELECT
+            id,
+            name,
+            description,
+            site,
+            class_time,
+            report_percentage,
+            presentation_percentage,
+            five_point_percentage,
+            three_point_percentage,
+            four_point_percentage
+        FROM class_info
+        WHERE id = #{classId}
+    </select>
+
+    <delete id="deleteFixGroupByGroupId">
+        DELETE fg.*, fgm.*
+        FROM fix_group fg
+        INNER JOIN fix_group_member fgm ON fg.id = fgm.fix_group_id
+        WHERE fg.id = #{fixGroupId}
+    </delete>
+
+    <update id="updateFixGroupByGroupId" parameterType="FixGroup">
+        UPDATE fix_group
+        <set>
+            <if test="classInfo != null">class_id = #{classInfo.id},</if>
+            <if test="leader!=null">leader_id=#{leader.id}</if>
+        </set>
+        WHERE id=#{id}
+    </update>
+
+    <select id="getUserById" resultType="User">
+        SELECT
+        id
+        FROM user_info
+        WHERE id=#{id}
+    </select>
+
+    <update id="updateSeminarGroup" parameterType="SeminarGroup">
+        UPDATE seminar_group
+        <set>
+            <if test="seminar!=null"> seminar_id=#{seminar.id},</if>
+            <if test="classInfo!=null">class_id=#{classInfo.id},</if>
+            <if test="report!=null">report=#{report},</if>
+            <if test="reportGrade!=null">report_grade=#{reportGrade},</if>
+            <if test="presentationGrade!=null">presenttation_grade=#{presentationGrade},</if>
+            <if test="finalGrade!=null">final_grade=#{finalGrade},</if>
+            <if test="leader!=null">leader_id=#{leader.id}</if>
+        </set>
+        WHERE id=#{id}
+    </update>
+
+    <select id="getSeminarGroupById" resultType="SeminarGroup">
+         SELECT
+        id
+        FROM seminar_group
+        WHERE id=#{id}
+    </select>
+    
+    <insert id="insertFixGroup" parameterType="FixGroup" keyProperty="id" useGeneratedKeys="true">
+        INSERT INTO fix_group
+        (class_id,leader_id)
+        VALUES
+        (#{classInfo.id},#{leader.id})
+    </insert>
+</mapper>

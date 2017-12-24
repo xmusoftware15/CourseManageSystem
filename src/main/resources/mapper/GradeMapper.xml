@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xmu.crms.mapper.GradeMapper">
+
+
+    <delete id="deleteStudentScoreGroupBySeminarGroupId" parameterType="BigInteger">
+        DELETE FROM student_score_group
+        WHERE seminar_group_topic_id=#{seminarGroupTopicId}
+    </delete>
+
+    <insert id="insertGroupGradeByUserId" parameterType="xmu.crms.entity.StudentScoreGroup">
+        INSERT INTO student_score_group(student_id,seminar_group_topic_id,grade)
+        VALUES (#{student.id}, #{seminarGroupTopic.id},#{grade})
+    </insert>
+
+    <select id="getSeminarGroupBySeminarGroupId" parameterType="xmu.crms.entity.SeminarGroup"
+            resultMap="seminarGroupResult">
+        SELECT id,seminar_id,report_grade,presentation_grade,final_grade,report,class_id,leader_id
+        FROM seminar_group
+        WHERE id=#{id}
+    </select>
+    <resultMap id="seminarGroupResult" type="xmu.crms.entity.SeminarGroup">
+        <id property="id" column="id"/>
+        <result property="seminar.id" column="seminar_id"/>
+        <result property="reportGrade" column="report_grade"/>
+        <result property="presentationGrade" column="presentation_grade"/>
+        <result property="finalGrade" column="final_grade"/>
+        <result property="report" column="report"/>
+        <result property="classInfo.id" column="class_id"/>
+        <result property="leader.id" column="leader_id"/>
+    </resultMap>
+
+    <select id="getSeminarGroupIdByUserId" parameterType="BigInteger" resultMap="seminarGroupIdResult">
+        SELECT seminar_group_id,student_id
+        FROM seminar_group_member
+        WHERE student_id=#{userId}
+    </select>
+    <resultMap id="seminarGroupIdResult" type="xmu.crms.entity.SeminarGroup">
+        <result property="id" column="seminar_group_id"/>
+    </resultMap>
+
+    <update id="updateGroupByGroupId" parameterType="xmu.crms.entity.SeminarGroup">
+        UPDATE seminar_group
+        SET report_grade = #{reportGrade}
+        WHERE id = #{id}
+    </update>
+
+    <select id="getSeminarGroupTopicBySeminarGroupId" parameterType="BigInteger" resultMap="seminarGroupTopicResult">
+        SELECT id,topic_id,seminar_group_id,presentation_grade
+        FROM seminar_group_topic
+        where seminar_group_id=#{seminarGroupId}
+    </select>
+    <resultMap id="seminarGroupTopicResult" type="xmu.crms.entity.SeminarGroupTopic">
+        <id property="id" column="id"/>
+        <result property="topic.id" column="topic_id"/>
+        <result property="seminarGroup.id" column="seminar_group_id"/>
+        <result property="presentationGrade" column="presentation_grade"/>
+    </resultMap>
+
+    <select id="getSeminarCourseIdBySeminarId" parameterType="BigInteger" resultMap="SeminarResult">
+        SELECT id,course_id,start_time,end_time
+        FROM seminar
+        WHERE id=#{seminarId}
+    </select>
+    <resultMap id="SeminarResult" type="xmu.crms.entity.Seminar">
+        <id property="id" column="id"/>
+        <result property="course.id" column="course_id"/>
+        <result property="startTime" column="start_time"/>
+        <result property="endTime" column="end_time"/>
+    </resultMap>
+
+    <select id="getPercentageByCourseId" parameterType="BigInteger" resultMap="CourseResult">
+        SELECT id,report_percentage,presentation_percentage,five_point_percentage,four_point_percentage,
+        three_point_percentage
+        FROM course
+        WHERE id=#{courseId}
+    </select>
+    <resultMap id="CourseResult" type="xmu.crms.entity.Course">
+        <id property="id" column="id"/>
+        <result property="reportPercentage" column="report_percentage"/>
+        <result property="presentationPercentage" column="presentation_percentage"/>
+        <result property="fivePointPercentage" column="five_point_percentage"/>
+        <result property="fourPointPercentage" column="four_point_percentage"/>
+        <result property="threePointPercentage" column="three_point_percentage"/>
+    </resultMap>
+
+    <select id="getGroupPresentationGradeBySeminarGroupTopicId" parameterType="BigInteger"
+            resultMap="studentScoreGroupResult">
+        SELECT id,seminar_group_topic_id,grade
+        FROM student_score_group
+        WHERE seminar_group_topic_id=#{seminarGroupTopicId}
+    </select>
+    <resultMap id="studentScoreGroupResult" type="xmu.crms.entity.StudentScoreGroup">
+        <id property="id" column="id"/>
+        <result property="seminarGroupTopic.id" column="seminar_group_topic_id"/>
+        <result property="grade" column="grade"/>
+    </resultMap>
+
+    <update id="updatePresentationGrade" parameterType="xmu.crms.entity.SeminarGroupTopic">
+        UPDATE seminar_group_topic
+        SET presentation_grade=#{presentationGrade}
+        WHERE id=#{id}
+    </update>
+
+    <update id="updateFinalPresentationGrade" parameterType="xmu.crms.entity.SeminarGroup">
+        UPDATE seminar_group
+        SET presentation_grade=#{presentationGrade}
+        WHERE id=#{id}
+    </update>
+
+    <update id="updateFinalGrade" parameterType="xmu.crms.entity.SeminarGroup">
+        UPDATE seminar_group
+        SET final_grade=#{finalGrade}
+        WHERE id=#{id}
+    </update>
+
+    <select id="getAllSeminarGroupBySeminarId" parameterType="xmu.crms.entity.SeminarGroup" resultMap="seminarGroupResult">
+        SELECT id,seminar_id,report_grade,presentation_grade,final_grade,report,class_id,leader_id
+        FROM seminar_group
+        WHERE seminar_id=#{seminar.id}
+    </select>
+
+</mapper>

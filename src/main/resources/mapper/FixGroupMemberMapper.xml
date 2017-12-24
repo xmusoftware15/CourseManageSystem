@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xmu.crms.mapper.FixGroupMemberMapper">
+
+    <resultMap id="fixGroupMemberResultMap" type="FixGroupMember">
+        <id property="id" column="id"/>
+        <association property="fixGroup" column="fix_group_id" select="CommonMapper.selectFixGroup"/>
+        <association property="student" column="student_id" select="CommonMapper.selectUser"/>
+    </resultMap>
+
+    <select id="listFixGroupMemberByFixGroup" resultMap="fixGroupMemberResultMap">
+        SELECT id, fix_group_id, student_id
+        FROM fix_group_member
+        WHERE fix_group_id=#{id}
+    </select>
+
+    <delete id="deleteFixGroupMemberByFixGroupAndStudent">
+        DELETE FROM fix_group_member
+        WHERE fix_group_id=#{fixGroup.id} AND student_id=#{student.id}
+    </delete>
+</mapper>

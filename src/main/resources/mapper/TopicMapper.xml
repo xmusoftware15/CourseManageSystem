@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xmu.crms.mapper.TopicMapper">
+
+    <resultMap id="topicResultMap" type="Topic">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="description" column="description"/>
+        <result property="groupNumberLimit" column="group_number_limit"/>
+        <result property="groupStudentLimit" column="group_student_limit"/>
+        <association property="seminar" column="seminar_id" select="CommonMapper.selectSeminar"/>
+    </resultMap>
+
+    <select id="getTopicByTopicId" resultMap="topicResultMap">
+        select
+        id, name, description, group_number_limit, group_student_limit, seminar_id
+        from topic
+        where id = #{id}
+    </select>
+
+    <update id="updateTopicByTopicId" parameterType="Topic">
+        UPDATE topic
+        <set>
+            <if test="name != null">
+                name = #{name},
+            </if>
+            <if test="description != null">
+                description = #{description},
+            </if>
+            <if test="groupNumberLimit != null">
+                group_number_limit = #{groupNumberLimit},
+            </if>
+            <if test="groupStudentLimit != null">
+                group_student_limit = #{groupStudentLimit},
+            </if>
+            <if test="seminar != null">
+                seminar_id = #{seminar.id}
+            </if>
+        </set>
+        WHERE id=#{id}
+    </update>
+
+    <delete id="deleteTopicByTopicId" parameterType="Topic">
+        DELETE FROM topic WHERE id=#{id}
+    </delete>
+
+    <select id="listTopicBySeminarId" parameterType="Seminar" resultMap="topicResultMap">
+        SELECT
+        id, name, description, group_number_limit, group_student_limit, seminar_id
+        FROM topic
+        WHERE seminar_id=#{id}
+    </select>
+
+    <insert id="insertTopicBySeminarId" parameterType="Topic" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO topic
+        (id, name, description, group_number_limit, group_student_limit, seminar_id)
+        VALUES
+        (#{id}, #{name}, #{description}, #{groupNumberLimit}, #{groupStudentLimit}, #{seminar.id})
+    </insert>
+</mapper>

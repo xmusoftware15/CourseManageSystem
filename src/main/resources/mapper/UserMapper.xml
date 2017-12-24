@@ -1,0 +1,81 @@
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xmu.crms.mapper.UserMapper">
+    <resultMap id="user" type="xmu.crms.entity.User">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="phone" column="phone"/>
+        <result property="wechatId" column="wechat_id"/>
+        <result property="openid" column="openid"/>
+        <result property="avatar" column="avatar"/>
+        <result property="password" column="password"/>
+        <result property="gender" column="gender"/>
+        <result property="type" column="type"/>
+        <result property="number" column="number"/>
+        <result property="education" column="education"/>
+        <result property="title" column="title"/>
+        <result property="email" column="email"/>
+        <association property="school" column="school_id" select="selectSchool"/>
+    </resultMap>
+    
+    <resultMap id="attendance" type="xmu.crms.entity.Attendance">
+        <id column="id" property="id" javaType="java.math.BigInteger"/>
+        <result column="student_id" property="student.id" javaType="java.math.BigInteger"/>
+        <result column="seminar_id" property="seminar.id" javaType="java.math.BigInteger"/>
+        <result column="class_id" property="classInfo.id" javaType="java.math.BigInteger"/>
+        <result column="attendance_status" property="attendanceStatus"/>
+    </resultMap>
+
+	<select id="getUserByUserId" resultMap="user">
+        SELECT id, `phone`, `name`, `number`, `email`, `type`, `gender`, `title`, `avatar`, `school_id` 
+        from user_info 
+        WHERE id = #{arg0}
+    </select>
+    
+    <select id="selectSchool" resultType="xmu.crms.entity.School">
+        SELECT * FROM school WHERE id=#{id}
+    </select>
+    
+    <insert id="insertAttendanceById" useGeneratedKeys="true"
+    	keyProperty="id" parameterType="xmu.crms.entity.Attendance">
+        INSERT INTO attendance(student_id,seminar_id,class_id,attendance_status)
+        VALUES (#{student.id},#{seminar.id}, #{classInfo.id}, #{attendanceStatus})
+    </insert>
+    
+    <select id="getUserByUserName" resultMap="user">
+        SELECT id, phone, name, number, email, type, gender, title, avatar, school_id 
+        from user_info 
+        WHERE name = #{arg0}
+    </select>
+    
+    <update id="updateUserByUserId">
+    	UPDATE user_info
+    	set name=#{arg1.name}, 
+    		number=#{arg1.number}, 
+    		email=#{arg1.email}, 
+    		gender=#{arg1.gender},
+    		avatar=#{arg1.avatar}
+    	where id=#{arg0}
+    </update>
+    
+    <select id="getAttendanceById" resultMap="attendance">
+    	SELECT id,student_id,seminar_id,class_id, attendance_status 
+    	from attendance
+    	where class_id=#{arg0} and seminar_id=#{arg1}
+    </select>
+    
+    <select id="getAttendanceByIdAndStatus" resultMap="user">
+    	SELECT user_info.id, user_info.name
+    	from attendance, user_info 
+    	where class_id=#{arg0} and seminar_id=#{arg1} and attendance_status=#{arg2} and 
+    		user_info.id=attendance.student_id
+    </select>
+    
+    <select id="getUserByClassId" resultMap="user">
+        SELECT user_info.id, user_info.name, user_info.number
+        from course_selection, user_info 
+        WHERE course_selection.class_id=#{arg0} and user_info.number like CONCAT('%',#{arg1},'%') 
+        	and course_selection.student_id=user_info.id
+    </select>
+</mapper>

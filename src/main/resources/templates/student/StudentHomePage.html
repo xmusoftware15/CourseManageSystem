@@ -1,0 +1,71 @@
+﻿<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title>学生基本信息</title>
+    <link href="/css/common/HomePage.css" rel="stylesheet" type="text/css"/>
+
+</head>
+<body>
+<div class="top">
+    <div class="font">
+        课堂管理系统
+    </div>
+    <div class="icon">
+        <img src="/img/home.png">首页
+        <img src="/img/help.png">帮助
+        <img src="/img/exit.png">退出
+    </div>
+    <div class="clear"></div>
+</div>
+<div class="body">
+    <div class="navigation">
+        <div class="title">导航</div>
+        <div class="line"></div>
+        <div class="courseIntroduction"><a class="guidefont" href="#">基本信息</a>
+            <a class="guidefont" href="/student/courseHome">课程信息</a>
+            <a class="guidefont" href="/student/chooseCourse">选择课程</a>
+        </div>
+    </div>
+    <div class="content">
+
+        <div class="title">基本信息</div>
+        <div class="line"></div>
+        <div class="imgarea"><img class="img" src="/img/link.jpg"/></div>
+
+        <div class="info">
+            <table class="table">
+                <tr class="itemName">
+                    <td>用户名：<span id="userTitle"></span></td>
+                    <td>学号：<span id="number"></span></td>
+                </tr>
+                <tr class="itemName">
+                    <td>姓名：<span id="name"></span></td>
+                    <td>性别：<span id="gender"></span></td>
+                </tr>
+                <tr class="itemName">
+                    <td>学校：<span id="school"></span></td>
+                    <td>学历：<span></span></td>
+                </tr>
+                <tr class="itemName">
+                    <td>E-mail：<span id="email"></span></td>
+                    <td>联系方式：<span id="phone"></span></td>
+                </tr>
+            </table>
+            <br/>
+            <br/>
+            <br/>
+            <br/>
+            <div class="button">
+                <button>修改</button>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="clear"></div>
+</div>
+<script src="http://cdn.static.runoob.com/libs/jquery/2.1.1/jquery.min.js"></script>
+<script src="/js/student/StudentHomePage.js"></script>
+</body>
+</html>

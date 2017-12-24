@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="xmu.crms.mapper.SchoolMapper">
+
+    <resultMap id="schoolResultMap" type="School">
+        <id property="id" column="id"/>
+        <result property="name" column="name"/>
+        <result property="province" column="province"/>
+        <result property="city" column="city"/>
+    </resultMap>
+
+    <!--<select id="listSchoolByCity" resultMap="schoolResultMap">-->
+        <!--SELECT id, name, province, city FROM school WHERE city=#{city}-->
+    <!--</select>-->
+
+    <insert id="insertSchool" parameterType="School" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO school
+        (name, province, city)
+        VALUES (#{name}, #{province}, #{city})
+    </insert>
+
+    <select id="getSchoolBySchoolId" resultMap="schoolResultMap" parameterType="School">
+        SELECT
+        id, name, province, city
+        FROM school
+        WHERE id=#{id}
+    </select>
+
+</mapper>
