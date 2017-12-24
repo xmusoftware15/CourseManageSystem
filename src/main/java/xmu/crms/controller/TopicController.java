@@ -10,6 +10,8 @@ import xmu.crms.exception.GroupNotFoundException;
 import xmu.crms.exception.TopicNotFoundException;
 import xmu.crms.service.SeminarGroupService;
 import xmu.crms.service.TopicService;
+import xmu.crms.vo.GroupOfTopicVO;
+import xmu.crms.vo.TopicVO;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -33,21 +35,19 @@ public class TopicController {
 
     @GetMapping("/{topicId}")
     @ResponseStatus(HttpStatus.OK)
-    public Topic getTopic(@PathVariable("topicId") String topicId) throws TopicNotFoundException, IllegalArgumentException {
-        BigInteger id = new BigInteger(topicId);
-        return topicService.getTopicByTopicId(id);
+    public TopicVO getTopic(@PathVariable("topicId") BigInteger topicId) throws TopicNotFoundException, IllegalArgumentException {
+        Topic topic = topicService.getTopicByTopicId(topicId);
+        return new TopicVO(topic);
     }
 
     @PutMapping("/{topicId}")
-    @PreAuthorize("hasAuthority('ROLE_TEACHER')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void modifyTopic(@PathVariable("topicId") String topicId, @RequestBody Topic topic) throws TopicNotFoundException, IllegalArgumentException {
-        BigInteger id = new BigInteger(topicId);
-        topicService.updateTopicByTopicId(id, topic);
+    public void modifyTopic(@PathVariable("topicId") BigInteger topicId, @RequestBody TopicVO topicVO) throws TopicNotFoundException, IllegalArgumentException {
+        Topic topic = topicVO.transferToTopic();
+        topicService.updateTopicByTopicId(topicId, topic);
     }
 
     @DeleteMapping("/{topicId}")
-    @PreAuthorize("hasAuthority('ROLE_TEACHER')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteTopic(@PathVariable("topicId") String topicId) throws TopicNotFoundException {
         topicService.deleteTopicByTopicId(new BigInteger(topicId));
@@ -55,7 +55,12 @@ public class TopicController {
 
     @GetMapping("/{topicId}/group")
     @ResponseStatus(HttpStatus.OK)
-    public List<SeminarGroup> getGroups(@PathVariable("topicId") String topicId) throws GroupNotFoundException{
-        return seminarGroupService.listGroupByTopicId(new BigInteger(topicId));
+    public List<GroupOfTopicVO> getGroups(@PathVariable("topicId") String topicId) throws GroupNotFoundException{
+        List<GroupOfTopicVO> groupOfTopicVOs = new ArrayList<>();
+        List<SeminarGroup> seminarGroups = seminarGroupService.listGroupByTopicId(new BigInteger(topicId));
+        for (SeminarGroup seminarGroup : seminarGroups) {
+            groupOfTopicVOs.add(new GroupOfTopicVO(seminarGroup));
+        }
+        return groupOfTopicVOs;
     }
 }

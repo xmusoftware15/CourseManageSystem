@@ -2,33 +2,20 @@ package xmu.crms.vo;
 
 import java.math.BigInteger;
 
-/**
- *
- * @author badcode
- * @date 2017/12/22
- *
- */
 public class LoginSuccessVO {
-
-    private String jwt;
-    private String name;
     private BigInteger id;
     private String type;
+    private String name;
+    private String jwt;
 
-    public String getJwt() {
-        return jwt;
+    public LoginSuccessVO() {
     }
 
-    public void setJwt(String jwt) {
-        this.jwt = jwt;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
+    public LoginSuccessVO(BigInteger id, String type, String name, String jwt) {
+        this.id = id;
+        this.type = type;
         this.name = name;
+        this.jwt = jwt;
     }
 
     public BigInteger getId() {
@@ -46,4 +33,25 @@ public class LoginSuccessVO {
     public void setType(String type) {
         this.type = type;
     }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getJwt() {
+        return jwt;
+    }
+
+    public void setJwt(String jwt) {
+        this.jwt = jwt;
+    }
+
+    public void setJwt(String header, String payload, String signature) {
+        this.jwt = header + '.' + payload + '.' + signature;
+    }
+
 }

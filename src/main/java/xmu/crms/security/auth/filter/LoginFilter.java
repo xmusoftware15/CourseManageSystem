@@ -107,7 +107,7 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         vo.setJwt(jwtString);
         vo.setName(user.getName());
         vo.setId(user.getId());
-        vo.setType(user.getType() == 1 ? "teacher" : "student");
+        vo.setType(user.getType() == null ? "unbinded" : (user.getType() == 1 ? "teacher" : "student"));
 
         ObjectMapper objectMapper = new ObjectMapper();
         response.setContentType("application/json;charset=utf-8");

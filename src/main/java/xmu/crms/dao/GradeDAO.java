@@ -104,4 +104,9 @@ public class GradeDAO {
         List<SeminarGroup> seminarGroups=gradeMapper.getAllSeminarGroupBySeminarId(seminarId);
         return seminarGroups;
     }
+
+    public SeminarGroupTopic getSeminarGroupTopicIdByTopicIdAndGroupId(SeminarGroupTopic seminarGroupTopic){
+        SeminarGroupTopic seminarGroupTopic1=gradeMapper.getSeminarGroupTopicIdByTopicIdAndGroupId(seminarGroupTopic);
+        return seminarGroupTopic1;
+    }
 }

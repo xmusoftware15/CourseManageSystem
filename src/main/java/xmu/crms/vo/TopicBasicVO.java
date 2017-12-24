@@ -1,15 +1,13 @@
 package xmu.crms.vo;
 
 /**
- * @Author: yexiaona
- * @Description:
- * @Data: 2017/12/23 0:23
+ * @author yexiaona
+ * @create 2017/12/24
  */
-public class SeminarGroupVO {
+public class TopicBasicVO {
 
     private Long id;
     private String name;
-    private TopicBasicVO topics;
 
     public Long getId() {
         return id;
@@ -25,13 +23,5 @@ public class SeminarGroupVO {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public TopicBasicVO getTopics() {
-        return topics;
-    }
-
-    public void setTopics(TopicBasicVO topics) {
-        this.topics = topics;
     }
 }

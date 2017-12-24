@@ -76,4 +76,11 @@ public class GlobalExceptionHandler {
         response.setError(error);
         return response;
     }
+
+    @ExceptionHandler(value = InvalidOperationException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public Response invalidOperationExceptionHandler(InvalidOperationException e) {
+        Response response = new Response(e.getMessage());
+        return response;
+    }
 }

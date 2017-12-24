@@ -88,6 +88,7 @@
         <result property="description" column="description"/>
         <result property="groupNumberLimit" column="group_number_limit"/>
         <result property="groupStudentLimit" column="group_student_limit"/>
+        <result property="serial" column="serial"/>
         <association property="seminar" column="seminar_id" select="selectSeminar"/>
     </resultMap>
 

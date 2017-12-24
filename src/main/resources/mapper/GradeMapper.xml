@@ -47,6 +47,12 @@
         WHERE id = #{id}
     </update>
 
+    <select id="getSeminarGroupTopicIdByTopicIdAndGroupId" parameterType="xmu.crms.entity.SeminarGroupTopic"
+            resultMap="seminarGroupTopicResult">
+         SELECT id,topic_id,seminar_group_id,presentation_grade
+        FROM seminar_group_topic
+        where seminar_group_id=#{seminarGroup.id} AND topic_id=#{topic.id}
+    </select>
     <select id="getSeminarGroupTopicBySeminarGroupId" parameterType="BigInteger" resultMap="seminarGroupTopicResult">
         SELECT id,topic_id,seminar_group_id,presentation_grade
         FROM seminar_group_topic
@@ -121,5 +127,4 @@
         FROM seminar_group
         WHERE seminar_id=#{seminar.id}
     </select>
-
 </mapper>

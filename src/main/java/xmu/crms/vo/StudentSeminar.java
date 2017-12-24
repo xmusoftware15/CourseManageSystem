@@ -11,8 +11,8 @@ public class StudentSeminar {
     private Date startTime;
     private Date endTime;
     private Integer classCalling;
-    private Boolean isLeader;
-    private Boolean areTopicsSelected;
+    private String isLeader;
+    private String areTopicsSelected;
 
     public Long getId() {
         return id;
@@ -70,19 +70,19 @@ public class StudentSeminar {
         this.classCalling = classCalling;
     }
 
-    public Boolean getLeader() {
+    public String getIsLeader() {
         return isLeader;
     }
 
-    public void setLeader(Boolean leader) {
-        isLeader = leader;
+    public void setIsLeader(String isLeader) {
+        this.isLeader = isLeader;
     }
 
-    public Boolean getAreTopicsSelected() {
+    public String getAreTopicsSelected() {
         return areTopicsSelected;
     }
 
-    public void setAreTopicsSelected(Boolean areTopicsSelected) {
+    public void setAreTopicsSelected(String areTopicsSelected) {
         this.areTopicsSelected = areTopicsSelected;
     }
 
@@ -96,8 +96,8 @@ public class StudentSeminar {
                 ", startTime=" + startTime +
                 ", endTime=" + endTime +
                 ", classCalling=" + classCalling +
-                ", isLeader=" + isLeader +
-                ", areTopicsSelected=" + areTopicsSelected +
+                ", isLeader='" + isLeader + '\'' +
+                ", areTopicsSelected='" + areTopicsSelected + '\'' +
                 '}';
     }
 }

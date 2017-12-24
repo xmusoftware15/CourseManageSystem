@@ -40,15 +40,39 @@ public class SeminarController {
 
     @GetMapping("/{seminarId}")
     @ResponseStatus(HttpStatus.OK)
-    public Seminar getSeminarInfo(@PathVariable("seminarId") String seminarId) throws SeminarNotFoundException {
+    public SeminarVO getSeminarInfo(@PathVariable("seminarId") String seminarId) throws SeminarNotFoundException {
+        SeminarVO seminarVO=new SeminarVO();
         Seminar seminar = seminarService.getSeminarBySeminarId(new BigInteger(seminarId));
-        return seminar;
+        seminarVO.setId(seminar.getId().longValue());
+        seminarVO.setName(seminar.getName());
+        seminarVO.setDescription(seminar.getDescription());
+        seminarVO.setGroupingMethod(seminar.getFixed()?"fixed":"random");
+
+        List<TopicBasicVO> topicBasicVOS=new ArrayList<>();
+        List<Topic> topics=topicService.listTopicBySeminarId(new BigInteger(seminarId));
+        for (Topic topic:topics
+                ) {
+            TopicBasicVO topicBasicVO=new TopicBasicVO();
+            topicBasicVO.setId(topic.getId().longValue());
+            topicBasicVO.setName(topic.getName());
+            topicBasicVOS.add(topicBasicVO);
+        }
+        seminarVO.setTopics(topicBasicVOS);
+
+        return seminarVO;
     }
 
     @PutMapping("/{seminarId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void modifySeminar(@PathVariable("seminarId") String seminarId, @RequestBody Seminar seminar)
+    public void modifySeminar(@PathVariable("seminarId") String seminarId, @RequestBody SeminarProportionsVO seminarVO)
             throws SeminarNotFoundException {
+        Seminar seminar=new Seminar();
+        seminar.setId(new BigInteger(seminarId));
+        seminar.setName(seminarVO.getName());
+        seminar.setDescription(seminarVO.getDescription());
+        seminar.setFixed(seminarVO.getGroupingMethod()=="fixed"?true:false);
+        seminar.setStartTime(seminarVO.getStartTime());
+        seminar.setEndTime(seminarVO.getEndTime());
         seminarService.updateSeminarBySeminarId(new BigInteger(seminarId), seminar);
     }
 
@@ -80,7 +104,7 @@ public class SeminarController {
         studentSeminar.setEndTime(seminar.getEndTime());
 
         //todo
-        BigInteger userId = new BigInteger("1");
+        BigInteger userId = new BigInteger("5");
 
         BigInteger classId = new BigInteger("-1");
         List<ClassInfo> classInfos = classService.listClassByUserId(userId);
@@ -95,23 +119,28 @@ public class SeminarController {
 
         BigInteger leaderId = seminarGroupService.getSeminarGroupLeaderById(userId, new BigInteger(seminarId));
         if (userId.equals(leaderId)) {
-            studentSeminar.setLeader(true);
+            studentSeminar.setIsLeader("true");
         } else {
-            studentSeminar.setLeader(false);
+            studentSeminar.setIsLeader("false");
         }
         List<Topic> topics = topicService.listTopicBySeminarId(new BigInteger(seminarId));
         SeminarGroup seminarGroup = seminarGroupService.getSeminarGroupById(new BigInteger(seminarId), userId);
-        BigInteger grouopId = seminarGroup.getId();
+        BigInteger groupId = seminarGroup.getId();
         Boolean areTopicsSelected = false;
         for (Topic topic : topics
                 ) {
-            SeminarGroupTopic seminarGroupTopic = topicService.getSeminarGroupTopicById(topic.getId(), grouopId);
+            SeminarGroupTopic seminarGroupTopic = topicService.getSeminarGroupTopicById(topic.getId(), groupId);
             if (seminarGroupTopic != null) {
                 areTopicsSelected = true;
                 break;
             }
         }
-        studentSeminar.setAreTopicsSelected(areTopicsSelected);
+        if (areTopicsSelected) {
+            studentSeminar.setAreTopicsSelected("true");
+        } else {
+            studentSeminar.setAreTopicsSelected("true");
+        }
+        studentSeminar.setAreTopicsSelected("false");
 
         return studentSeminar;
     }
@@ -119,8 +148,7 @@ public class SeminarController {
     @GetMapping("/{seminarId}/detail")
     @ResponseStatus(HttpStatus.OK)
     public SeminarDetail getSeminarDetail(@PathVariable("seminarId") String seminarId)
-            throws SeminarNotFoundException, CourseNotFoundException,
-            ClassNotFoundException, ClassesNotFoundException, UserNotFoundException {
+            throws SeminarNotFoundException, CourseNotFoundException, ClassesNotFoundException, UserNotFoundException {
         SeminarDetail seminarDetail = new SeminarDetail();
 
         //todo
@@ -157,13 +185,33 @@ public class SeminarController {
 
     @GetMapping("/{seminarId}/topic")
     @ResponseStatus(HttpStatus.OK)
-    public List<Topic> getTopics(@PathVariable("seminarId") String seminarId) throws IllegalArgumentException {
-        return topicService.listTopicBySeminarId(new BigInteger(seminarId));
+    public List<TopicVO> getTopics(@PathVariable("seminarId") String seminarId) throws IllegalArgumentException {
+        List<TopicVO> topicVOS=new ArrayList<>();
+        List<Topic> topics=topicService.listTopicBySeminarId(new BigInteger(seminarId));
+        for (Topic topic:topics
+             ) {
+            TopicVO topicVO=new TopicVO();
+            topicVO.setId(topic.getId());
+            topicVO.setSerial(topic.getSerial());
+            topicVO.setName(topic.getName());
+            topicVO.setDescription(topic.getDescription());
+            topicVO.setGroupLimit(topic.getGroupNumberLimit());
+            topicVO.setGroupMemberLimit(topic.getGroupStudentLimit());
+
+            topicVOS.add(topicVO);
+        }
+        return topicVOS;
     }
 
     @PostMapping("/{seminarId}/topic")
     @ResponseStatus(HttpStatus.CREATED)
-    public Topic addTopic(@PathVariable("seminarId") String seminarId, @RequestBody Topic topic) {
+    public Topic addTopic(@PathVariable("seminarId") String seminarId, @RequestBody TopicVO topicVO) {
+        Topic topic=new Topic();
+        topic.setSerial(topicVO.getSerial());
+        topic.setName(topicVO.getSerial());
+        topic.setDescription(topicVO.getDescription());
+        topic.setGroupNumberLimit(topicVO.getGroupLimit());
+        topic.setGroupStudentLimit(topicVO.getGroupLimit());
         BigInteger id = topicService.insertTopicBySeminarId(new BigInteger(seminarId), topic);
         Topic newTopic = new Topic();
         newTopic.setId(id);
@@ -191,8 +239,10 @@ public class SeminarController {
                         SeminarGroupVO seminarGroupVO = new SeminarGroupVO();
                         seminarGroupVO.setId(isChosen.getId().longValue());
                         seminarGroupVO.setName(classInfos.indexOf(classInfo) + topics.indexOf(topic) + seminarGroups.indexOf(seminarGroup) + "");
-                        seminarGroupVO.setTopicId(topic.getId().longValue());
-                        seminarGroupVO.setTopicName(topic.getName());
+                        TopicBasicVO topicBasicVO=new TopicBasicVO();
+                        topicBasicVO.setId(topic.getId().longValue());
+                        topicBasicVO.setName(topic.getName());
+                        seminarGroupVO.setTopics(topicBasicVO);
                         seminarGroupVOS.add(seminarGroupVO);
                     }
                 }
@@ -204,14 +254,35 @@ public class SeminarController {
 
     @GetMapping("/{seminarId}/group/my")
     @ResponseStatus(HttpStatus.OK)
-    public List<User> getMyGroup(@PathVariable("seminarId") String seminarId) throws GroupNotFoundException {
-        List<User> seminarGroupMembers;
+    public SeminarGroupDetail getMyGroup(@PathVariable("seminarId") String seminarId)
+            throws GroupNotFoundException,UserNotFoundException {
+        SeminarGroupDetail seminarGroupDetail=new SeminarGroupDetail();
 
         //todo
         BigInteger userId = new BigInteger("8");
+
         SeminarGroup seminarGroup = seminarGroupService.getSeminarGroupById(new BigInteger(seminarId), userId);
+        seminarGroupDetail.setId(seminarGroup.getId());
+        seminarGroupDetail.setName(seminarGroup.getId().toString());
+        BigInteger leaderId=seminarGroupService.getSeminarGroupLeaderByGroupId(seminarGroup.getId());
+        User leader=userService.getUserByUserId(leaderId);
+
+        UserIdNameVO leaderVO=new UserIdNameVO(leader);
+        seminarGroupDetail.setLeader(leaderVO);
+
+        List<UserIdNameVO> members=new ArrayList<>();
+        List<User> seminarGroupMembers;
         seminarGroupMembers = seminarGroupService.listSeminarGroupMemberByGroupId(seminarGroup.getId());
-        return seminarGroupMembers;
+        for (User user:seminarGroupMembers
+             ) {
+            UserIdNameVO userIdNameVO=new UserIdNameVO(user);
+            if(!user.getId().equals(leader.getId())){
+                members.add(userIdNameVO);
+            }
+        }
+        seminarGroupDetail.setMembers(members);
+
+        return seminarGroupDetail;
     }
 
     @GetMapping("/{seminarId}/class/{classId}/attendance")
@@ -240,43 +311,53 @@ public class SeminarController {
         return attendanceStatus;
     }
 
-    @GetMapping("seminar/{seminarId}/class/{classId}/attendance/present")
+    @GetMapping("/{seminarId}/class/{classId}/attendance/present")
     @ResponseStatus(HttpStatus.OK)
-    public List<User> getPresent(@PathVariable("seminarId") String seminarId,
+    public List<UserIdNameVO> getPresent(@PathVariable("seminarId") String seminarId,
                                  @PathVariable("classId") String classId)
-            throws ClassesNotFoundException,SeminarNotFoundException,UserNotFoundException {
-        List<User> present = new ArrayList<>();
+            throws ClassesNotFoundException,SeminarNotFoundException {
+        List<UserIdNameVO> userIdNameVOS=new ArrayList<>();
+        List<User> presents;
 
-        List<Attendance> attendances=userService.listAttendanceById(new BigInteger(classId),new BigInteger(seminarId));
-        for (Attendance attendance:attendances
+        presents=userService.listPresentStudent(new BigInteger(seminarId),new BigInteger(classId));
+        for (User present:presents
              ) {
-            User user=userService.getUserByUserId(attendance.getStudent().getId());
-            present.add(user);
+            userIdNameVOS.add(new UserIdNameVO(present));
         }
 
-        return present;
+        return userIdNameVOS;
     }
 
     @GetMapping("/{seminarId}/class/{classId}/attendance/late")
     @ResponseStatus(HttpStatus.OK)
-    public List<User> getLate(@PathVariable("seminarId") String seminarId,
+    public List<UserIdNameVO> getLate(@PathVariable("seminarId") String seminarId,
                               @PathVariable("classId") String classId)
             throws ClassesNotFoundException,SeminarNotFoundException {
-        List<User> late = userService.listLateStudent(new BigInteger(seminarId),new BigInteger(classId));
-        return late;
+        List<UserIdNameVO> lateStudents=new ArrayList<>();
+        List<User> lates = userService.listLateStudent(new BigInteger(seminarId),new BigInteger(classId));
+        for (User late:lates
+             ) {
+            lateStudents.add(new UserIdNameVO(late));
+        }
+        return lateStudents;
     }
 
     @GetMapping("/{seminarId}/class/{classId}/attendance/absent")
     @ResponseStatus(HttpStatus.OK)
-    public List<User> getAbsent(@PathVariable("seminarId") String seminarId,
+    public List<UserIdNameVO> getAbsent(@PathVariable("seminarId") String seminarId,
                                 @PathVariable("classId") String classId)
             throws ClassesNotFoundException,SeminarNotFoundException {
-        List<User> absent = userService.listAbsenceStudent(new BigInteger(seminarId),new BigInteger(classId));
-        return absent;
+        List<UserIdNameVO> userIdNameVOS=new ArrayList<>();
+        List<User> absents = userService.listAbsenceStudent(new BigInteger(seminarId),new BigInteger(classId));
+        for (User absent:absents
+             ) {
+            userIdNameVOS.add(new UserIdNameVO(absent));
+        }
+        return userIdNameVOS;
     }
 
     @PutMapping("/{seminarId}/class/{classId}/attendance/{studentId}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
+    @ResponseStatus(HttpStatus.OK)
     public Status signIn(@PathVariable("seminarId") String seminarId,
                          @PathVariable("classId") String classId,
                          @PathVariable("studentId") String studentId,
@@ -288,10 +369,9 @@ public class SeminarController {
         userService.insertAttendanceById(new BigInteger(classId),new BigInteger(seminarId),new BigInteger(studentId)
                 ,site.getLongitude(),site.getLatitude());
         if(location.getStatus()==1){
-            status.setStatus("ontime准点");
-        }
-        else{
-            status.setStatus("late迟到");
+            status.setStatus("ontime");
+        } else {
+            status.setStatus("late");
         }
 
         return status;

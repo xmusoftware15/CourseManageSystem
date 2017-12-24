@@ -47,6 +47,17 @@ $(function () {
                     $("#city").append(
                         "<option value=\"" + result[i].name + "\" id=\"" + result[i].id + "\">" + result[i].name + "</option>"
                     );
+                $.ajax({
+                    url: "/school?city=" + $("#city option:selected").attr("value"),
+                    type: "GET",
+                    success: function (data) {
+                        for (i = 0; i < data.length; i++) {
+                            $("#school").append(
+                                "<option value=\"" + data[i].name + "\" id=\"" + data[i].id + "\">" + data[i].name + "</option>"
+                            );
+                        }
+                    }
+                })
             }
         });
     });
@@ -59,7 +70,7 @@ $(function () {
             success: function (data) {
                 for (i = 0; i < data.length; i++) {
                     $("#school").append(
-                        "<option value=\"" + data[0].name + "\" id=\"" + data[0].id + "\">" + data[0].name + "</option>"
+                        "<option value=\"" + data[i].name + "\" id=\"" + data[i].id + "\">" + data[i].name + "</option>"
                     );
                 }
             }

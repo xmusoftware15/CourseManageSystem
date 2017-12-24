@@ -2,9 +2,11 @@ package xmu.crms.vo;
 
 import xmu.crms.entity.Course;
 
+import java.math.BigInteger;
+
 public class CourseDetail {
 
-    private Long id;
+    private BigInteger id;
     private String name;
     private String description;
     private String teacherName;
@@ -19,11 +21,11 @@ public class CourseDetail {
         this.teacherEmail = course.getTeacher().getEmail();
     }
 
-    public Long getId() {
+    public BigInteger getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(BigInteger id) {
         this.id = id;
     }
 

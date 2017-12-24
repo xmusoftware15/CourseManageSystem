@@ -35,13 +35,33 @@ public class LoginDAO {
         return user;
     }
 
-    public User createUserWithPhone(User user) {
-        loginMapper.createUserWithPhone(user);
-        return user;
 
+    public User createUserWithPhone(User user) {
+        User user1 = loginMapper.getUserBySchoolAndNumber(user.getSchool().getId(), user.getNumber());
+        if (user1 == null) {
+            loginMapper.createUserWithPhone(user);
+        } else {
+            user.setId(user1.getId());
+            loginMapper.addPhoneToUser(user);
+        }
+        return user;
     }
 
-    public void deleteUserById(BigInteger id){
+    public User createUserWithWechat(User user) {
+        User user1 = loginMapper.getUserBySchoolAndNumber(user.getSchool().getId(), user.getNumber());
+        if (user == null) {
+            loginMapper.createUserWithWechat(user);
+        } else {
+            loginMapper.addWechatToUser(user);
+        }
+        return user;
+    }
+
+    public User getUserBySchoolAndNumber(BigInteger schoolId, String number) {
+        return loginMapper.getUserBySchoolAndNumber(schoolId, number);
+    }
+
+    public void deleteUserById(BigInteger id) {
         loginMapper.deleteUserbyId(id);
     }
 }

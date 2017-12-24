@@ -1,17 +1,24 @@
 package xmu.crms.vo;
 
 
-import java.math.BigInteger;
-import java.util.List;
+import xmu.crms.entity.SeminarGroup;
 
 public class SeminarGradeDetail {
 
     private String seminarName;
     private String groupName;
     private String leaderName;
-    private List<PresentationGrade> presentationGrade;
-    private BigInteger reportGrade;
-    private BigInteger grade;
+    private Integer presentationGrade;
+    private Integer reportGrade;
+    private Integer grade;
+
+    public SeminarGradeDetail(SeminarGroup seminarGroup) {
+        this.seminarName = seminarGroup.getSeminar().getName();
+        this.leaderName = seminarGroup.getLeader().getName();
+        this.presentationGrade = seminarGroup.getPresentationGrade();
+        this.reportGrade = seminarGroup.getReportGrade();
+        this.grade = seminarGroup.getFinalGrade();
+    }
 
     public SeminarGradeDetail() {}
 
@@ -40,29 +47,27 @@ public class SeminarGradeDetail {
         this.leaderName = leaderName;
     }
 
-
-
-    public BigInteger getReportGrade() {
-        return reportGrade;
-    }
-
-    public void setReportGrade(BigInteger reportGrade) {
-        this.reportGrade = reportGrade;
-    }
-
-    public List<PresentationGrade> getPresentationGrade() {
+    public Integer getPresentationGrade() {
         return presentationGrade;
     }
 
-    public void setPresentationGrade(List<PresentationGrade> presentationGrade) {
+    public void setPresentationGrade(Integer presentationGrade) {
         this.presentationGrade = presentationGrade;
     }
 
-    public BigInteger getGrade() {
+    public Integer getReportGrade() {
+        return reportGrade;
+    }
+
+    public void setReportGrade(Integer reportGrade) {
+        this.reportGrade = reportGrade;
+    }
+
+    public Integer getGrade() {
         return grade;
     }
 
-    public void setGrade(BigInteger grade) {
+    public void setGrade(Integer grade) {
         this.grade = grade;
     }
 

@@ -30,10 +30,9 @@ $(function () {
     //点击选课按钮后的情况
     $(".body").on("click", "#selectClass", function () {
         if (confirm("确认选择该班级")) {
-            //var classId = $(this).parent().parent().attr("id");
-            var classId = 34;
+            var classId = $(this).parent().parent().attr("id");
             var student = {
-                id: 233
+                id: localstorage.getItem("userId")
             }
             console.log(classId);
             $.ajax({

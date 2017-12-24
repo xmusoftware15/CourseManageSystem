@@ -5,6 +5,7 @@ import java.math.BigInteger;
 public class Topic {
 	private BigInteger id;
 	private String name;
+	private String serial;
 	private String description;
 	private Integer groupNumberLimit;
 	private Integer groupStudentLimit;
@@ -47,11 +48,20 @@ public class Topic {
 		this.seminar = seminar;
 	}
 
+	public String getSerial() {
+		return serial;
+	}
+
+	public void setSerial(String serial) {
+		this.serial = serial;
+	}
+
 	@Override
 	public String toString() {
 		return "Topic{" +
 				"id=" + id +
 				", name='" + name + '\'' +
+				", serial='" + serial + '\'' +
 				", description='" + description + '\'' +
 				", groupNumberLimit=" + groupNumberLimit +
 				", groupStudentLimit=" + groupStudentLimit +

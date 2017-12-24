@@ -18,16 +18,27 @@
         SELECT id, phone, password, `type`, `name` from user_info WHERE wechat_id = #{wechat}
     </select>
 
+    <select id="getUserBySchoolAndNumber" resultMap="loginUser">
+        SELECT id, phone, password, `type`, `name` from user_info WHERE school_id = #{arg0} AND number = #{arg1}
+    </select>
+
     <delete id="deleteUserById">
         DELETE FROM user_info WHERE id = #{id}
     </delete>
 
-    <insert id="createUserWithPhone" parameterType="xmu.crms.entity.User" useGeneratedKeys="true" keyProperty="id" >
-        INSERT INTO user_info(phone, password) VALUES (#{phone}, #{password})
+    <insert id="createUserWithPhone" parameterType="xmu.crms.entity.User" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO user_info(phone, password, `name`, school_id, gender, type, number, email)
+        VALUES (#{phone}, #{password}, #{name}, #{school.id}, #{gender}, #{type}, #{number}, #{email})
     </insert>
 
     <insert id="insertUserWithWechat" parameterType="xmu.crms.entity.User" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO user_info(wechat_id) VALUES (#{user.wechatId})
     </insert>
-</mapper>
 
+    <update id="addWechatToUser" parameterType="xmu.crms.entity.User">
+        UPDATE user_info SET wechat_id = #{wechatId} WHERE id = #{id}
+    </update>
+    <update id="addPhoneToUser" parameterType="xmu.crms.entity.User">
+        UPDATE user_info SET phone = #{phone}, password = #{password} WHERE id = #{id}
+    </update>
+</mapper>

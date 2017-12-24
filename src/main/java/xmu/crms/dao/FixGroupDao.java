@@ -222,12 +222,7 @@ public class FixGroupDao {
      * @return
      * @throws ClassesNotFoundException
      */
-    public BigInteger insertFixGroupByClassId(BigInteger classId, BigInteger userId) throws ClassesNotFoundException {
-        ClassInfo classInfo = fixGroupMapper.getClassInfoById(classId);
-        if (classInfo == null) {
-            //未找到班级
-            throw new ClassesNotFoundException();
-        }
+    public BigInteger insertFixGroupByClassId(BigInteger classId, BigInteger userId) {
         ClassInfo addClass = new ClassInfo();
         addClass.setId(classId);
         User user = new User();

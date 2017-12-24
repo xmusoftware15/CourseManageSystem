@@ -1,9 +1,13 @@
 package xmu.crms.vo;
 
 
+import xmu.crms.entity.ClassInfo;
+
+import java.math.BigInteger;
+
 public class CourseClassVO {
 
-    private Long id;
+    private BigInteger id;
     private String name;
     private Integer numStudent;
     private String time;
@@ -13,13 +17,20 @@ public class CourseClassVO {
 
     public CourseClassVO() {}
 
+    public CourseClassVO(ClassInfo classInfo) {
+        this.id = classInfo.getId();
+        this.name = classInfo.getName();
+        this.time = classInfo.getClassTime();
+        this.site = classInfo.getSite();
+        this.courseName = classInfo.getCourse().getName();
+        this.courseTeacher = classInfo.getCourse().getTeacher().getName();
+    }
 
-
-    public Long getId() {
+    public BigInteger getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(BigInteger id) {
         this.id = id;
     }
 

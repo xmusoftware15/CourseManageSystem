@@ -1,15 +1,16 @@
 package xmu.crms.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import xmu.crms.entity.SeminarGroup;
-import xmu.crms.entity.User;
-import xmu.crms.vo.CourseClassVO;
-import xmu.crms.vo.Response;
-import xmu.crms.vo.SelectClassVO;
+import xmu.crms.entity.*;
+import xmu.crms.exception.*;
+import xmu.crms.service.ClassService;
+import xmu.crms.service.FixGroupService;
+import xmu.crms.vo.*;
 
 
-import javax.servlet.http.HttpServletResponse;
+import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,149 +20,121 @@ import java.util.List;
  */
 
 @RestController
+@RequestMapping("/class")
 public class ClassController {
 
-    @GetMapping("/class")
+    @Autowired
+    private ClassService classService;
+
+    @Autowired
+    private FixGroupService fixGroupService;
+
+    @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<CourseClassVO> getClassList() {
+    public List<CourseClassVO> getClassList(String courseName, String courseTeacher)
+            throws ClassesNotFoundException, UserNotFoundException, CourseNotFoundException {
         List<CourseClassVO> courseClasses = new ArrayList<>();
-        CourseClassVO courseClass1 = new CourseClassVO();
-        courseClass1.setId(23L);
-        courseClass1.setName("周三1-2节");
-        courseClass1.setNumStudent(60);
-        courseClass1.setTime("周三1-2、周五1-2");
-        courseClass1.setSite("公寓405");
-        courseClass1.setCourseName("OOAD");
-        courseClass1.setCourseTeacher("邱明");
-
-        CourseClassVO courseClass2 = new CourseClassVO();
-        courseClass2.setId(42L);
-        courseClass2.setName("一班");
-        courseClass2.setNumStudent(60);
-        courseClass2.setTime("周三34节 周五12节");
-        courseClass2.setSite("海韵202");
-        courseClass2.setCourseName(".Net 平台开发");
-        courseClass2.setCourseTeacher("杨律青");
-
-        courseClasses.add(courseClass1);
-        courseClasses.add(courseClass2);
-
+        List<ClassInfo> classInfos = classService.listClassByName(courseName, courseTeacher);
+        for (ClassInfo classInfo : classInfos) {
+            CourseClassVO courseClassVO = new CourseClassVO(classInfo);
+            courseClasses.add(courseClassVO);
+        }
         return courseClasses;
     }
 
-    @GetMapping("/class/{classId}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public Class getClass(@PathVariable("classId") int id) {
-//        Class class1 = new Class();
-//        class1.setId(23L);
-//        class1.setName("周三1-2节");
-//        class1.setNumStudent(120);
-//        class1.setTime("周三一二节");
-//        class1.setSite("海韵201");
-//        class1.setCalling(-1);
-//        class1.setRoster("/roster/周三12班.xlsx");
-//        Proportions proportions = new Proportions();
-//        proportions.setA(20);
-//        proportions.setB(60);
-//        proportions.setC(20);
-//        proportions.setReport(50);
-//        proportions.setPresentation(50);
-//        class1.setProportions(proportions);
-        return null;
-    }
-
-    @PutMapping("/class/{classId}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateClass(@PathVariable("classId") int classId,
-                            @RequestBody Class newClass) {
-    }
-
-    @DeleteMapping("/class/{classId}")
-    @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteClass(@PathVariable("classId") int classId) {
-
-    }
-
-    @GetMapping("/class/{classId}/student")
+    @GetMapping("/{classId}")
     @ResponseStatus(HttpStatus.OK)
-    public List<User> getStudentList(@PathVariable int classId) {
-//        List<User> students = new ArrayList();
-//        User student1 = new User();
-//        student1.setId(233L);
-//        student1.setName("张三");
-//        student1.setNumber("24320152202333");
-//        students.add(student1);
-//        User student2 = new User();
-//        student2.setId(245L);
-//        student2.setName("张八");
-//        student2.setNumber("24320152202334");
-//        students.add(student2);
+    public ClassInfoVO getClass(@PathVariable("classId") String id)
+            throws ClassesNotFoundException {
+        ClassInfo classInfo = classService.getClassByClassId(new BigInteger(id));
+        ClassInfoVO classInfoVO = new ClassInfoVO(classInfo);
+        return classInfoVO;
+    }
+
+    @PutMapping("/{classId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void updateClass(@PathVariable("classId") String classId,
+                            @RequestBody ClassInfoVO newClass) throws ClassesNotFoundException {
+        ClassInfo classInfo = newClass.transferToClassInfo();
+        classService.updateClassByClassId(new BigInteger(classId), classInfo);
+    }
+
+    @DeleteMapping("/{classId}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deleteClass(@PathVariable("classId") String classId) throws ClassesNotFoundException {
+        classService.deleteClassByClassId(new BigInteger(classId));
+    }
+
+    @GetMapping("/{classId}/student")
+    @ResponseStatus(HttpStatus.OK)
+    public List<StudentVO> getStudentList(@PathVariable String classId) {
         return null;
     }
 
-    @PostMapping("/class/{classId}/student")
+    @PostMapping("/{classId}/student")
     @ResponseStatus(HttpStatus.CREATED)
-    public SelectClassVO chooseClass(@RequestBody User student, @PathVariable("classId") int classId) {
-        SelectClassVO ret = new SelectClassVO();
-        ret.setUrl("/class/34/student/2757");
-        return ret;
+    public UrlVO chooseClass(@RequestBody User student,
+                             @PathVariable("classId") String classId) throws UserNotFoundException, ClassesNotFoundException {
+        BigInteger id = classService.insertCourseSelectionById(student.getId(), new BigInteger(classId));
+        UrlVO urlVO = new UrlVO();
+        urlVO.setUrl("/class/" + classId + "/student/" + id.toString());
+        return urlVO;
     }
 
-    @DeleteMapping("/class/{classId}/student/{studentId}")
+    @DeleteMapping("/{classId}/student/{studentId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void cancelClass(@PathVariable("classId") int classId,
-                            @PathVariable("studentId") int studentId) {
+    public void cancelClass(@PathVariable("classId") String classId,
+                            @PathVariable("studentId") String studentId) throws UserNotFoundException, ClassesNotFoundException {
+        classService.deleteCourseSelectionById(new BigInteger(studentId), new BigInteger(classId));
     }
 
-    @GetMapping("/class/{classId}/classgroup")
+    @GetMapping("/{classId}/classgroup")
     @ResponseStatus(HttpStatus.OK)
-    public SeminarGroup getClassGroup(@PathVariable("classId") int classId) {
-//        ClassGroup classGroup = new ClassGroup();
-//        User leader = new User();
-//        leader.setId(2757L);
-//        leader.setName("张三");
-//        leader.setNumber("23320152202333");
-//        classGroup.setLeader(leader);
-//        List<User> members = new ArrayList<>();
-//        User member1 = new User();
-//        member1.setId(2756L);
-//        member1.setName("李四");
-//        member1.setNumber("23320152202443");
-//        User member2 = new User();
-//        member2.setId(2777L);
-//        member2.setName("王五");
-//        member2.setNumber("23320152202433");
-//        members.add(member1);
-//        members.add(member2);
-//        classGroup.setMembers(members);
-        return null;
+    public GroupMemberVO getClassGroup(@PathVariable("classId") String classId,
+                                       @RequestAttribute("userId") String userId) throws UserNotFoundException, ClassesNotFoundException, FixGroupNotFoundException{
+        FixGroup fixGroup = fixGroupService.getFixedGroupById(new BigInteger(userId), new BigInteger(classId));
+        GroupMemberVO groupMemberVO = new GroupMemberVO();
+        groupMemberVO.setLeader(new StudentVO(fixGroup.getLeader()));
+        List<StudentVO> members = new ArrayList<>();
+        List<FixGroupMember> fixGroupMembers = fixGroupService.listFixGroupByGroupId(fixGroup.getId());
+        for (FixGroupMember fixGroupMember : fixGroupMembers) {
+            if (fixGroupMember.getId().compareTo(fixGroup.getLeader().getId()) != 0) {
+                members.add(new StudentVO(fixGroupMember.getStudent()));
+            }
+        }
+        groupMemberVO.setMembers(members);
+        return groupMemberVO;
     }
 
-    @PutMapping("/class/{classId}/classgroup/resign")
+    @PutMapping("/{classId}/classgroup/resign")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void resignLeader(@PathVariable("classId") int classId,
-                                 @RequestBody User student) {
-
+                             @RequestBody User student) {
     }
 
-    @PutMapping("/class/{classId}/classgroup/assign")
+    @PutMapping("/{classId}/classgroup/assign")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void assignLeader(@PathVariable("classId") int classId,
-                                 @RequestBody User student) {
-
+                             @RequestBody User student) {
     }
 
-    @PutMapping("/class/{classId}/classgroup/add")
+    @PutMapping("/{classId}/classgroup/add")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void addMember(@PathVariable("classId") int classId,
-                              @RequestBody User student) {
-
+    public void addMember(@PathVariable("classId") String classId,
+                          @RequestBody User student, @RequestAttribute("userId") String userId) throws UserNotFoundException,
+            InvalidOperationException, FixGroupNotFoundException, ClassesNotFoundException {
+        FixGroup fixGroup = fixGroupService.getFixedGroupById(new BigInteger(userId), new BigInteger(classId));
+        if (fixGroup.getLeader().getId().toString().equals(userId)) {
+            throw new InvalidOperationException("权限不足");
+        }
+        fixGroupService.insertStudentIntoGroup(student.getId(), fixGroup.getId());
     }
 
-    @PutMapping("/class/{classId}/classgroup/remove")
+    @PutMapping("/{classId}/classgroup/remove")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void removeMember(@PathVariable("classId") int classId,
-                                 @RequestBody User student) {
-
+    public void removeMember(@PathVariable("classId") String classId,
+                             @RequestBody User student) throws UserNotFoundException, ClassesNotFoundException, FixGroupNotFoundException {
+        FixGroup fixGroup = fixGroupService.getFixedGroupById(student.getId(), new BigInteger(classId));
+        fixGroupService.deleteFixGroupUserById(fixGroup.getId(), student.getId());
     }
 }

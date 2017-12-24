@@ -62,7 +62,7 @@ public class JwtPayload {
     public User toUser() {
         User user = new User();
         user.setId(id);
-        user.setName(name);
+
         if (type.equals("student")) {
             user.setType(0);
         } else if(type.equals("teacher")){

@@ -56,10 +56,14 @@ public class GradeServiceImpl implements GradeService{
             SeminarGroupTopic seminarGroupTopic=new SeminarGroupTopic();
             Topic topic=new Topic();
             topic.setId(topicId);
+            SeminarGroup seminarGroup=new SeminarGroup();
+            seminarGroup.setId(groupId);
             seminarGroupTopic.setTopic(topic);
+            seminarGroupTopic.setSeminarGroup(seminarGroup);
+            SeminarGroupTopic seminarGroupTopic1=gradeDAO.getSeminarGroupTopicIdByTopicIdAndGroupId(seminarGroupTopic);
             User user=new User();
             user.setId(userId);
-            studentScoreGroup.setSeminarGroupTopic(seminarGroupTopic);
+            studentScoreGroup.setSeminarGroupTopic(seminarGroupTopic1);
             studentScoreGroup.setStudent(user);
             studentScoreGroup.setGrade(grade.intValue());
             gradeDAO.insertGroupGradeByUserId(studentScoreGroup);
@@ -161,124 +165,127 @@ public class GradeServiceImpl implements GradeService{
     }
 
     @Override
-    public void countPresentationGrade(BigInteger seminarId, BigInteger seminarGroupId)
+    public void countPresentationGrade(BigInteger seminarId)
             throws IllegalArgumentException
     {
         if (seminarId.intValue() < 0) {
             throw new IllegalArgumentException("seminarId");
         }
-        if (seminarGroupId.intValue() < 0) {
-            throw new IllegalArgumentException("seminarGroupId");
-        }
-        List<SeminarGroupTopic> seminarGroupTopics=gradeDAO.getSeminarGroupTopicBySeminarGroupId(seminarGroupId);
-        Integer topicsCount=seminarGroupTopics.size();
-        Integer allSum=0;
-        Integer allAver;
-        for(SeminarGroupTopic seminarGroupTopic:seminarGroupTopics){
-            Integer gradeSum=0;
-            Integer gradeAver;
-            List<StudentScoreGroup> studentScoreGroups=
-                    gradeDAO.getGroupPresentationGradeBySeminarGroupTopicId(seminarGroupTopic.getId());
-            for(StudentScoreGroup studentScoreGroup:studentScoreGroups){
-                gradeSum+=studentScoreGroup.getGrade();
-            }
-            //该topic的展示平均成绩
-            gradeAver=gradeSum/studentScoreGroups.size();
-            allSum+=gradeAver;
+        //获取该讨论课所有讨论组
+        List<SeminarGroup> seminarGroups= gradeDAO.getAllSeminarGroupBySeminarId(seminarId);
+        //对每个讨论组计算并更新
+        for(SeminarGroup seminarGroup:seminarGroups) {
+            List<SeminarGroupTopic> seminarGroupTopics =
+                    gradeDAO.getSeminarGroupTopicBySeminarGroupId(seminarGroup.getId());
+            Integer topicsCount = seminarGroupTopics.size();
+            Integer allSum = 0;
+            Integer allAver;
+            for (SeminarGroupTopic seminarGroupTopic : seminarGroupTopics) {
+                Integer gradeSum = 0;
+                Integer gradeAver;
+                List<StudentScoreGroup> studentScoreGroups =
+                        gradeDAO.getGroupPresentationGradeBySeminarGroupTopicId(seminarGroupTopic.getId());
+                for (StudentScoreGroup studentScoreGroup : studentScoreGroups) {
+                    gradeSum += studentScoreGroup.getGrade();
+                }
+                //该topic的展示平均成绩
+                gradeAver = gradeSum / studentScoreGroups.size();
+                allSum += gradeAver;
 
-            SeminarGroupTopic seminarGroupTopic1=new SeminarGroupTopic();
-            seminarGroupTopic1.setId(seminarGroupTopic.getId());
-            seminarGroupTopic1.setPresentationGrade(gradeAver);
-            gradeDAO.updatePresentationGrade(seminarGroupTopic1);
+                SeminarGroupTopic seminarGroupTopic1 = new SeminarGroupTopic();
+                seminarGroupTopic1.setId(seminarGroupTopic.getId());
+                seminarGroupTopic1.setPresentationGrade(gradeAver);
+                gradeDAO.updatePresentationGrade(seminarGroupTopic1);
+            }
+            //该讨论组的展示平均成绩
+            allAver = allSum / topicsCount;
+            SeminarGroup seminarGroup1 = new SeminarGroup();
+            seminarGroup1.setId(seminarGroup.getId());
+            seminarGroup1.setPresentationGrade(allAver);
+            //更新数据库
+            gradeDAO.updateFinalPresentationGrade(seminarGroup1);
         }
-         //该讨论组的展示平均成绩
-         allAver=allSum/topicsCount;
-        SeminarGroup seminarGroup=new SeminarGroup();
-        seminarGroup.setId(seminarGroupId);
-        seminarGroup.setPresentationGrade(allAver);
-        //更新数据库
-        gradeDAO.updateFinalPresentationGrade(seminarGroup);
     }
 
     @Override
-    public void countGroupGradeBySerminarId(BigInteger seminarId, BigInteger seminarGroupId) throws IllegalArgumentException {
+    public void countGroupGradeBySeminarId(BigInteger seminarId) throws IllegalArgumentException {
         if (seminarId.intValue() < 0) {
             throw new IllegalArgumentException("seminarId");
         }
-        if (seminarGroupId.intValue() < 0) {
-            throw new IllegalArgumentException("seminarGroupId");
-        }
-        //获得报告和展示最终成绩
-        SeminarGroup seminarGroup=new SeminarGroup();
-        seminarGroup.setId(seminarGroupId);
-        SeminarGroup seminarGroup1=gradeDAO.getSeminarGroupBySeminarGroupId(seminarGroup);
-        //获得报告成绩
-        Integer reportGrade=seminarGroup1.getReportGrade();
-        //获得展示成绩
-        Integer presentationGrade=seminarGroup1.getPresentationGrade();
-        //获得课程
-        Seminar seminar=gradeDAO.getSeminarCourseIdBySeminarId(new BigInteger("1"));
-        //获得成绩计算比例
-        Course course=gradeDAO.getPercentageByCourseId(seminar.getCourse().getId());
-        Integer reportGradePercentage=course.getReportPercentage();
-        Integer presentationGradePercentage=course.getPresentationPercentage();
-        //获得该组最终成绩
-        Double finalGrade=reportGrade*reportGradePercentage/100.0+presentationGrade*presentationGradePercentage/100.0;
-
-        //遍历Seminargroup表计算同一seminar其他组的最终成绩，再根据打分比例决定最终成绩
-        List<Double> finalGrades=new ArrayList<Double>();
-        List<SeminarGroup> seminarGroups=gradeDAO.getAllSeminarGroupBySeminarId(new BigInteger("1"));
-        for(SeminarGroup seminarGroup2:seminarGroups){
+        //遍历seminarGroup表计算同一seminar其他组的最终成绩
+        List<Double> finalGrades = new ArrayList<Double>();
+        List<SeminarGroup> seminarGroups = gradeDAO.getAllSeminarGroupBySeminarId(seminarId);
+        for (SeminarGroup seminarGroup2 : seminarGroups) {
             //获得报告成绩
-            Integer reportGrade1=seminarGroup2.getReportGrade();
+            Integer reportGrade1 = seminarGroup2.getReportGrade();
             //获得展示成绩
-            Integer presentationGrade1=seminarGroup2.getPresentationGrade();
+            Integer presentationGrade1 = seminarGroup2.getPresentationGrade();
             //获得课程
-            Seminar seminar1=gradeDAO.getSeminarCourseIdBySeminarId(new BigInteger("1"));
+            Seminar seminar1 = gradeDAO.getSeminarCourseIdBySeminarId(seminarId);
             //获得成绩计算比例
-            Course course1=gradeDAO.getPercentageByCourseId(seminar1.getCourse().getId());
-            Integer reportGradePercentage1=course1.getReportPercentage();
-            Integer presentationGradePercentage1=course1.getPresentationPercentage();
+            Course course1 = gradeDAO.getPercentageByCourseId(seminar1.getCourse().getId());
+            Integer reportGradePercentage1 = course1.getReportPercentage();
+            Integer presentationGradePercentage1 = course1.getPresentationPercentage();
             //获得该组最终成绩
-            Double finalGrade1=reportGrade1*reportGradePercentage1/100.0
-                    +presentationGrade1*presentationGradePercentage1/100.0;
+            Double finalGrade1 = reportGrade1 * reportGradePercentage1 / 100.0
+                    + presentationGrade1 * presentationGradePercentage1 / 100.0;
             finalGrades.add(finalGrade1);
         }
         //将成绩从高到低排序
-        for(int i=0;i<finalGrades.size()-2;i++)
-        {
-            for(int j=i+1;j<finalGrades.size();j++){
-                if(finalGrades.get(i).compareTo(finalGrades.get(j))<0)
-                {
+        for (int i = 0; i < finalGrades.size() - 2; i++) {
+            for (int j = i + 1; j < finalGrades.size(); j++) {
+                if (finalGrades.get(i).compareTo(finalGrades.get(j)) < 0) {
                     //交换两数
-                    Collections.swap(finalGrades,i,j);
+                    Collections.swap(finalGrades, i, j);
                 }
             }
         }
-        //根据比例得出最终分数
-        Integer fivePointPercentage=course.getFivePointPercentage();
-        Integer fourPointPercentage=course.getFourPointPercentage();
-        Integer threePointPercentage=course.getThreePointPercentage();
-        Integer index=0;
-        for(int i=0;i<finalGrades.size();i++){
-            if(finalGrade.equals(finalGrades.get(i))){
-                index=i+1;
-                break;
+
+        //获取该讨论课所有讨论组
+        List<SeminarGroup> seminarGroups1 = gradeDAO.getAllSeminarGroupBySeminarId(seminarId);
+        for (SeminarGroup seminarGroup3 : seminarGroups1) {
+            //获得报告和展示最终成绩
+            SeminarGroup seminarGroup = new SeminarGroup();
+            seminarGroup.setId(seminarGroup3.getId());
+            SeminarGroup seminarGroup1 = gradeDAO.getSeminarGroupBySeminarGroupId(seminarGroup);
+            //获得报告成绩
+            Integer reportGrade = seminarGroup1.getReportGrade();
+            //获得展示成绩
+            Integer presentationGrade = seminarGroup1.getPresentationGrade();
+            //获得课程
+            Seminar seminar = gradeDAO.getSeminarCourseIdBySeminarId(seminarId);
+            //获得成绩计算比例
+            Course course = gradeDAO.getPercentageByCourseId(seminar.getCourse().getId());
+            Integer reportGradePercentage = course.getReportPercentage();
+            Integer presentationGradePercentage = course.getPresentationPercentage();
+            //获得该组最终成绩
+            Double finalGrade = reportGrade * reportGradePercentage / 100.0 +
+                    presentationGrade * presentationGradePercentage / 100.0;
+
+
+            //根据比例得出最终分数
+            Integer fivePointPercentage = course.getFivePointPercentage();
+            Integer fourPointPercentage = course.getFourPointPercentage();
+            Integer threePointPercentage = course.getThreePointPercentage();
+            Integer index = 0;
+            for (int i = 0; i < finalGrades.size(); i++) {
+                if (finalGrade.equals(finalGrades.get(i))) {
+                    index = i + 1;
+                    break;
+                }
             }
+            Integer percentage = index * 100 / finalGrades.size();
+            BigInteger grade;
+            if (percentage < fivePointPercentage) {
+                grade = new BigInteger("5");
+            } else if (percentage < fivePointPercentage + fourPointPercentage) {
+                grade = new BigInteger("4");
+            } else {
+                grade = new BigInteger("3");
+            }
+            //更新数据库
+            seminarGroup.setFinalGrade(grade.intValue());
+            gradeDAO.updateFinalGrade(seminarGroup);
         }
-        Integer percentage=index*100/finalGrades.size();
-        BigInteger grade;
-        if(percentage<fivePointPercentage){
-            grade=new BigInteger("5");
-        }
-        else if(percentage<fivePointPercentage+fourPointPercentage){
-            grade=new BigInteger("4");
-        }
-        else {
-            grade=new BigInteger("3");
-        }
-        //更新数据库
-        seminarGroup.setFinalGrade(grade.intValue());
-        gradeDAO.updateFinalGrade(seminarGroup);
     }
 }

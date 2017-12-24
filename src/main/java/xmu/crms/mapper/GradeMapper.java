@@ -54,65 +54,66 @@ public interface GradeMapper {
     Integer updateGroupByGroupId(SeminarGroup seminarGroup);
 
     /**
-     * 根据seminarGroupId获得该小组所有seminarGroupTopic
+     * 根据seminarGroupId获得该小组所有seminarGroupTopic.
      * @param seminarGroupId
      * @return list SeminarGroupTopic
      */
     List<SeminarGroupTopic> getSeminarGroupTopicBySeminarGroupId(BigInteger seminarGroupId);
 
     /**
-     * 根据 seminarGroupTopicId获得所有其他小组给其的展示评分
+     * 根据 seminarGroupTopicId获得所有其他小组给其的展示评分.
      * @param seminarGroupTopicId
      * @return List StudentScoreGroup
      */
     List<StudentScoreGroup> getGroupPresentationGradeBySeminarGroupTopicId(BigInteger seminarGroupTopicId);
 
     /**
-     * 根据讨论课id获得讨论课信息（包括课程id）
+     * 根据讨论课id获得讨论课信息（包括课程id）.
      * @param seminarId
      * @return Seminar
      */
     Seminar getSeminarCourseIdBySeminarId(BigInteger seminarId);
 
     /**
-     * 根据课程id获得该课程评分标准
+     * 根据课程id获得该课程评分标准.
      * @param courseId
      * @return List BigInteger
      */
     Course getPercentageByCourseId(BigInteger courseId);
 
     /**
-     * 提交讨论组某topic的最终展示成绩
+     * 提交讨论组某topic的最终展示成绩.
      * @param seminarGroupTopic
      * @return Integer 影响行数
      */
     Integer updatePresentationGrade(SeminarGroupTopic seminarGroupTopic);
 
     /**
-     * 提交讨论组最终展示成绩
+     * 提交讨论组最终展示成绩.
      * @param seminarGroup
      * @return Integer 影响行数
      */
     Integer updateFinalPresentationGrade(SeminarGroup seminarGroup);
 
     /**
-     * 提交讨论组最终成绩
+     * 提交讨论组最终成绩.
      * @param seminarGroup
      * @return Integer 影响行数
      */
     Integer updateFinalGrade(SeminarGroup seminarGroup);
 
     /**
-     * 根据seminarId获得所有seminarGroup(报告成绩，展示成绩)
+     * 根据seminarId获得所有seminarGroup(报告成绩，展示成绩).
      * @param seminarId
      * @return List SeminarGroup
      */
     List<SeminarGroup> getAllSeminarGroupBySeminarId(BigInteger seminarId);
 
-//    /**
-//     * 获得报告和展示成绩
-//     * @param seminarGroup
-//     * @return BigInteger
-//     */
-//    SeminarGroup getReportAndPresentationGrade(SeminarGroup seminarGroup);
+    /**
+     * 根据topicId和groupId得到seminarGroupId.
+     * @param seminarGroupTopic
+     * @return SeminarGroupTopic
+     */
+    SeminarGroupTopic getSeminarGroupTopicIdByTopicIdAndGroupId(SeminarGroupTopic seminarGroupTopic);
+
 }

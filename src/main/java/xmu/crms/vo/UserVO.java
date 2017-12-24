@@ -4,28 +4,63 @@ import xmu.crms.entity.User;
 
 import java.math.BigInteger;
 
-/**
- *
- * @author badcode
- * @date 2017/12/24
- *
- */
 public class UserVO {
-
     private BigInteger id;
     private String type;
     private String name;
-    private String jwt;
+    private String number;
+    private String phone;
+    private String email;
+    private String gender;
+    private SchoolIdNameVO school;
+    private Integer title;
+    public Integer getTitle() {
+		return title;
+	}
 
-    public UserVO() {}
+	public void setTitle(Integer title) {
+		this.title = title;
+	}
 
-    public UserVO(User user, String jwt) {
-        this.id = user.getId();
-        this.type = user.getType() == 0 ? "student" : "teacher";
-        this.name = user.getName();
-        this.jwt = jwt;
+	public String getAvatar() {
+		return avatar;
+	}
+
+	public void setAvatar(String avatar) {
+		this.avatar = avatar;
+	}
+
+	private String avatar;
+
+    public UserVO() {
     }
 
+    public UserVO(User user)
+    {
+        id=user.getId();
+        name=user.getName();
+        number=user.getNumber();
+        phone=user.getPhone();
+        email=user.getEmail();
+        Integer genderInt=user.getGender();
+        if(genderInt==null)
+        	gender=null;
+        else if(genderInt==0)
+        	gender="male";
+        else
+			gender="female";
+        Integer typeInt=user.getType();
+        if(typeInt==null)
+        	type=null;
+        else if(typeInt==0)
+        	type="student";
+        else
+			type="teacher";
+        school=new SchoolIdNameVO(user.getSchool());
+        title=user.getTitle();
+        avatar=user.getAvatar();
+    }
+    
     public BigInteger getId() {
         return id;
     }
@@ -50,21 +85,45 @@ public class UserVO {
         this.name = name;
     }
 
-    public String getJwt() {
-        return jwt;
-    }
+	public String getNumber() {
+		return number;
+	}
 
-    public void setJwt(String jwt) {
-        this.jwt = jwt;
-    }
+	public void setNumber(String number) {
+		this.number = number;
+	}
 
-    @Override
-    public String toString() {
-        return "UserVO{" +
-                "id=" + id +
-                ", type='" + type + '\'' +
-                ", name='" + name + '\'' +
-                ", jwt='" + jwt + '\'' +
-                '}';
-    }
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getGender() {
+		return gender;
+	}
+
+	public void setGender(String gender) {
+		this.gender = gender;
+	}
+
+	public SchoolIdNameVO getSchool() {
+		return school;
+	}
+
+	public void setSchool(SchoolIdNameVO school) {
+		this.school = school;
+	}
+
+
 }

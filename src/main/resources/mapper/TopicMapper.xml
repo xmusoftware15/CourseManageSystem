@@ -10,12 +10,13 @@
         <result property="description" column="description"/>
         <result property="groupNumberLimit" column="group_number_limit"/>
         <result property="groupStudentLimit" column="group_student_limit"/>
+        <result property="serial" column="serial"/>
         <association property="seminar" column="seminar_id" select="CommonMapper.selectSeminar"/>
     </resultMap>
 
     <select id="getTopicByTopicId" resultMap="topicResultMap">
         select
-        id, name, description, group_number_limit, group_student_limit, seminar_id
+        id, name, description, group_number_limit, group_student_limit, seminar_id, serial
         from topic
         where id = #{id}
     </select>
@@ -38,6 +39,9 @@
             <if test="seminar != null">
                 seminar_id = #{seminar.id}
             </if>
+            <if test="serial != null">
+                serial = #{serial}
+            </if>
         </set>
         WHERE id=#{id}
     </update>
@@ -48,15 +52,15 @@
 
     <select id="listTopicBySeminarId" parameterType="Seminar" resultMap="topicResultMap">
         SELECT
-        id, name, description, group_number_limit, group_student_limit, seminar_id
+        id, name, description, group_number_limit, group_student_limit, seminar_id, serial
         FROM topic
         WHERE seminar_id=#{id}
     </select>
 
     <insert id="insertTopicBySeminarId" parameterType="Topic" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO topic
-        (id, name, description, group_number_limit, group_student_limit, seminar_id)
+        (id, name, description, group_number_limit, group_student_limit, seminar_id, serial)
         VALUES
-        (#{id}, #{name}, #{description}, #{groupNumberLimit}, #{groupStudentLimit}, #{seminar.id})
+        (#{id}, #{name}, #{description}, #{groupNumberLimit}, #{groupStudentLimit}, #{seminar.id}, #{serial})
     </insert>
 </mapper>

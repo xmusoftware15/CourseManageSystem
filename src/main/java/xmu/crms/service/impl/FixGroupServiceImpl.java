@@ -45,7 +45,7 @@ public class FixGroupServiceImpl implements FixGroupService {
 
     @Override
     public BigInteger insertFixGroupByClassId(BigInteger classId, BigInteger userId) throws
-            IllegalArgumentException,ClassesNotFoundException,UserNotFoundException {
+            IllegalArgumentException, UserNotFoundException {
         if (classId.intValue() <= 0) {
             throw new IllegalArgumentException("classId");
         }
@@ -131,14 +131,14 @@ public class FixGroupServiceImpl implements FixGroupService {
         }
     }
 
-    @Override
-    public void updateSeminarGroupById(BigInteger groupId, SeminarGroup group) throws IllegalArgumentException, FixGroupNotFoundException {
-        if (groupId.intValue() <= 0) {
-            throw new IllegalArgumentException();
-        } else {
-            fixGroupDao.updateSeminarGroupById(groupId, group);
-        }
-    }
+//    @Override
+//    public void updateSeminarGroupById(BigInteger groupId, SeminarGroup group) throws IllegalArgumentException, FixGroupNotFoundException {
+//        if (groupId.intValue() <= 0) {
+//            throw new IllegalArgumentException();
+//        } else {
+//            fixGroupDao.updateSeminarGroupById(groupId, group);
+//        }
+//    }
 
     @Override
     public void deleteFixGroupUserById(BigInteger fixGroupId, BigInteger userId) throws IllegalArgumentException, FixGroupNotFoundException, UserNotFoundException {

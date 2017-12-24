@@ -9,7 +9,6 @@ import xmu.crms.security.auth.JwtPayload;
 import javax.crypto.Mac;
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
-import java.math.BigInteger;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
@@ -45,7 +44,8 @@ public class JwtServiceImpl implements xmu.crms.security.auth.JwtService {
     public String generateJwt(User user) {
         ObjectMapper objectMapper = new ObjectMapper();
         JwtPayload jwtPayload = new JwtPayload(user.getId(),
-                user.getType() == 1 ? "teacher" : "student", user.getName(), System.currentTimeMillis() + expireTime);
+                user.getType() == null ? "unbinded" : (user.getType() == 1 ? "teacher" : "student"),
+                user.getName(), System.currentTimeMillis() + expireTime);
         try {
             String header = objectMapper.writeValueAsString(JWT_HEADER);
             String payload = objectMapper.writeValueAsString(jwtPayload);

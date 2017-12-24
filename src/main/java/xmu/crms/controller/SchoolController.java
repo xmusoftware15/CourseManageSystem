@@ -1,40 +1,44 @@
 package xmu.crms.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.web.bind.annotation.*;
-import xmu.crms.dao.SchoolDAO;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.servlet.ModelAndView;
 import xmu.crms.entity.School;
 import xmu.crms.service.SchoolService;
 
-import javax.servlet.http.HttpServletResponse;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * @author badcode
- * @date 2017/12/01
- */
 @RestController
-@RequestMapping("/school")
 public class SchoolController {
-
     @Autowired
     private SchoolService schoolService;
 
-    @GetMapping
-    @ResponseStatus(HttpStatus.OK)
-    public List<School> getSchools(String city) {
-        return schoolService.listSchoolByCity(city);
+    @PostMapping("/school")
+    public School school(@RequestBody School school) {
+        BigInteger id = schoolService.insertSchool(school);
+        if( id == BigInteger.valueOf(0)){
+            System.out.print("id读取失败");
+
+        }
+        else if(id == BigInteger.valueOf(-1)){
+            System.out.print("学校已被创建");
+        }
+        else {
+            System.out.print(id);
+        }
+        return school;
     }
 
-    @PostMapping
-    @ResponseStatus(HttpStatus.CREATED)
-    public School addSchool(@RequestBody School school) {
-        BigInteger id = schoolService.insertSchool(school);
-        School newSchool = new School();
-        newSchool.setId(id);
-        return newSchool;
+    @GetMapping("/school")
+    public List<School> school(String city) {
+        System.out.print(city);
+        List<School> school = new ArrayList<>();
+        school = schoolService.listSchoolByCity(city);
+        return school;
     }
 }

@@ -40,9 +40,15 @@ public interface LoginMapper {
     /**
      * 手机注册
      *
-     * @param phone
-     * @param password
      * @return
      */
     void createUserWithPhone(User user);
+
+    void createUserWithWechat(User user);
+
+    User getUserBySchoolAndNumber(BigInteger schoolId, String number);
+
+    void addWechatToUser(User user);
+
+    void addPhoneToUser(User user);
 }

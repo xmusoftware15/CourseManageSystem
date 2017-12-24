@@ -164,7 +164,7 @@ public interface ClassService {
      * @see FixGroupService #deleteFixGroupByClassId(BigInteger ClassId)
      */
     void deleteClassByCourseId(BigInteger courseId) throws
-            CourseNotFoundException,ClassesNotFoundException,IllegalArgumentException;
+            CourseNotFoundException,ClassesNotFoundException;
 
     /**
      * 按classId删除ScoreRule.

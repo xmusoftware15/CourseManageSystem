@@ -10,7 +10,7 @@ public class SeminarClasses {
     private Long id;
     private String name;
     private String courseName;
-    private String groupingMethond;
+    private String groupingMethod;
     private Date startTime;
     private Date endTime;
     private List<Class> classes;
@@ -49,12 +49,12 @@ public class SeminarClasses {
         this.courseName = courseName;
     }
 
-    public String getGroupingMethond() {
-        return groupingMethond;
+    public String getGroupingMethod() {
+        return groupingMethod;
     }
 
-    public void setGroupingMethond(String groupingMethond) {
-        this.groupingMethond = groupingMethond;
+    public void setGroupingMethond(String groupingMethod) {
+        this.groupingMethod = groupingMethod;
     }
 
     public Date getStartTime() {
@@ -87,7 +87,7 @@ public class SeminarClasses {
                 "id=" + id +
                 ", name='" + name + '\'' +
                 ", courseName='" + courseName + '\'' +
-                ", groupingMethond='" + groupingMethond + '\'' +
+                ", groupingMethond='" + groupingMethod + '\'' +
                 ", startTime=" + startTime +
                 ", endTime=" + endTime +
                 ", classes=" + classes +
