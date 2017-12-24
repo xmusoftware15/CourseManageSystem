@@ -33,8 +33,6 @@ public class SeminarServiceImpl implements SeminarService {
         for (Seminar seminar : seminars
                 ) {
             isDeleted = deleteSeminarBySeminarId(seminar.getId());
-            //isDeleted = topicMapper.deleteTopicBySeminarId(seminar.getId());
-            //isDeleted = seminarGroupMapper.deleteSeminarGroupBySeminarId(seminar.getId());
         }
         return isDeleted;
     }

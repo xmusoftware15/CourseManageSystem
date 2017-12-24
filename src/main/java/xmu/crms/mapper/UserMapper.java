@@ -3,7 +3,6 @@ package xmu.crms.mapper;
 import java.math.BigInteger;
 import java.util.List;
 
-import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Component;
 
 import xmu.crms.entity.Attendance;
@@ -17,7 +16,6 @@ import xmu.crms.entity.User;
  * @date 2017-12-19
  */
 @Component
-@Mapper
 public interface UserMapper {
 
 	User getUserByUserId(BigInteger userId);
@@ -26,7 +24,7 @@ public interface UserMapper {
 	
 	int insertAttendanceById(Attendance attendance);
 	
-	void updateUserByUserId(BigInteger userId, User user);
+	int updateUserByUserId(BigInteger userId, User user);
 	
 	List<User> getUserByClassId(BigInteger classId, String numBeginWith, String nameBeginWith);
 	

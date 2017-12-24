@@ -1,14 +1,13 @@
 package xmu.crms.dao;
 
-import org.json.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.stereotype.Repository;
+import org.springframework.beans.factory.annotation.Autowired;
 import xmu.crms.mapper.TimerMapper;
 import xmu.crms.entity.Event;
 
 import java.math.BigInteger;
 import java.util.*;
-
 /**
  * @author YEE
  */
@@ -24,19 +23,28 @@ public class TimerDAO {
      * @param methodName
      * @param paramMap
      */
-    public void insertEvent(Date time, String beanName, String methodName, HashMap<BigInteger, String> paramMap){
-        Map.Entry entry;
-        Map<String, String> tempMap = new HashMap(16);
-        for(Iterator iterator = paramMap.entrySet().iterator(); iterator.hasNext();) {
-            entry = (Map.Entry)iterator.next();
-            tempMap.put(entry.getKey().toString(), entry.getValue().toString());
-        }
+    public void insertEvent(Date time, String beanName, String methodName, HashMap<BigInteger, String> paramMap) {}
 
-        JSONObject paramJSON = new JSONObject(tempMap);
+    /**
+     * 插入一个待执行事件
+     * @param time
+     * @param beanName
+     * @param methodName
+     * @param paramList
+     */
+    public void insertEvent(Date time, String beanName, String methodName, List<Object> paramList) {
+        ObjectMapper m = new ObjectMapper();
+        m.enableDefaultTypingAsProperty(ObjectMapper.DefaultTyping.OBJECT_AND_NON_CONCRETE, "type");
 
         try {
-            timerMapper.insertEvent(time, beanName, methodName, paramJSON.toString());
-        } catch(Exception e) {
+            String param = m.writeValueAsString(paramList);
+            Event event = new Event();
+            event.setTime(time);
+            event.setBeanName(beanName);
+            event.setMethodName(methodName);
+            event.setParameter(param);
+            timerMapper.insertEvent(event);
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

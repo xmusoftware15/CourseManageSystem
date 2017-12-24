@@ -49,7 +49,7 @@ public class TopicController {
     @DeleteMapping("/{topicId}")
     @PreAuthorize("hasAuthority('ROLE_TEACHER')")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void deleteTopic(@PathVariable("topicId") String topicId) {
+    public void deleteTopic(@PathVariable("topicId") String topicId) throws TopicNotFoundException {
         topicService.deleteTopicByTopicId(new BigInteger(topicId));
     }
 

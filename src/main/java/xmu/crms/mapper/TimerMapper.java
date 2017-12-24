@@ -1,6 +1,5 @@
 package xmu.crms.mapper;
 
-import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Component;
 
 import java.math.BigInteger;
@@ -14,18 +13,13 @@ import xmu.crms.entity.Event;
  * @author YEE
  */
 @Component
-@Mapper
 public interface TimerMapper {
 
     /**
      * 插入一个定时事件
-     * @param time
-     * @param beanName
-     * @param methodName
-     * @param parameter
+     * @param event
      */
-    void insertEvent(@Param("time") Date time, @Param("bean_name") String beanName,
-                     @Param("method_name") String methodName, @Param("parameter") String parameter);
+    void insertEvent(Event event);
 
     /**
      * 获取所有的可执行事件

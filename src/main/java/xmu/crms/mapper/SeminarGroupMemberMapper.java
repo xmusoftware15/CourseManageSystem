@@ -27,7 +27,7 @@ public interface SeminarGroupMemberMapper {
      * @param groupId 要加入讨论课小组的id
      * @return BigInteger 若创建成功返回该条记录的id，失败则返回-1
      */
-    Integer insertSeminarGroupMemberById(@Param("id")BigInteger id,@Param("userId") BigInteger userId, @Param("groupId") BigInteger groupId);
+    Integer insertSeminarGroupMemberById(@Param("id") BigInteger id, @Param("userId") BigInteger userId, @Param("groupId") BigInteger groupId);
     /**
      * 查询讨论课小组成员.
      * <p>按照讨论课小组id查询该小组的成员<br>
@@ -51,5 +51,5 @@ public interface SeminarGroupMemberMapper {
      * @param seminarGroupMember 小组成员信息
      * @return BigInteger 若创建成功返回该小组成员表的id，失败则返回-1
      */
-    Integer insertSeminarGroupMemberByGroupId( @Param("groupId") BigInteger groupId,@Param("seminarGroupMember") SeminarGroupMember seminarGroupMember);
+    Integer insertSeminarGroupMemberByGroupId(@Param("groupId") BigInteger groupId, @Param("seminarGroupMember") SeminarGroupMember seminarGroupMember);
 }

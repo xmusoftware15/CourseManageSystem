@@ -2,9 +2,12 @@ package xmu.crms.dao;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import xmu.crms.entity.SeminarGroup;
 import xmu.crms.entity.SeminarGroupTopic;
 import xmu.crms.entity.Topic;
 import xmu.crms.mapper.SeminarGroupTopicMapper;
+
+import java.util.List;
 
 /**
  *
@@ -30,5 +33,9 @@ public class SeminarGroupTopicDAO {
 
     public SeminarGroupTopic getSeminarGroupTopicById(SeminarGroupTopic seminarGroupTopic) {
         return seminarGroupTopicMapper.getBySeminarAndTopic(seminarGroupTopic);
+    }
+
+    public List<SeminarGroupTopic> listSeminarGroupTopicByGroup(SeminarGroup seminarGroup) {
+        return seminarGroupTopicMapper.listSeminarGroupTopicByGroup(seminarGroup);
     }
 }

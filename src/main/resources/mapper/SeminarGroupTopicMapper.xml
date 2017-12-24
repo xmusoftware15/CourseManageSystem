@@ -37,9 +37,16 @@
         FROM seminar_group_topic
         WHERE id=#{id}
     </select>
-    <insert id="insertTopicByGroupId" useGeneratedKeys="true" keyProperty="seminarGroupTopicId" >
+
+    <select id="listSeminarGroupTopicByGroup" resultMap="seminarGroupTopicResultMap">
+        SELECT id, topic_id, seminar_group_id, presentation_grade
+        FROM seminar_group_topic
+        WHERE seminar_group_id=#{id}
+    </select>
+
+    <insert id="insertTopicByGroupId" useGeneratedKeys="true" keyProperty="id">
         insert into seminar_group_topic(seminar_group_id,topic_id)
-         values (#{groupId,jdbcType=BIGINT},#{topicId,jdbcType=BIGINT})
+        values (#{seminarGroup.id},#{topic.id})
     </insert>
 
 </mapper>

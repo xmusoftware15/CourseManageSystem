@@ -22,9 +22,9 @@
         WHERE `id`=#{id}
     </select>
 
-    <insert id="insertEvent" useGeneratedKeys="true" keyProperty="id">
+    <insert id="insertEvent" parameterType="xmu.crms.entity.Event" useGeneratedKeys="true" keyProperty="id">
         INSERT INTO event(`time`, `bean_name`, `method_name`, `parameter`)
-        VALUES (#{time}, #{bean_name}, #{method_name}, #{parameter})
+        VALUES (#{time}, #{beanName}, #{methodName}, #{parameter})
     </insert>
 
     <update id="updateEvent" parameterType="xmu.crms.entity.Event">

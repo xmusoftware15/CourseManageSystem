@@ -12,6 +12,10 @@ import xmu.crms.mapper.CourseMapper;
 import java.math.BigInteger;
 import java.util.List;
 
+/**
+ * @author: heqi
+ * @time: 2017/12/24
+ */
 @Component
 public class CourseDaoImpl implements CourseDao{
 
@@ -31,8 +35,11 @@ public class CourseDaoImpl implements CourseDao{
 
     @Override
     public BigInteger insertCourseByUserId(BigInteger userId, Course course) throws IllegalArgumentException {
-        courseMapper.insertCourseByUserId(userId, course);
-        return course.getId();
+        Integer res = courseMapper.insertCourseByUserId(userId, course);
+        if (res > 0) {
+            return course.getId();
+        }
+        return new BigInteger("-1");
     }
 
     @Override
@@ -61,5 +68,7 @@ public class CourseDaoImpl implements CourseDao{
     public List<Course> listCourseByCourseName(String courseName) {
         return courseMapper.listCourseByCourseName(courseName);
     }
+
+
 
 }

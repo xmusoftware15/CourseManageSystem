@@ -1,5 +1,8 @@
 package xmu.crms.service.impl;
 
+import com.fasterxml.jackson.databind.DeserializationConfig;
+import com.fasterxml.jackson.databind.JavaType;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.json.JSONObject;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +17,7 @@ import xmu.crms.service.TimerService;
 import xmu.crms.entity.Event;
 
 import java.lang.reflect.Method;
+import java.lang.reflect.Field;
 import java.math.BigInteger;
 import java.util.*;
 import java.lang.reflect.Constructor;
@@ -49,30 +53,37 @@ public class TimerServiceImpl implements TimerService {
     }
 
     /**
-     * 根据eventId查找并更新事件的执行时间
-     * @param eventId
+     * 插入待执行的事务
      * @param time
+     * @param beanName
+     * @param methodName
+     * @param paramList
      */
     @Override
     @Transactional(propagation = Propagation.REQUIRED,isolation = Isolation.DEFAULT,timeout=36000,rollbackFor=Exception.class)
-    public void updateEvent(BigInteger eventId, Date time) {
+    public void insertEvent(Date time, String beanName, String methodName, List<Object> paramList) {
         try {
-            Date cur = new Date();
-            // 10分钟前的时间
-            Date tenBeforeCur = new Date(cur.getTime() - 1000 * 10 * 60);
-            // 待执行时间在 -10min 之前的情况
-            if(time.getTime() < tenBeforeCur.getTime()) {
-                // TODO: Date不合法时的处理
-            }
-            // 待执行时间在 -10min ~ 当前时间 的情况
-            if(time.getTime() > tenBeforeCur.getTime() && time.getTime() < cur.getTime()) {
-                // TODO: 待执行时间在 -10min ~ 当前时间 时，立即执行？
-            }
-            timerDAO.updateEvent(eventId, time);
+            timerDAO.insertEvent(time, beanName, methodName, paramList);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
+    /**
+     * 根据eventId查找并更新事件的执行时间
+     * @param eventId
+     * @param newTime
+     */
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED,isolation = Isolation.DEFAULT,timeout=36000,rollbackFor=Exception.class)
+    public void updateEvent(BigInteger eventId, Date newTime) {
+        try {
+            timerDAO.updateEvent(eventId, newTime);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
 
     /**
      * 每10min查找一次event表，处理
@@ -84,49 +95,22 @@ public class TimerServiceImpl implements TimerService {
     public void scheduled() {
         List<Event> events = timerDAO.getExecutableEvents();
         if(events == null) {
-            System.out.println("no event to do!");
             return;
         }
-        for (Event event : events) {
-            StringBuffer sb = new StringBuffer();
-            try {
+
+        try {
+            for (Event event : events) {
+                ObjectMapper om = new ObjectMapper();
+                om.enableDefaultTypingAsProperty(ObjectMapper.DefaultTyping.OBJECT_AND_NON_CONCRETE, "type");
+
                 Object bean = applicationContext.getBean(event.getBeanName());
                 Method callback = BeanUtils.findDeclaredMethodWithMinimalParameters(bean.getClass(), event.getMethodName());
-
-                JSONObject hostObject = new JSONObject(event.getParameter());
-                Iterator<String> iterator = hostObject.keys();
-                while(iterator.hasNext()){
-                    // 获得key
-                    String key = iterator.next();
-                    // 根据key获得value, value也可以是JSONObject,JSONArray,使用对应的参数接收即可
-                    String value = hostObject.getString(key);
-                    sb.append(value);
-                    sb.append(",");
-                }
-                String target = sb.toString().substring(0, sb.toString().length() - 1);
-                Object[] tempParams = target.split(",");
-
-                // 参数类型数组
-                Class[] paramTypes = callback.getParameterTypes();
-                // 目标参数数组
-                Object[] obj = new Object[paramTypes.length];
-
-                for (int i = 0; i < paramTypes.length; i++) {
-                    Class aimClass = Class.forName(paramTypes[i].getName().toString());
-                    Class[] originalTypes = {String.class};
-                    // 根据参数类型获取相应的构造函数
-                    Constructor constructor = aimClass.getConstructor(originalTypes);
-                    // 根据获取的构造函数和参数，创建实例
-                    obj[i] = constructor.newInstance(tempParams[i]);
-                }
-                callback.invoke(bean, obj);
-                //TODO: 异常处理
-
-                //删除已执行的记录
+                Object[] args = om.readValue(event.getParameter(), Object[].class);
+                callback.invoke(bean, args);
                 timerDAO.deleteEvent(event);
-            } catch (Exception e) {
-                e.printStackTrace();
             }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 }

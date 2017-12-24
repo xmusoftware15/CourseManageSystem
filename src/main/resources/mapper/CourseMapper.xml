@@ -16,28 +16,9 @@
                      select="CommonMapper.selectUser"/>
     </resultMap>
 
-    <resultMap id="ResultClassInfo" type="xmu.crms.entity.ClassInfo">
-        <result column="id" property="id" jdbcType="BIGINT"/>
-        <result column="name" property="name" jdbcType="VARCHAR"/>
-        <result column="site" property="site" jdbcType="VARCHAR"/>
-        <result column="class_time" property="classTime" jdbcType="VARCHAR"/>
-        <result column="description" property="description" jdbcType="VARCHAR"/>
-        <result column="report_percentage" property="reportPercentage" jdbcType="TINYINT"/>
-        <result column="presentation_percentage" property="presentationPercentage" jdbcType="TINYINT"/>
-        <result column="five_point_percentage" property="fivePointPercentage" jdbcType="TINYINT"/>
-        <result column="four_point_percentage" property="fourPointPercentage" jdbcType="TINYINT"/>
-        <result column="three_point_percentage" property="threePointPercentage" jdbcType="TINYINT"/>
-        <association column="course_id" property="course" jdbcType="BIGINT" javaType="xmu.crms.entity.Course"
-                     select="CommonMapper.selectCourse"/>
-    </resultMap>
 
     <sql id="Course_Column_List">
         id,`name`,start_date,end_date,teacher_id,description,report_percentage,presentation_percentage,
-        five_point_percentage,four_point_percentage,three_point_percentage
-    </sql>
-
-    <sql id="Class_Column_List">
-        id,`name`,course_id,site,class_time,description,report_percentage,presentation_percentage,
         five_point_percentage,four_point_percentage,three_point_percentage
     </sql>
 
@@ -49,11 +30,11 @@
     </select>
 
     <insert id="insertCourseByUserId" useGeneratedKeys="true" keyProperty="course.id">
-        INSERT INTO course(id,`name`,start_date,end_date,teacher_id,description,report_percentage,
+        INSERT INTO course(`name`,start_date,end_date,teacher_id,description,report_percentage,
         presentation_percentage,five_point_percentage,four_point_percentage,three_point_percentage)
         VALUES (#{course.name,jdbcType=VARCHAR},#{course.startDate,jdbcType=DATE},#{course.endDate,jdbcType=DATE},#{userId,jdbcType=BIGINT},
-        #{course.description,jdbcType=VARCHAR},#{course.reportPercentage,jdbcType=TINYINT},#{course.fivePointPercentage,jdbcType=TINYINT},
-        #{course.fourPointPercentage,jdbcType=TINYINT},#{course.threePointPercentage,jdbcType=TINYINT})
+        #{course.description,jdbcType=VARCHAR},#{course.reportPercentage,jdbcType=TINYINT},#{course.presentationPercentage,jdbcType=TINYINT},
+        #{course.fivePointPercentage,jdbcType=TINYINT},#{course.fourPointPercentage,jdbcType=TINYINT},#{course.threePointPercentage,jdbcType=TINYINT})
     </insert>
 
     <select id="selectCourseByCourseId" resultMap="ResultCourse" parameterType="java.math.BigInteger">

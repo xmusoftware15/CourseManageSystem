@@ -1,15 +1,25 @@
 package xmu.crms.mapper;
 
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
+import xmu.crms.entity.SeminarGroup;
 import xmu.crms.entity.SeminarGroupTopic;
 import xmu.crms.entity.Topic;
 
 import java.math.BigInteger;
+import java.util.List;
 
+/**
+ *
+ * @author badcode
+ * @date 2017/12/20
+ *
+ */
+@Mapper
 @Component
 public interface SeminarGroupTopicMapper {
-   Integer insertTopicByGroupId(@Param("seminarGroupTopicId") BigInteger seminarGroupTopicId, @Param("groupId") BigInteger groupId,@Param("topicId") BigInteger topicId);
+
     /**
      *
      * 根据seminar和topic获取SeminarGroupTopic
@@ -57,4 +67,23 @@ public interface SeminarGroupTopicMapper {
      *
      */
     SeminarGroupTopic getById(SeminarGroupTopic seminarGroupTopic);
+
+    /**
+     *
+     * 查找某个小组的所有topic
+     *
+     * @param seminarGroup 小组信息
+     * @return List<SeminarGroupTopic>
+     */
+    List<SeminarGroupTopic> listSeminarGroupTopicByGroup(SeminarGroup seminarGroup);
+
+    /**
+     *
+     * seminarGroup选题
+     *
+     * @author huhui
+     * @param seminarGroupTopic 存储了话题和小组id
+     * @return 影响行数
+     */
+    Integer insertTopicByGroupId(SeminarGroupTopic seminarGroupTopic);
 }

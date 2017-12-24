@@ -10,19 +10,23 @@ import xmu.crms.exception.ClassesNotFoundException;
 import java.math.BigInteger;
 import java.util.List;
 
-@Component
+/**
+ * @author: heqi
+ * @time: 2017/12/24
+ */
 
+@Component
 public interface CourseMapper {
 
-    List<Course> listCourseByUserId(BigInteger userId)throws IllegalArgumentException,CourseNotFoundException;
+    List<Course> listCourseByUserId(BigInteger userId);
 
-    BigInteger insertCourseByUserId(@Param("userId") BigInteger userId, @Param("course") Course course)throws IllegalArgumentException;
+    Integer insertCourseByUserId(@Param("userId") BigInteger userId, @Param("course") Course course);
 
-    Course selectCourseByCourseId(BigInteger courseId)throws IllegalArgumentException,CourseNotFoundException;
+    Course selectCourseByCourseId(BigInteger courseId);
 
     void updateCourseByCourseId(@Param("courseId") BigInteger courseId, @Param("course") Course course);
 
-    void deleteCourseByCourseId(BigInteger courseId)throws IllegalArgumentException;
+    void deleteCourseByCourseId(BigInteger courseId);
 
     List<Course> listCourseByCourseName(String courseName);
 

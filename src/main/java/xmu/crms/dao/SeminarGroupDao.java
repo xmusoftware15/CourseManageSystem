@@ -29,7 +29,7 @@ public interface SeminarGroupDao {
      *@exception UserNotFoundException (不存在该学生)
      *@exception InvalidOperationException （待添加学生已经在小组里了）
      */
-    BigInteger insertSeminarGroupMemberById(BigInteger userId,BigInteger groupId)
+    BigInteger insertSeminarGroupMemberById(BigInteger userId, BigInteger groupId)
             throws IllegalArgumentException,GroupNotFoundException,UserNotFoundException,
             InvalidOperationException;
 
@@ -103,7 +103,7 @@ public interface SeminarGroupDao {
      * @return BigInteger 若创建成功返回该小组的id，失败则返回-1
      * @exception IllegalArgumentException 信息不合法，id格式错误
      */
-    BigInteger insertSeminarGroupBySeminarId(BigInteger seminarId,BigInteger classId,SeminarGroup seminarGroup) throws IllegalArgumentException;
+    BigInteger insertSeminarGroupBySeminarId(BigInteger seminarId, BigInteger classId, SeminarGroup seminarGroup) throws IllegalArgumentException;
 
     /**
      * 创建小组成员信息.
@@ -111,7 +111,7 @@ public interface SeminarGroupDao {
      * @param seminarGroupMember 小组成员信息
      * @return BigInteger 若创建成功返回该小组成员表的id，失败则返回-1
      */
-    BigInteger insertSeminarGroupMemberByGroupId(BigInteger groupId,SeminarGroupMember seminarGroupMember);
+    BigInteger insertSeminarGroupMemberByGroupId(BigInteger groupId, SeminarGroupMember seminarGroupMember);
 
 
     /**
@@ -148,7 +148,7 @@ public interface SeminarGroupDao {
      * @exception IllegalArgumentException 信息不合法，id格式错误
      * @exception GroupNotFoundException 未找到小组
      */
-    SeminarGroup getSeminarGroupById(BigInteger seminarId,BigInteger userId) throws
+    SeminarGroup getSeminarGroupById(BigInteger seminarId, BigInteger userId) throws
             IllegalArgumentException,GroupNotFoundException;
 
 
@@ -187,6 +187,6 @@ public interface SeminarGroupDao {
      * @exception UserNotFoundException 不存在该学生
      * @exception InvalidOperationException 已经有组长了
      */
-    void updateSeminarGroupById(BigInteger groupId,BigInteger userId) throws
+    void updateSeminarGroupById(BigInteger groupId, BigInteger userId) throws
             IllegalArgumentException, UserNotFoundException, GroupNotFoundException, InvalidOperationException;
 }

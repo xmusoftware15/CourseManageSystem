@@ -39,6 +39,14 @@ public class UserController {
         userService.updateUserByUserId(new BigInteger(userId), user);
     }
 
+    @GetMapping("/signin")
+    @ResponseStatus(HttpStatus.OK)
+    public UserVO loginByWechat(String state, String code,
+                                @RequestParam("success_url") String successUrl) throws UserNotFoundException {
+        User user = loginService.signInWeChat(null, code, state, successUrl);
+        return new UserVO();
+    }
+
     @PostMapping("/signin")
     @ResponseStatus(HttpStatus.OK)
     public UserVO loginByPassword(@RequestBody User user, @RequestAttribute("jwt") String jwt) throws UserNotFoundException {
@@ -47,4 +55,9 @@ public class UserController {
         return userVO;
     }
 
+    @PostMapping("register")
+    @ResponseStatus(HttpStatus.OK)
+    public UserVO register() {
+        return new UserVO();
+    }
 }

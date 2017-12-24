@@ -145,4 +145,14 @@ public class TopicServiceImpl implements TopicService {
         seminarGroupTopic.setTopic(topic);
         seminarGroupTopicDAO.deleteByGroupAndTopic(seminarGroupTopic);
     }
+
+    @Override
+    public List<SeminarGroupTopic> listSeminarGroupTopicByGroupId(BigInteger groupId) throws IllegalArgumentException {
+        if (groupId.intValue() <= 0) {
+            throw new IllegalArgumentException("groupId");
+        }
+        SeminarGroup seminarGroup = new SeminarGroup();
+        seminarGroup.setId(groupId);
+        return seminarGroupTopicDAO.listSeminarGroupTopicByGroup(seminarGroup);
+    }
 }

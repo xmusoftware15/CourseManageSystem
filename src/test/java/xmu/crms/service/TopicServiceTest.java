@@ -10,6 +10,8 @@ import xmu.crms.entity.SeminarGroupTopic;
 import xmu.crms.entity.Topic;
 
 import java.math.BigInteger;
+import java.util.ArrayList;
+import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -26,5 +28,13 @@ public class TopicServiceTest {
     @Test
     public void testGetSeminarGroupTopicById() {
         System.out.println(topicService.getSeminarGroupTopicById(BigInteger.valueOf(1L), BigInteger.valueOf(1L)));
+    }
+
+    @Test
+    public void testListSeminarGroupTopicByGroupId() {
+        List<SeminarGroupTopic> seminarGroupTopics = topicService.listSeminarGroupTopicByGroupId(BigInteger.valueOf(1));
+        for (SeminarGroupTopic seminarGroupTopic : seminarGroupTopics) {
+            System.out.println(seminarGroupTopic);
+        }
     }
 }
