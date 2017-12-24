@@ -153,4 +153,12 @@ public class SeminarGroupDaoImpl implements SeminarGroupDao {
         seminarGroupMapper.updateSeminarGroupById(groupId, userId);
     }
 
+    @Override
+    public List<SeminarGroup> listSeminarGroupNotHaveTopic(BigInteger seminarId) {
+        List<SeminarGroup> list=seminarGroupMapper.selectSeminarGroupNotHaveTopic(seminarId);
+        return list;
+    }
+
+
+
 }

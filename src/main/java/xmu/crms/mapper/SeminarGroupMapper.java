@@ -21,12 +21,17 @@ public interface SeminarGroupMapper {
   * <p>按照id删除讨论课小组<br>
   * @author YeHongjie
   * @param seminarGroupId 讨论课小组的id
-  * @see SeminarGroupService #deleteSeminarGroupMemberBySeminarGroupId(BigInteger seminarGroupId)
   * @exception IllegalArgumentException 信息不合法，id格式错误
   */
  void deleteSeminarGroupByGroupId(BigInteger seminarGroupId);
 SeminarGroup getSeminarGroupById(@Param("seminarId") BigInteger seminarId, @Param("userId") BigInteger userId);
  List<SeminarGroup> selectSeminarGroupByTopicId(BigInteger topicId);
  void updateSeminarGroupById(@Param("groupId") BigInteger groupId, @Param("userId") BigInteger userId);
-
+ /**
+  * 新增获取未选择话题的小组方法.
+  *
+  * @param seminarId
+  * @return List 未选择话题小组列表
+  */
+ List<SeminarGroup> selectSeminarGroupNotHaveTopic(BigInteger seminarId);
 }

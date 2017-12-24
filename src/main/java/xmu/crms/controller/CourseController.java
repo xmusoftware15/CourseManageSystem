@@ -154,7 +154,7 @@ public class CourseController {
 //        seminarClasses.setId(29L);
 //        seminarClasses.setName("界面原型设计");
 //        seminarClasses.setCourseName("OOAD");
-//        seminarClasses.setGroupingMethond("fixed");
+//        seminarClasses.setGroupingMethod("fixed");
 //        Calendar calendar = Calendar.getInstance();
 //        calendar.set(2017,8,25);
 //        seminarClasses.setStartTime(calendar.getTime());

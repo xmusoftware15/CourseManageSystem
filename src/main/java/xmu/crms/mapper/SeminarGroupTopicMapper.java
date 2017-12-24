@@ -86,4 +86,5 @@ public interface SeminarGroupTopicMapper {
      * @return 影响行数
      */
     Integer insertTopicByGroupId(SeminarGroupTopic seminarGroupTopic);
+
 }

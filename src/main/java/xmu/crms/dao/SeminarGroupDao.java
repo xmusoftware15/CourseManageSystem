@@ -2,6 +2,7 @@ package xmu.crms.dao;
 
 import xmu.crms.entity.SeminarGroup;
 import xmu.crms.entity.SeminarGroupMember;
+import xmu.crms.entity.Topic;
 import xmu.crms.exception.*;
 import xmu.crms.service.SeminarGroupService;
 
@@ -189,4 +190,13 @@ public interface SeminarGroupDao {
      */
     void updateSeminarGroupById(BigInteger groupId, BigInteger userId) throws
             IllegalArgumentException, UserNotFoundException, GroupNotFoundException, InvalidOperationException;
+    /**
+     * 新增获取未选择话题的小组方法.
+     *
+     * @param seminarId
+     * @return List 未选择话题小组列表
+     */
+    List<SeminarGroup> listSeminarGroupNotHaveTopic(BigInteger seminarId);
+
+
 }

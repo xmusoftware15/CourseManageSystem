@@ -48,5 +48,4 @@
         insert into seminar_group_topic(seminar_group_id,topic_id)
         values (#{seminarGroup.id},#{topic.id})
     </insert>
-
 </mapper>

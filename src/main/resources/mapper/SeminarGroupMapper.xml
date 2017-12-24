@@ -74,4 +74,10 @@
         leader_id = #{userId,jdbcType=BIGINT}
         where id = #{groupId,jdbcType=BIGINT}
     </update>
+    <select id="selectSeminarGroupNotHaveTopic" resultMap="seminarGroupTopicResultMap">
+        SELECT seminar_group.id, seminar_id, report_grade,seminar_group.presentation_grade, final_grade,
+        report, class_id, leader_id
+        FROM seminar_group_topic,seminar_group
+        WHERE topic_id=NULL AND seminar_id=#{seminarId} AND seminar_group_topic.seminar_group_id=seminar_group.id
+    </select>
 </mapper>

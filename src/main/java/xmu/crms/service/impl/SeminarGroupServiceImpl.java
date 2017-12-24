@@ -5,13 +5,18 @@ import org.springframework.stereotype.Service;
 import xmu.crms.dao.SeminarGroupDao;
 import xmu.crms.entity.SeminarGroup;
 import xmu.crms.entity.SeminarGroupMember;
+import xmu.crms.entity.Topic;
 import xmu.crms.entity.User;
 import xmu.crms.exception.*;
 import xmu.crms.service.SeminarGroupService;
+import xmu.crms.service.TopicService;
 
 import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+
+import static org.apache.coyote.http11.Constants.a;
 
 /**
  * @author Huhui
@@ -20,6 +25,8 @@ import java.util.List;
 public class SeminarGroupServiceImpl implements SeminarGroupService {
     @Autowired
     private SeminarGroupDao seminarGroupDao;
+    @Autowired
+    private TopicService topicService;
 
     @Override
     public void deleteSeminarGroupMemberBySeminarGroupId(BigInteger seminarGroupId) {
@@ -153,6 +160,25 @@ public class SeminarGroupServiceImpl implements SeminarGroupService {
 //        }
 
 
+    }
+
+    @Override
+    public List<SeminarGroup> listSeminarGroupNotHaveTopic(BigInteger seminarId) {
+       List<SeminarGroup> list=seminarGroupDao.listSeminarGroupNotHaveTopic(seminarId);
+        return list;
+    }
+
+    @Override
+    public void automaticallyAllotTopic(BigInteger seminarId) throws IllegalArgumentException, SeminarNotFoundException, GroupNotFoundException {
+       List<SeminarGroup> list=this.listSeminarGroupNotHaveTopic(seminarId);
+       List<Topic> topics=topicService.listTopicBySeminarId(seminarId);
+           for(int j=0;j<list.size();j++){
+               for(int i=0;i<topics.size();i++){
+
+                   this.insertTopicByGroupId(list.get(j).getId(),topics.get(i).getId());
+                   if(i==topics.size()-1){i=0;}
+           }
+       }
     }
 
     @Override
