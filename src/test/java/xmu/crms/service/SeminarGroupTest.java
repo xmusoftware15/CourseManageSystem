@@ -8,10 +8,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 import xmu.crms.entity.SeminarGroup;
 import xmu.crms.entity.SeminarGroupMember;
 import xmu.crms.entity.User;
-import xmu.crms.exception.GroupNotFoundException;
-import xmu.crms.exception.InvalidOperationException;
-import xmu.crms.exception.SeminarNotFoundException;
-import xmu.crms.exception.UserNotFoundException;
+import xmu.crms.exception.*;
 
 import java.math.BigInteger;
 import java.util.List;
@@ -80,5 +77,92 @@ public void deleteSeminarGroupMemberBySeminarGroupId(){
     @Test
     public void insertSeminarGroupMemberByGroupId(){
         seminarGroupService.insertSeminarGroupMemberByGroupId(new BigInteger("1"),new SeminarGroupMember());
+    }
+    @Test
+    public void deleteSeminarGroupByGroupId(){
+        try {
+            seminarGroupService.deleteSeminarGroupByGroupId(new BigInteger("1"));
+        } catch (GroupNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+    @Test
+    public void getSeminarGroupByGroupId(){
+        try {
+            seminarGroupService.getSeminarGroupByGroupId(new BigInteger("1"));
+        } catch (GroupNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+    @Test
+    public void getSeminarGroupLeaderById(){
+
+        try {
+            seminarGroupService.getSeminarGroupLeaderById(new BigInteger("1"),new BigInteger("1"));
+        } catch (GroupNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+    @Test
+    public void automaticallyGrouping(){
+        try {
+            seminarGroupService.automaticallyGrouping(new BigInteger("1"),new BigInteger("1"));
+        } catch (ClassesNotFoundException e) {
+            e.printStackTrace();
+        } catch (SeminarNotFoundException e) {
+            e.printStackTrace();
+        } catch (GroupNotFoundException e) {
+            e.printStackTrace();
+        } catch (UserNotFoundException e) {
+            e.printStackTrace();
+        } catch (InvalidOperationException e) {
+            e.printStackTrace();
+        }
+    }
+    @Test
+    public void getSeminarGroupById(){
+        try {
+            seminarGroupService.getSeminarGroupById(new BigInteger("1"),new BigInteger("1"));
+        } catch (GroupNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+    @Test
+    public void listGroupByTopicId(){
+
+            seminarGroupService.listGroupByTopicId(new BigInteger("1"));
+
+    }
+    @Test
+    public void insertTopicByGroupId(){
+        try {
+            seminarGroupService.insertTopicByGroupId(new BigInteger("1"),new BigInteger("1"));
+        } catch (GroupNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+    @Test
+    public void assignLeaderById(){
+        try {
+            seminarGroupService.assignLeaderById(new BigInteger("1"),new BigInteger("1"));
+        } catch (UserNotFoundException e) {
+            e.printStackTrace();
+        } catch (GroupNotFoundException e) {
+            e.printStackTrace();
+        } catch (InvalidOperationException e) {
+            e.printStackTrace();
+        }
+    }
+    @Test
+    public void resignLeaderById(){
+        try {
+            seminarGroupService.resignLeaderById(new BigInteger("1"),new BigInteger("1"));
+        } catch (GroupNotFoundException e) {
+            e.printStackTrace();
+        } catch (UserNotFoundException e) {
+            e.printStackTrace();
+        } catch (InvalidOperationException e) {
+            e.printStackTrace();
+        }
     }
 }

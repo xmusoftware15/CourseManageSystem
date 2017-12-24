@@ -95,9 +95,12 @@ seminarGroupDao.deleteSeminarGroupByGroupId(seminarGroupId);
 
     @Override
     public BigInteger getSeminarGroupLeaderById(BigInteger userId, BigInteger seminarId) throws IllegalArgumentException,GroupNotFoundException {
-        SeminarGroup seminarGroup=getSeminarGroupById(seminarId,userId);
+        SeminarGroup seminarGroup=this.getSeminarGroupById(seminarId,userId);
+        if(seminarGroup==null) {throw new GroupNotFoundException();
+        }else{
 BigInteger leaderId=getSeminarGroupLeaderByGroupId(seminarGroup.getId());
-        return leaderId;
+        return leaderId;}
+
     }
 
     @Override
@@ -156,7 +159,7 @@ SeminarGroup seminarGroup= seminarGroupDao.getSeminarGroupById(seminarId,userId)
     }
 
     @Override
-    public List<SeminarGroup> listGroupByTopicId(BigInteger topicId) throws IllegalArgumentException, GroupNotFoundException {
+    public List<SeminarGroup> listGroupByTopicId(BigInteger topicId) throws IllegalArgumentException{
         List<SeminarGroup> list=seminarGroupDao.listGroupByTopicId(topicId);
         return list;
     }

@@ -9,7 +9,7 @@ import java.math.BigInteger;
 
 @Component
 public interface SeminarGroupTopicMapper {
-   void insertTopicByGroupId(@Param("seminarGroupTopicId") BigInteger seminarGroupTopicId, @Param("groupId") BigInteger groupId,@Param("topicId") BigInteger topicId);
+   Integer insertTopicByGroupId(@Param("seminarGroupTopicId") BigInteger seminarGroupTopicId, @Param("groupId") BigInteger groupId,@Param("topicId") BigInteger topicId);
     /**
      *
      * 根据seminar和topic获取SeminarGroupTopic

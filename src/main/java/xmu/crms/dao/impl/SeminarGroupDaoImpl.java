@@ -93,8 +93,11 @@ seminarGroupMapper.deleteSeminarGroupBySeminarId(seminarId);
     @Override
     public BigInteger insertSeminarGroupMemberByGroupId( BigInteger groupId,SeminarGroupMember seminarGroupMember) {
 
-        seminarGroupMemberMapper.insertSeminarGroupMemberByGroupId(groupId,seminarGroupMember);
-        return seminarGroupMember.getId();
+        int res=seminarGroupMemberMapper.insertSeminarGroupMemberByGroupId(groupId,seminarGroupMember);
+        if(res>0) {
+            return seminarGroupMember.getId();
+        }
+        else {return new BigInteger("-1");}
     }
 
     @Override
@@ -118,7 +121,7 @@ else{
     }
 
     @Override
-    public List<SeminarGroup> listGroupByTopicId(BigInteger topicId) throws IllegalArgumentException, GroupNotFoundException {
+    public List<SeminarGroup> listGroupByTopicId(BigInteger topicId) throws IllegalArgumentException{
         List<SeminarGroup> list=seminarGroupMapper.selectSeminarGroupByTopicId(topicId);
         return list;
     }
@@ -126,9 +129,11 @@ else{
     @Override
     public BigInteger insertTopicByGroupId(BigInteger groupId, BigInteger topicId) throws IllegalArgumentException, GroupNotFoundException {
         BigInteger seminarGroupTopicId=null;
-seminarGroupTopicMapper.insertTopicByGroupId(seminarGroupTopicId,groupId,topicId);
+int res=seminarGroupTopicMapper.insertTopicByGroupId(seminarGroupTopicId,groupId,topicId);
+if(res>0){
 return seminarGroupTopicId;
     }
+    else{return new BigInteger("-1");}}
 
     @Override
     public void updateSeminarGroupById(BigInteger groupId, BigInteger userId) throws IllegalArgumentException, UserNotFoundException, GroupNotFoundException, InvalidOperationException {

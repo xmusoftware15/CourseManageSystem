@@ -212,10 +212,9 @@ public interface SeminarGroupService {
 	 * @param  topicId 话题的id
 	 * @return List 所有选择该话题的所有group的信息
 	 * @exception IllegalArgumentException 信息不合法，id格式错误
-	 * @exception GroupNotFoundException 未找到小组
 	 */
 	List<SeminarGroup> listGroupByTopicId(BigInteger topicId) throws
-			IllegalArgumentException,GroupNotFoundException;
+			IllegalArgumentException;
 
 	/**
 	 * 小组按id选择话题.

@@ -161,7 +161,7 @@ public interface SeminarGroupDao {
      * @exception GroupNotFoundException 未找到小组
      */
     List<SeminarGroup> listGroupByTopicId(BigInteger topicId) throws
-            IllegalArgumentException,GroupNotFoundException;
+            IllegalArgumentException;
 
     /**
      * 小组按id选择话题.

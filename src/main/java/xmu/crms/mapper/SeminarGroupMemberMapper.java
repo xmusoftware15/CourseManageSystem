@@ -51,5 +51,5 @@ public interface SeminarGroupMemberMapper {
      * @param seminarGroupMember 小组成员信息
      * @return BigInteger 若创建成功返回该小组成员表的id，失败则返回-1
      */
-    void insertSeminarGroupMemberByGroupId( @Param("groupId") BigInteger groupId,@Param("seminarGroupMember") SeminarGroupMember seminarGroupMember);
+    Integer insertSeminarGroupMemberByGroupId( @Param("groupId") BigInteger groupId,@Param("seminarGroupMember") SeminarGroupMember seminarGroupMember);
 }

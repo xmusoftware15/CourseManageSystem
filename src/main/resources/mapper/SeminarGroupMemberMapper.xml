@@ -54,28 +54,7 @@
         values ( #{groupId,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT})
     </insert>
     <insert id="insertSeminarGroupMemberByGroupId" useGeneratedKeys="true" keyProperty="seminarGroupMember.id">
-        insert into seminar_group_member
-        <trim prefix="(" suffix=")" suffixOverrides="," >
-            <if test="id != null" >
-                id,
-            </if>
-            <if test="seminarGroupId != null" >
-                seminar_group_id,
-            </if>
-            <if test="studentId != null" >
-                student_id,
-            </if>
-        </trim>
-        <trim prefix="values (" suffix=")" suffixOverrides="," >
-            <if test="id != null" >
-                #{id,jdbcType=BIGINT},
-            </if>
-            <if test="seminarGroupId != null" >
-                #{groupId,jdbcType=BIGINT},
-            </if>
-            <if test="studentId != null" >
-                #{seminarGroupMember.student.id,jdbcType=BIGINT},
-            </if>
-        </trim>
+        insert into seminar_group_member ( seminar_group_id, student_id)
+        values ( #{groupId,jdbcType=BIGINT}, #{seminarGroupMember.student.id,jdbcType=BIGINT})
     </insert>
 </mapper>
