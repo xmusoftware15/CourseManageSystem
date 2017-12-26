@@ -1,20 +1,26 @@
 package xmu.crms.controller;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import xmu.crms.entity.School;
 import xmu.crms.entity.User;
+import xmu.crms.mapper.UserMapper;
 import xmu.crms.security.auth.JwtService;
 import xmu.crms.service.LoginService;
+import xmu.crms.service.UserService;
 import xmu.crms.vo.LoginSuccessVO;
 
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStreamReader;
 import java.math.BigInteger;
+import java.net.URL;
+import java.net.URLConnection;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -26,6 +32,8 @@ import java.util.Map;
 public class LoginController {
     @Autowired
     private LoginService loginService;
+    @Autowired
+    private UserMapper userMapper;
 
     @Autowired
     private JwtService jwtService;
@@ -75,16 +83,65 @@ public class LoginController {
         }
         return ret.toString();
     }
-
-    @GetMapping("/login")
-    public ModelAndView home(ModelAndView modelAndView) {
-        modelAndView.setViewName("/account/login");
-        return modelAndView;
-    }
-
-    @GetMapping("/register")
-    public ModelAndView register(ModelAndView modelAndView) {
-        modelAndView.setViewName("/account/register");
-        return modelAndView;
+    @GetMapping("/signin")
+    public LoginSuccessVO login( @RequestParam("code") String code) {
+        BufferedReader in=null;
+        String openid=null;
+        try {
+            StringBuilder result =new StringBuilder();
+            String appid = "wx57e13e3a357301c4";
+            String secret = "14b7cb557cbd1e042daeb1a70919cb99";
+            String url = "https://api.weixin.qq.com/sns/jscode2session?appid=" + appid + "&secret=" + secret
+                    + "&js_code=" + code + "&grant_type=authorization_code";
+            URL realurl = new URL(url);
+            // 打开和URL之间的连接
+            URLConnection connection = realurl.openConnection();
+            // 设置通用的请求属性
+            connection.setRequestProperty("accept", "*/*");
+            connection.setRequestProperty("connection", "Keep-Alive");
+            connection.setRequestProperty("user-agent",
+                    "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1;SV1)");
+            // 建立实际的连接
+            connection.connect();
+            // 获取所有响应头字段
+            Map<String, List<String>> map = connection.getHeaderFields();
+            // 遍历所有的响应头字段
+            for (String key : map.keySet()) {
+                System.out.println(key + "--->" + map.get(key));
+            }
+            // 定义 BufferedReader输入流来读取URL的响应
+            in = new BufferedReader(new InputStreamReader(
+                    connection.getInputStream()));
+            String line;
+            while ((line = in.readLine()) != null) {
+                result.append(line);
+            }
+            JSONObject json = new JSONObject(result.toString());
+            openid = json.getString("openid");
+        }
+        catch (Exception e) {
+            // TODO Auto-generated catch block
+            System.out.println("发送GET请求出现异常！" + e);
+            e.printStackTrace();
+        }
+        // 使用finally块来关闭输入流
+        finally {
+            if (in!= null) {
+                try {
+                    in.close();
+                } catch (IOException e) {
+                    // TODO Auto-generated catch block
+                    e.printStackTrace();}
+            }
+        }
+        if(openid!=null){
+        User user=userMapper.getUserByOpenId(openid);
+        if(user==null){userMapper.insertUser(openid);
+            return null;}
+        else{
+            String jwt = jwtService.generateJwt(user);
+            return new LoginSuccessVO(user.getId(), user.getType() == 0 ? "teacher" : "student", user.getName(), jwt);
+        }}
+        else {return null;}
     }
 }
