@@ -87,7 +87,7 @@ public class ImportStudentController {
 
                 User stu = userService.getUserByUserNumber(studentNumber);
                 if (stu == null) {
-                    loginService.createStudentAccountByNumber(studentNumber);
+                    userService.createStudentAccountByNumber(stu);
                     stu = userService.getUserByUserNumber(studentNumber);
                 }
 
