@@ -6,7 +6,7 @@ public class SeminarGroupMember {
 	private BigInteger id;
 	private SeminarGroup seminarGroup;
 	private User student;
-	
+
 	public BigInteger getId() {
 		return id;
 	}

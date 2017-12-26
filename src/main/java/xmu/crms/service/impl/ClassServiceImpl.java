@@ -21,7 +21,7 @@ import java.util.List;
  * @date 2017/12/24
  */
 @Service
-public class ClassServiceImpl implements ClassService{
+public class ClassServiceImpl implements ClassService {
 
     @Autowired
     private ClassDao classDao;
@@ -101,7 +101,7 @@ public class ClassServiceImpl implements ClassService{
     }
 
     @Override
-    public void deleteClassByCourseId(BigInteger courseId) throws CourseNotFoundException ,ClassesNotFoundException,IllegalArgumentException{
+    public void deleteClassByCourseId(BigInteger courseId) throws CourseNotFoundException,ClassesNotFoundException,IllegalArgumentException{
         List<ClassInfo> classes = this.listClassByCourseId(courseId);
         for (int i = 0; i < classes.size(); i++) {
             this.deleteClassSelectionByClassId(classes.get(i).getId());

@@ -6,7 +6,7 @@ public class FixGroupMember {
 	private BigInteger id;
 	private FixGroup fixGroup;
 	private User student;
-	
+
 	public BigInteger getId() {
 		return id;
 	}

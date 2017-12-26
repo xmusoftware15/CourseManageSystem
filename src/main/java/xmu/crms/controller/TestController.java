@@ -1,12 +1,12 @@
 package xmu.crms.controller;
 
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestAttribute;
-import org.springframework.web.bind.annotation.RestController;
-import xmu.crms.entity.User;
+        import org.springframework.security.access.prepost.PreAuthorize;
+        import org.springframework.web.bind.annotation.GetMapping;
+        import org.springframework.web.bind.annotation.RequestAttribute;
+        import org.springframework.web.bind.annotation.RestController;
+        import xmu.crms.entity.User;
 
-import java.math.BigInteger;
+        import java.math.BigInteger;
 
 /**
  * 对权限测试和获取当前用户信息

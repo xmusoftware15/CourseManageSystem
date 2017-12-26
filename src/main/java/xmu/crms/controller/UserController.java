@@ -3,6 +3,7 @@ package xmu.crms.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
+
 import xmu.crms.entity.School;
 import xmu.crms.entity.User;
 import xmu.crms.exception.ClassesNotFoundException;
@@ -40,10 +41,10 @@ public class UserController {
         user=userService.getUserByUserId(id1);
         school=schoolService.getSchoolBySchoolId(user.getSchool().getId());
         user.setSchool(school);
-        if(user==null){
-        	throw new UserNotFoundException();}
-        else{
-        	userVO=new UserVO(user);}
+        if(user==null)
+        	throw new UserNotFoundException();
+        else
+        	userVO=new UserVO(user);
         return userVO;
     }
     
@@ -56,7 +57,7 @@ public class UserController {
     }
     
     @PutMapping("/me")
-    public void updateUserByUserId(@RequestAttribute("userId") BigInteger id1, @RequestBody Map<String, String> map) throws IllegalArgumentException,UserNotFoundException
+    public void updateUserByUserId(@RequestAttribute("userId") BigInteger id1,@RequestBody Map<String, String> map) throws IllegalArgumentException,UserNotFoundException
     {
     	User user=new User();
     	user.setName(map.get("name"));
@@ -65,11 +66,11 @@ public class UserController {
     	//user.setTitle(map.get("title"));
     	String gender=map.get("gender");
     	if(gender.equals("male"))
-        {user.setGender(0);}
-    	else{
+    		user.setGender(0);
+    	else
     		user.setGender(1);
     	user.setAvatar(map.get("avatar"));
-    	userService.updateUserByUserId(id1, user);}
+    	userService.updateUserByUserId(id1, user);
     }
 
     

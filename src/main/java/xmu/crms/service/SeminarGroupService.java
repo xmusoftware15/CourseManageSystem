@@ -1,16 +1,12 @@
 package xmu.crms.service;
 
-import java.math.BigInteger;
-import java.util.List;
-
 import xmu.crms.entity.SeminarGroup;
 import xmu.crms.entity.SeminarGroupMember;
 import xmu.crms.entity.User;
-import xmu.crms.exception.ClassesNotFoundException;
-import xmu.crms.exception.GroupNotFoundException;
-import xmu.crms.exception.InvalidOperationException;
-import xmu.crms.exception.SeminarNotFoundException;
-import xmu.crms.exception.UserNotFoundException;
+import xmu.crms.exception.*;
+
+import java.math.BigInteger;
+import java.util.List;
 
 
 /**
@@ -43,7 +39,7 @@ public interface SeminarGroupService {
 	 */
 	BigInteger insertSeminarGroupMemberById(BigInteger userId, BigInteger seminarGroupId)
 			throws IllegalArgumentException,GroupNotFoundException,UserNotFoundException,
-			InvalidOperationException;
+            InvalidOperationException;
 
 	/**
 	 * 查询讨论课小组成员.
@@ -189,7 +185,7 @@ public interface SeminarGroupService {
 	 */
 	void automaticallyGrouping(BigInteger seminarId, BigInteger classId) throws
 			IllegalArgumentException,ClassesNotFoundException,SeminarNotFoundException,
-			GroupNotFoundException,UserNotFoundException,InvalidOperationException;
+            GroupNotFoundException,UserNotFoundException,InvalidOperationException;
 
 	/**
 	 * 新增获取未选择话题的小组方法.
@@ -263,7 +259,7 @@ public interface SeminarGroupService {
 	 */
 	void assignLeaderById(BigInteger seminarGroupId, BigInteger userId) throws
 			IllegalArgumentException,UserNotFoundException,GroupNotFoundException,
-			InvalidOperationException;
+            InvalidOperationException;
 
 	/**
 	 * 组长辞职.

@@ -6,16 +6,13 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import xmu.crms.dao.LoginDAO;
-import xmu.crms.entity.Course;
 import xmu.crms.entity.User;
 import xmu.crms.exception.UserNotFoundException;
-import xmu.crms.service.CourseService;
 import xmu.crms.service.LoginService;
 import xmu.crms.service.UserService;
 
 import java.math.BigInteger;
 import java.net.URL;
-import java.util.List;
 import java.util.Map;
 
 /**

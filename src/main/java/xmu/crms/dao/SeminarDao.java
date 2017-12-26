@@ -3,7 +3,6 @@ package xmu.crms.dao;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import xmu.crms.entity.Seminar;
-import xmu.crms.exception.CourseNotFoundException;
 import xmu.crms.exception.SeminarNotFoundException;
 import xmu.crms.mapper.SeminarMapper;
 

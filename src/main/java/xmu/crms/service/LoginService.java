@@ -1,9 +1,9 @@
 package xmu.crms.service;
 
-import java.math.BigInteger;
+import xmu.crms.entity.User;
+import xmu.crms.exception.UserNotFoundException;
 
-import xmu.crms.entity.*;
-import xmu.crms.exception.*;
+import java.math.BigInteger;
 
 /**
  * @author Huhui
@@ -55,7 +55,7 @@ public interface LoginService {
 	 * @exception UserNotFoundException 未找到对应用户
 	 */
 	void deleteTeacherAccount(BigInteger userId) throws IllegalArgumentException,
-			UserNotFoundException;
+            UserNotFoundException;
 	
 	 /**
 	 * 用户解绑.
@@ -67,7 +67,7 @@ public interface LoginService {
 	 * @exception UserNotFoundException 未找到对应用户
 	 */
 	void deleteStudentAccount(BigInteger userId) throws IllegalArgumentException,
-			UserNotFoundException;
+            UserNotFoundException;
 	
 	
 }

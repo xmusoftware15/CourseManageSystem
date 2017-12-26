@@ -1,16 +1,11 @@
 package xmu.crms.service;
 
-import java.math.BigInteger;
-import java.util.List;
-
 import xmu.crms.entity.ClassInfo;
 import xmu.crms.entity.Location;
-import xmu.crms.entity.User;
-import xmu.crms.exception.ClassesNotFoundException;
-import xmu.crms.exception.CourseNotFoundException;
-import xmu.crms.exception.InvalidOperationException;
-import xmu.crms.exception.SeminarNotFoundException;
-import xmu.crms.exception.UserNotFoundException;
+import xmu.crms.exception.*;
+
+import java.math.BigInteger;
+import java.util.List;
 
 /**
  * @author aixing

@@ -6,6 +6,7 @@ import xmu.crms.dao.FixGroupDao;
 import xmu.crms.dao.FixGroupMemberDAO;
 import xmu.crms.dao.FixGroupTopicDAO;
 import xmu.crms.entity.*;
+import xmu.crms.entity.FixGroupTopic;
 import xmu.crms.exception.*;
 import xmu.crms.service.FixGroupService;
 import xmu.crms.service.SeminarGroupService;

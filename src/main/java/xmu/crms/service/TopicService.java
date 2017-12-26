@@ -1,10 +1,11 @@
 package xmu.crms.service;
 
+import xmu.crms.entity.SeminarGroupTopic;
+import xmu.crms.entity.Topic;
+import xmu.crms.exception.TopicNotFoundException;
+
 import java.math.BigInteger;
 import java.util.List;
-
-import xmu.crms.entity.*;
-import xmu.crms.exception.*;
 
 
 /**

@@ -8,7 +8,7 @@ public class Attendance {
 	private ClassInfo classInfo;
 	private Seminar seminar;
 	private Integer attendanceStatus;
-	
+
 	public BigInteger getId() {
 		return id;
 	}

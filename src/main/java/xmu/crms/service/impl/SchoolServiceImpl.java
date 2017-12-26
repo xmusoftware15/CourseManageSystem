@@ -23,7 +23,7 @@ public class SchoolServiceImpl implements SchoolService {
 
     @Override
     public List<School> listSchoolByCity(String city) {
-        return schoolDAO.listSchoolByCity(city);
+        return schoolDAO.getSchoolListByCity(city);
     }
 
     @Override
@@ -48,6 +48,6 @@ public class SchoolServiceImpl implements SchoolService {
         }
         School school = new School();
         school.setId(schoolId);
-        return schoolDAO.getSchoolBySchoolId(school);
+        return schoolDAO.getSchoolBySchoolId(schoolId);
     }
 }

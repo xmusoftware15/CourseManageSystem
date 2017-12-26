@@ -2,14 +2,12 @@ package xmu.crms.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-
 import xmu.crms.dao.CourseDao;
 import xmu.crms.entity.ClassInfo;
 import xmu.crms.entity.Course;
 import xmu.crms.entity.User;
-import xmu.crms.exception.CourseNotFoundException;
 import xmu.crms.exception.ClassesNotFoundException;
+import xmu.crms.exception.CourseNotFoundException;
 import xmu.crms.exception.UserNotFoundException;
 import xmu.crms.service.ClassService;
 import xmu.crms.service.CourseService;
@@ -25,7 +23,7 @@ import java.util.List;
  */
 
 @Service
-public class CourseServiceImpl implements CourseService{
+public class CourseServiceImpl implements CourseService {
 
     @Autowired
     private CourseDao courseDao;
@@ -85,7 +83,7 @@ public class CourseServiceImpl implements CourseService{
 
     @Override
     public List<ClassInfo> listClassByTeacherName(String teacherName) throws
-            IllegalArgumentException,UserNotFoundException ,ClassesNotFoundException{
+            IllegalArgumentException,UserNotFoundException,ClassesNotFoundException {
         List<User> users = userService.listUserByUserName(teacherName);
         List<ClassInfo> classInfos = new ArrayList<ClassInfo>();
         for(User user : users){

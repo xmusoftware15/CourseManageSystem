@@ -1,31 +1,31 @@
-<?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="xmu.crms.mapper.SchoolMapper">
 
-    <resultMap id="schoolResultMap" type="School">
-        <id property="id" column="id"/>
-        <result property="name" column="name"/>
-        <result property="province" column="province"/>
-        <result property="city" column="city"/>
+<mapper namespace="xmu.crms.mapper.SchoolMapper">
+    <resultMap id="school" type="xmu.crms.entity.School">
+        <id column="id" property="id" javaType="java.math.BigInteger"/>
+        <result column="name" property="name"/>
+        <result column="province" property="province"/>
+        <result column="city" property="city"/>
     </resultMap>
 
-    <!--<select id="listSchoolByCity" resultMap="schoolResultMap">-->
-        <!--SELECT id, name, province, city FROM school WHERE city=#{city}-->
-    <!--</select>-->
 
-    <insert id="insertSchool" parameterType="School" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO school
-        (name, province, city)
-        VALUES (#{name}, #{province}, #{city})
-    </insert>
-
-    <select id="getSchoolBySchoolId" resultMap="schoolResultMap" parameterType="School">
-        SELECT
-        id, name, province, city
-        FROM school
-        WHERE id=#{id}
+    <select id="getSchoolListByCity" resultType="xmu.crms.entity.School">
+        SELECT id, name, province, city FROM school WHERE city = #{city}
     </select>
 
+    <select id="rechecking" resultType="java.lang.Integer">
+        SELECT COUNT(*)
+        FROM school
+        WHERE (name=#{name} AND province=#{province} AND city=#{city})
+    </select>
+
+    <select id="getSchoolBySchoolId" resultType="xmu.crms.entity.School">
+        SELECT id,`name`, province, city  from school WHERE id = #{SchoolId}
+    </select>
+
+    <insert id="insertSchool" parameterType="xmu.crms.entity.School" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO school(name, province, city) VALUES (#{name}, #{province}, #{city})
+    </insert>
 </mapper>

@@ -3,8 +3,10 @@ package xmu.crms.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import xmu.crms.entity.*;
+import xmu.crms.entity.SeminarGroup;
+import xmu.crms.entity.SeminarGroupTopic;
 import xmu.crms.entity.Topic;
+import xmu.crms.entity.User;
 import xmu.crms.exception.FixGroupNotFoundException;
 import xmu.crms.exception.GroupNotFoundException;
 import xmu.crms.exception.InvalidOperationException;
@@ -91,7 +93,7 @@ private GradeService gradeService;
     @PutMapping("/{groupId}/assign")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void leaderAssign(@PathVariable("groupId") BigInteger groupId,
-                             @RequestBody User leader) throws UserNotFoundException,GroupNotFoundException,InvalidOperationException{
+                             @RequestBody User leader) throws UserNotFoundException,GroupNotFoundException,InvalidOperationException {
 seminarGroupService.assignLeaderById(groupId,leader.getId());
     }
 
@@ -105,7 +107,7 @@ seminarGroupService.assignLeaderById(groupId,leader.getId());
     @PutMapping("/{groupId}/add")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void addMember(@PathVariable("groupId") BigInteger groupId,
-                          @RequestBody User student) throws GroupNotFoundException,UserNotFoundException,InvalidOperationException{
+                          @RequestBody User student) throws GroupNotFoundException,UserNotFoundException,InvalidOperationException {
           seminarGroupService.insertSeminarGroupMemberById(student.getId(),groupId);
     }
 
@@ -128,14 +130,14 @@ seminarGroupService.assignLeaderById(groupId,leader.getId());
 
     @GetMapping("/{groupId}/grade")
     @ResponseStatus(HttpStatus.OK)
-    public SeminarGroup getGrade(@PathVariable("groupId") BigInteger groupId) throws GroupNotFoundException{
+    public SeminarGroup getGrade(@PathVariable("groupId") BigInteger groupId) throws GroupNotFoundException {
         SeminarGroup seminarGroup=seminarGroupService.getSeminarGroupByGroupId(groupId);
         return seminarGroup;
     }
 
     @PutMapping("/{groupId}/grade/report")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void setGrade(@RequestBody SeminarGradeDetail seminarGradeDetail,@PathVariable("groupId") BigInteger groupId) throws GroupNotFoundException,IllegalArgumentException{
+    public void setGrade(@RequestBody SeminarGradeDetail seminarGradeDetail, @PathVariable("groupId") BigInteger groupId) throws GroupNotFoundException,IllegalArgumentException{
         gradeService.updateGroupByGroupId(groupId,seminarGradeDetail.getReportGrade());
     }
 

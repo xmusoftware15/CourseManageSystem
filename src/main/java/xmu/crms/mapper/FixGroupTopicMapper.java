@@ -4,6 +4,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.springframework.stereotype.Component;
 import xmu.crms.entity.FixGroup;
 import xmu.crms.entity.FixGroupTopic;
+import xmu.crms.entity.FixGroupTopic;
 
 import java.util.List;
 

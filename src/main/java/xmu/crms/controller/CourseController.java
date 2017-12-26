@@ -3,14 +3,8 @@ package xmu.crms.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import xmu.crms.entity.ClassInfo;
-import xmu.crms.entity.Course;
-import xmu.crms.entity.Seminar;
-import xmu.crms.entity.SeminarGroup;
-import xmu.crms.exception.CourseNotFoundException;
-import xmu.crms.exception.GroupNotFoundException;
-import xmu.crms.exception.SeminarNotFoundException;
-import xmu.crms.exception.UserNotFoundException;
+import xmu.crms.entity.*;
+import xmu.crms.exception.*;
 import xmu.crms.service.ClassService;
 import xmu.crms.service.CourseService;
 import xmu.crms.service.SeminarGroupService;
@@ -44,25 +38,29 @@ public class CourseController {
 
     @GetMapping("/course")
     @ResponseStatus(HttpStatus.OK)
-    public List<SimpleCourseVo> getCourses(@RequestAttribute("userId") String userId) throws CourseNotFoundException{
-        List<Course> courses = courseService.listCourseByUserId(new BigInteger(userId));
-        List<SimpleCourseVo> simpleCourseVos = new ArrayList<SimpleCourseVo>();
-        for(Course course:courses){
-            SimpleCourseVo simpleCourseVo = new SimpleCourseVo();
-            simpleCourseVo.setId(course.getId());
-            simpleCourseVo.setName(course.getName());
-            simpleCourseVo.setNumClass(3);
-            simpleCourseVo.setNumStudent(60);
-            simpleCourseVo.setStartTime(course.getStartDate());
-            simpleCourseVo.setEndTime(course.getEndDate());
-            simpleCourseVos.add(simpleCourseVo);
+    public Object getCourses(@RequestAttribute("userId") BigInteger userId, @RequestAttribute("type") Integer type) throws CourseNotFoundException, ClassesNotFoundException {
+        System.out.println(userId.toString() + type);
+        if (type.equals(0)) {
+            List<ClassInfo> classes = classService.listClassByUserId(userId);
+//            List<ClassVo> classVos = new ArrayList<>();
+//            for (ClassInfo classInfo : classes) {
+//                ClassVo classVo = new ClassVo();
+//                classVo.setId(classInfo.getId());
+//                classVo.setName(classInfo.getName());
+//                classVo.setSite(classInfo.getSite());
+//                classVo.setTime(classInfo.getClassTime());
+//                classVos.add(classVo);
+//            }
+            return classes;
+        } else {
+            List<Course> courses = courseService.listCourseByUserId(userId);
+            return courses;
         }
-        return simpleCourseVos;
     }
 
     @PostMapping("/course")
     @ResponseStatus(HttpStatus.CREATED)
-    public IdVo createCourse(@RequestAttribute("userId") String userId,@RequestBody CourseVo courseVo) {
+    public IdVo createCourse(@RequestAttribute("userId") String userId, @RequestBody CourseVo courseVo) {
         Course course = new Course();
         course.setName(courseVo.getName());
         course.setStartDate(courseVo.getStartTime());
@@ -81,7 +79,7 @@ public class CourseController {
 
     @GetMapping("/course/{courseId}")
     @ResponseStatus(HttpStatus.OK)
-    public CourseDetail getCourseInfo(@PathVariable("courseId") String courseId) throws CourseNotFoundException{
+    public CourseDetail getCourseInfo(@PathVariable("courseId") String courseId) throws CourseNotFoundException {
         Course course = courseService.getCourseByCourseId(new BigInteger(courseId));
         CourseDetail courseDetail = new CourseDetail();
         courseDetail.setId(new BigInteger(courseId));
@@ -94,7 +92,7 @@ public class CourseController {
 
     @PutMapping("/course/{courseId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updateCourse(@PathVariable("courseId") String courseId,@RequestBody CourseVo courseVo) {
+    public void updateCourse(@PathVariable("courseId") String courseId, @RequestBody CourseVo courseVo) {
         Course course = new Course();
         course.setName(courseVo.getName());
         course.setDescription(courseVo.getDescription());
@@ -105,22 +103,23 @@ public class CourseController {
         course.setFivePointPercentage(courseVo.getProportions().getA());
         course.setFourPointPercentage(courseVo.getProportions().getB());
         course.setThreePointPercentage(courseVo.getProportions().getC());
-        courseService.updateCourseByCourseId(new BigInteger(courseId),course);
+        courseService.updateCourseByCourseId(new BigInteger(courseId), course);
     }
 
     @DeleteMapping("/course/{courseId}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void deleteCourse(@PathVariable("courseId") String courseId) {
+        System.out.print(courseId);
         courseService.deleteCourseByCourseId(new BigInteger(courseId));
     }
 
     @GetMapping("/course/{courseId}/class")
     @ResponseStatus(HttpStatus.OK)
-    public List<SimpleClassInfoVo> getClassesByCourse(@PathVariable("courseId") String courseId) throws  CourseNotFoundException{
+    public List<SimpleClassInfoVo> getClassesByCourse(@PathVariable("courseId") String courseId) throws CourseNotFoundException {
         SimpleClassInfoVo classInfoVo;
         List<SimpleClassInfoVo> classInfoVos = new ArrayList<SimpleClassInfoVo>();
         List<ClassInfo> classInfos = classService.listClassByCourseId(new BigInteger(courseId));
-        for(ClassInfo classInfo:classInfos){
+        for (ClassInfo classInfo : classInfos) {
             classInfoVo = new SimpleClassInfoVo();
             classInfoVo.setId(classInfo.getId());
             classInfoVo.setName(classInfo.getName());
@@ -146,10 +145,10 @@ public class CourseController {
         classInfo.setFivePointPercentage(classVo.getProportions().getA());
         classInfo.setFourPointPercentage(classVo.getProportions().getB());
         classInfo.setThreePointPercentage(classVo.getProportions().getC());
-        classService.insertClassById(new BigInteger(courseId),classInfo);
+        classService.insertClassById(new BigInteger(courseId), classInfo);
         IdVo idVo;
         idVo = new IdVo();
-        idVo.setId(new BigInteger(courseId));
+        idVo.setId(classInfo.getId());
         return idVo;
     }
 
@@ -158,13 +157,17 @@ public class CourseController {
     public List getSeminarsByCourse(@PathVariable("courseId") String courseId,
                                     @RequestParam(value = "embedGrade", required = false) Boolean embedGrade,
                                     @RequestAttribute("userId") String userId) throws CourseNotFoundException,
-            GroupNotFoundException{
+            GroupNotFoundException {
         List<SeminarWithGradeVO> seminarWithGradeVOS = new ArrayList<>();
         List<Seminar> seminars = seminarService.listSeminarByCourseId(new BigInteger(courseId));
         for (Seminar seminar : seminars) {
-            SeminarGroup seminarGroup = seminarGroupService.getSeminarGroupById(seminar.getId(), new BigInteger(userId));
             SeminarWithGradeVO seminarWithGradeVO = new SeminarWithGradeVO(seminar);
-            seminarWithGradeVO.setGrade(seminarGroup.getFinalGrade());
+            if (embedGrade != null) {
+                SeminarGroup seminarGroup = seminarGroupService.getSeminarGroupById(seminar.getId(), new BigInteger(userId));
+                if (seminarGroup != null) {
+                    seminarWithGradeVO.setGrade(seminarGroup.getFinalGrade());
+                }
+            }
             seminarWithGradeVOS.add(seminarWithGradeVO);
         }
         return seminarWithGradeVOS;
@@ -172,16 +175,22 @@ public class CourseController {
 
     @PostMapping("/course/{courseId}/seminar")
     @ResponseStatus(HttpStatus.CREATED)
-    public IdVo createSeminarForCourse(@PathVariable("courseId") String courseId,@RequestBody HQSeminarVo seminarVo) throws CourseNotFoundException {
+    public IdVo createSeminarForCourse(@PathVariable("courseId") String courseId, @RequestBody HQSeminarVo seminarVo) throws CourseNotFoundException {
         Seminar seminar = new Seminar();
         Course course = new Course();
         course.setId(new BigInteger(courseId));
         seminar.setCourse(course);
         seminar.setName(seminarVo.getName());
+        if(seminarVo.getGroupingMethod().equals("fixed") ){
+            seminar.setFixed(true);
+        }
+        else{
+            seminar.setFixed(false);
+        }
         seminar.setDescription(seminarVo.getDescription());
         seminar.setStartTime(seminarVo.getStartTime());
         seminar.setEndTime(seminarVo.getEndTime());
-        seminarService.insertSeminarByCourseId(new BigInteger(courseId),seminar);
+        seminarService.insertSeminarByCourseId(new BigInteger(courseId), seminar);
         IdVo idVo;
         idVo = new IdVo();
         idVo.setId(seminar.getId());

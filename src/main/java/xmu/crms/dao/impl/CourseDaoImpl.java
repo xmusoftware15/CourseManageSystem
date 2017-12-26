@@ -3,9 +3,7 @@ package xmu.crms.dao.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import xmu.crms.dao.CourseDao;
-import xmu.crms.entity.ClassInfo;
 import xmu.crms.entity.Course;
-import xmu.crms.exception.ClassesNotFoundException;
 import xmu.crms.exception.CourseNotFoundException;
 import xmu.crms.mapper.CourseMapper;
 
@@ -17,7 +15,7 @@ import java.util.List;
  * @time: 2017/12/24
  */
 @Component
-public class CourseDaoImpl implements CourseDao{
+public class CourseDaoImpl implements CourseDao {
 
     @Autowired
     private CourseMapper courseMapper;

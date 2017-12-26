@@ -7,7 +7,7 @@ public class StudentScoreGroup {
 	private User student;
 	private SeminarGroupTopic seminarGroupTopic;
 	private Integer grade;
-	
+
 	public BigInteger getId() {
 		return id;
 	}

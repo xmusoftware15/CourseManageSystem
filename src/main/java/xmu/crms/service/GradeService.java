@@ -1,6 +1,5 @@
 package xmu.crms.service;
 
-import xmu.crms.entity.Seminar;
 import xmu.crms.entity.SeminarGroup;
 import xmu.crms.exception.GroupNotFoundException;
 
@@ -58,7 +57,7 @@ public interface GradeService {
      * @throws IllegalArgumentException courseId格式错误
      * @see SeminarService#listSeminarByCourseId(BigInteger)
      * @see SeminarGroupService#listSeminarGroupBySeminarId(BigInteger)
-     * @see GradeService#listSeminarGradeByUserId(BigInteger) 
+     * @see GradeService#listSeminarGradeByUserId(BigInteger)
      */
     List<SeminarGroup> listSeminarGradeByCourseId(BigInteger userId, BigInteger courseId) throws IllegalArgumentException;
 

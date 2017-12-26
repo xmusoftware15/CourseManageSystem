@@ -2,7 +2,6 @@ package xmu.crms.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import xmu.crms.entity.SeminarGroup;
 import xmu.crms.entity.Topic;
@@ -55,7 +54,7 @@ public class TopicController {
 
     @GetMapping("/{topicId}/group")
     @ResponseStatus(HttpStatus.OK)
-    public List<GroupOfTopicVO> getGroups(@PathVariable("topicId") String topicId) throws GroupNotFoundException{
+    public List<GroupOfTopicVO> getGroups(@PathVariable("topicId") String topicId) throws GroupNotFoundException {
         List<GroupOfTopicVO> groupOfTopicVOs = new ArrayList<>();
         List<SeminarGroup> seminarGroups = seminarGroupService.listGroupByTopicId(new BigInteger(topicId));
         for (SeminarGroup seminarGroup : seminarGroups) {

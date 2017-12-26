@@ -7,7 +7,7 @@ public class SeminarGroupTopic {
 	private Topic topic;
 	private SeminarGroup seminarGroup;
 	private Integer presentationGrade;
-	
+
 	public BigInteger getId() {
 		return id;
 	}

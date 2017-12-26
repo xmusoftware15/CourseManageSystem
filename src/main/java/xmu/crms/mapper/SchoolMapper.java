@@ -1,44 +1,55 @@
 package xmu.crms.mapper;
 
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Select;
-import org.springframework.stereotype.Component;
-import xmu.crms.entity.School;
-
 import java.math.BigInteger;
 import java.util.List;
 
+import org.springframework.stereotype.Component;
+
+import xmu.crms.entity.School;
+
 /**
- *
- * @author badcode
- * @date 2017/12/18
- *
+ * @author 3-4
  */
-@Mapper
 @Component
 public interface SchoolMapper {
 
     /**
-     * 根据城市名称查询学校
-     * @param city 城市名称
-     * @return List<School> 满足条件的学校列表
+     * 获取学校列表
+     * @param city
+     * @return
      */
-    @Select("SELECT id, name, province, city FROM school WHERE city=#{city}")
-    List<School> listSchoolByCity(String city);
+    List<School> getSchoolListByCity(String city);
 
     /**
-     *
-     * 新建学校
-     * @param school 学校信息
-     * @return Integer 影响行数
-     *
+     * 插入学校
+     * @param school
      */
     Integer insertSchool(School school);
 
     /**
-     * 根据学校ID获取学校信息
-     * @param school 存储了学校id
-     * @return School
+     * 学校查重
+     * @param school
+     * @return
      */
-    School getSchoolBySchoolId(School school);
+    int rechecking(School school);
+
+    /**
+     * 显示省份
+     * @return
+     */
+    List<String> listProvince();
+
+    /**
+     * 通过省份查找城市
+     * @param province
+     * @return
+     */
+    List<String> listCity(String province);
+
+    /**
+     * 通过学校的id获取学校信息
+     * @param schoolId
+     * @return
+     */
+    School getSchoolBySchoolId(BigInteger schoolId);
 }

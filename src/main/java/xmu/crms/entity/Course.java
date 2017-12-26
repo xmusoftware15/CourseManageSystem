@@ -15,7 +15,7 @@ public class Course {
 	private Integer fivePointPercentage;
 	private Integer fourPointPercentage;
 	private Integer threePointPercentage;
-	
+
 	public BigInteger getId() {
 		return id;
 	}

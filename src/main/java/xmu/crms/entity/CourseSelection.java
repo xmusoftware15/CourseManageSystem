@@ -6,7 +6,7 @@ public class CourseSelection {
 	private BigInteger id;
 	private ClassInfo classInfo;
 	private User student;
-	
+
 	public BigInteger getId() {
 		return id;
 	}

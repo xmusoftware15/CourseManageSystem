@@ -4,10 +4,6 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 import xmu.crms.entity.*;
-import xmu.crms.exception.ClassesNotFoundException;
-import xmu.crms.exception.CourseNotFoundException;
-import xmu.crms.exception.SeminarNotFoundException;
-import xmu.crms.exception.UserNotFoundException;
 
 import java.math.BigInteger;
 import java.util.List;

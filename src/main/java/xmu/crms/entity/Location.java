@@ -9,7 +9,7 @@ public class Location {
 	private Double longitude;
 	private Double latitude;
 	private Integer status;
-	
+
 	public BigInteger getId() {
 		return id;
 	}

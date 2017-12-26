@@ -1,13 +1,11 @@
 package xmu.crms.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 import xmu.crms.entity.SeminarGroup;
 import xmu.crms.entity.SeminarGroupTopic;
 import xmu.crms.entity.Topic;
 
-import java.math.BigInteger;
 import java.util.List;
 
 /**

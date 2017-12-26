@@ -1,0 +1,242 @@
+
+.contentBlock {
+    width: 100%;
+    height: 100%;
+    margin: 0 auto;
+}
+
+.itemBody {
+    width: 96%;
+    height: 80%;
+    margin-top: 2%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.item {
+    width: 80%;
+    height: 15%;
+    min-height: 40px;
+    padding-top: 1%;
+    margin: 0 auto;
+}
+.itemName {
+    width: 16%;
+    height: 100%;
+    display: inline-block;
+    font-family: YouYuan;
+    font-size: 18px;
+    font-weight: normal;
+}
+.smallItemName {
+    height: 100%;
+    display: inline-block;
+    font-family: YouYuan;
+    font-size: 18px;
+}
+
+.bigInput {
+    border: 1px solid black;
+    width: 80%;
+    height: 50%;
+}
+
+.smallInput {
+    border: 1px solid black;
+    width: 8%;
+    height: 50%;
+}
+
+.middleInput {
+    width: 25%;
+    height: 50%;
+    border: 1px solid black;
+}
+
+.middlerInput {
+    width: 10%;
+    height: 50%;
+    border: 1px solid black;
+}
+
+.bigSelect {
+    width: 30%;
+    height: 50%;
+    margin-right: 2%;
+    border: 1px solid black;
+}
+
+.smallSelect {
+    width: 15%;
+    height: 50%;
+    margin-right: 2%;
+    border: 1px solid black;
+}
+
+.addButton {
+    background-color: #D4EEF2;
+    border: 1px solid #D4EEF2;
+    border-radius: 8px;
+    text-align: center;
+    width: 10%;
+    height: 50%;
+}
+
+.selectFile {
+    width: 10%;
+    height: 50%;
+    font-family: YouYuan;
+    font-size: 14px;
+    background-color: #D4EEF2;
+    border: 1px solid #D4EEF2;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.submit {
+    width: 15%;
+    height: 50%;
+    margin-top: 3%;
+    margin-left: 30%;
+    font-family: YouYuan;
+    font-size: 18px;
+    float: left;
+    background-color: #D4EEF2;
+    border: 1px solid #D4EEF2;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.reset {
+    width: 15%;
+    height: 50%;
+    margin-right: 30%;
+    margin-top: 3%;
+    font-family: YouYuan;
+    font-size: 18px;
+    float: right;
+    background-color: #D4EEF2;
+    border: 1px solid #D4EEF2;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.leftButton {
+    width: 15%;
+    height: 60%;
+    margin-top: 5%;
+    margin-left: 10%;
+    font-family: YouYuan;
+    font-size: 18px;
+    float: left;
+    background-color: #D4EEF2;
+    border: 1px solid #D4EEF2;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.middleButton {
+    width: 15%;
+    height: 60%;
+    margin-top: 5%;
+    margin-left: 10%;
+    font-family: YouYuan;
+    font-size: 18px;
+    float: left;
+    background-color: #D4EEF2;
+    border: 1px solid #D4EEF2;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.rightButton {
+    width: 15%;
+    height: 60%;
+    margin-top: 5%;
+    margin-right: 23%;
+    font-family: YouYuan;
+    font-size: 18px;
+    float: right;
+    background-color: #D4EEF2;
+    border: 1px solid #D4EEF2;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.textStyle {
+    width: 80%;
+    height: 80%;
+    border: 1px solid black;
+}
+
+.timeStyle {
+    width: 25%;
+    height: 50%;
+    border: 1px solid black;
+}
+
+.topicBlockBody {
+    width: 96%;
+    height: 80%;
+    margin-top: 2%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.topicBlock {
+    width: 24%;
+    height: 120px;
+    background-color: rgba(11, 172, 225, 0.2);
+    border-radius: 24px;
+    text-align: center;
+    margin-right: 2%;
+    margin-bottom: 1%;
+    float: left;
+}
+
+.topicBlockFont {
+    font-family: YouYuan;
+    font-size: 20px;
+    font-weight: bold;
+    padding-top: 20%;
+    color: #000000;
+}
+
+.tableTitle {
+    font-family: YouYuan;
+    font-size: 18px;
+    background-color: #D4EEF2;
+}
+
+.tableContent {
+    font-family: YouYuan;
+    font-size: 15px;
+    text-align: center;
+}
+
+th {
+    text-align: center;
+}
+.imgarea {
+    float: left;
+    text-align: right;
+    margin-top: 2%;
+    width: 25%;
+}
+
+.info {
+    float: left;
+    width: 65%;
+    margin-top: 2%;
+}
+.modifyButton {
+    width: 10%;
+    background-color: #D4EEF2;
+    border: 1px solid #D4EEF2;
+    border-radius: 8px;
+    text-align: center;
+    margin-top: 5%;
+    margin-bottom: 1%;
+    margin-left: 38%;
+}
+

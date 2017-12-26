@@ -2,8 +2,10 @@ package xmu.crms.dao;
 
 import xmu.crms.entity.SeminarGroup;
 import xmu.crms.entity.SeminarGroupMember;
-import xmu.crms.entity.Topic;
-import xmu.crms.exception.*;
+import xmu.crms.exception.GroupNotFoundException;
+import xmu.crms.exception.InvalidOperationException;
+import xmu.crms.exception.SeminarNotFoundException;
+import xmu.crms.exception.UserNotFoundException;
 import xmu.crms.service.SeminarGroupService;
 
 import java.math.BigInteger;

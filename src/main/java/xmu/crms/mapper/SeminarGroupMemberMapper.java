@@ -2,10 +2,7 @@ package xmu.crms.mapper;
 
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
-import xmu.crms.entity.SeminarGroup;
 import xmu.crms.entity.SeminarGroupMember;
-import xmu.crms.entity.User;
-import xmu.crms.exception.GroupNotFoundException;
 
 import java.math.BigInteger;
 import java.util.List;
@@ -58,7 +55,7 @@ public interface SeminarGroupMemberMapper {
      * @param seminarGroupId
      * @param userId
      */
-    void deleteSeminarGroupMemberById(@Param("seminarGroupId")BigInteger seminarGroupId,@Param("userId") BigInteger userId);
+    void deleteSeminarGroupMemberById(@Param("seminarGroupId") BigInteger seminarGroupId, @Param("userId") BigInteger userId);
 
 
 }

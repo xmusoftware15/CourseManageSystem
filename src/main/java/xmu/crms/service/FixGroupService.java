@@ -1,17 +1,12 @@
 package xmu.crms.service;
 
-import java.math.BigInteger;
-import java.util.List;
-
 import xmu.crms.entity.FixGroup;
 import xmu.crms.entity.FixGroupMember;
-import xmu.crms.entity.SeminarGroup;
 import xmu.crms.entity.User;
-import xmu.crms.exception.ClassesNotFoundException;
-import xmu.crms.exception.FixGroupNotFoundException;
-import xmu.crms.exception.InvalidOperationException;
-import xmu.crms.exception.UserNotFoundException;
-import xmu.crms.exception.SeminarNotFoundException;
+import xmu.crms.exception.*;
+
+import java.math.BigInteger;
+import java.util.List;
 
 /**
  * @author ZhouChulun YeHongjie Heqi Aixing

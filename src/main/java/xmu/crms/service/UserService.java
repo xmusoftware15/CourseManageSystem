@@ -1,8 +1,5 @@
 package xmu.crms.service;
 
-import java.math.BigInteger;
-import java.util.List;
-
 import xmu.crms.entity.Attendance;
 import xmu.crms.entity.Course;
 import xmu.crms.entity.User;
@@ -10,6 +7,9 @@ import xmu.crms.exception.ClassesNotFoundException;
 import xmu.crms.exception.CourseNotFoundException;
 import xmu.crms.exception.SeminarNotFoundException;
 import xmu.crms.exception.UserNotFoundException;
+
+import java.math.BigInteger;
+import java.util.List;
 
 /**
  * @author YeHongjie
@@ -33,7 +33,7 @@ public interface UserService {
 	 * @exception UserNotFoundException 未找到对应用户
 	 */
 	BigInteger insertAttendanceById(BigInteger classId, BigInteger seminarId,
-									BigInteger userId, double longitude, double latitude) throws
+                                    BigInteger userId, double longitude, double latitude) throws
 			IllegalArgumentException,ClassesNotFoundException,SeminarNotFoundException,UserNotFoundException;
 
 	/**
@@ -49,7 +49,7 @@ public interface UserService {
 	 */
 	List<Attendance> listAttendanceById(BigInteger classId, BigInteger seminarId)
 			throws IllegalArgumentException,ClassesNotFoundException,
-			SeminarNotFoundException;
+            SeminarNotFoundException;
 
 	/**
 	 * 根据用户Id获取用户的信息.
@@ -62,8 +62,21 @@ public interface UserService {
 	 * @exception UserNotFoundException throws when 未找到对应用户
 	 */
 	User getUserByUserId(BigInteger userId) throws IllegalArgumentException,
-			UserNotFoundException;
+            UserNotFoundException;
 
+	/**
+	 * 根据用户学（工）号获取用户的信息.
+	 * <p>根据用户学（工）号获取用户的信息<br> 
+	 * @author YeHongjie
+	 * @param userNum 用户学（工）号
+	 * @return user 用户信息
+	 * @see SchoolService#getSchoolBySchoolId(BigInteger schoolId)
+	 * @exception IllegalArgumentException throws when 信息不合法 
+	 * @exception UserNotFoundException throws when 未找到对应用户
+	 */
+	User getUserByUserNumber(String userNumber) throws IllegalArgumentException,
+			UserNotFoundException;
+	
 	/**
 	 * 根据用户名获取用户ID.
 	 * <p>根据用户名获取用户ID<br>
@@ -85,7 +98,7 @@ public interface UserService {
 	 * @exception UserNotFoundException throws when 未找到对应用户
 	 */
 	void updateUserByUserId(BigInteger userId, User user) throws
-			UserNotFoundException;
+            UserNotFoundException;
 
 
 	/**
@@ -100,9 +113,9 @@ public interface UserService {
 	 * @exception ClassesNotFoundException throws when 未找到对应班级
 	 * @exception UserNotFoundException throws when 无符合条件的学生
 	 */
-	List<User> listUserByClassId(BigInteger classId,String numBeginWith,
-								 String nameBeginWith) throws IllegalArgumentException,
-			ClassesNotFoundException, UserNotFoundException;
+	List<User> listUserByClassId(BigInteger classId, String numBeginWith,
+                                 String nameBeginWith) throws IllegalArgumentException,
+            ClassesNotFoundException, UserNotFoundException;
 
 
 	/**
@@ -146,7 +159,7 @@ public interface UserService {
 	 * @exception ClassesNotFoundException 未找到班级
 	 * @exception SeminarNotFoundException 未找到讨论课
 	 */
-	List<User> listLateStudent(BigInteger seminarId,BigInteger classId) throws
+	List<User> listLateStudent(BigInteger seminarId, BigInteger classId) throws
 			IllegalArgumentException, ClassesNotFoundException, SeminarNotFoundException;
 
 
@@ -162,7 +175,7 @@ public interface UserService {
 	 * @exception ClassesNotFoundException 未找到班级
 	 * @exception SeminarNotFoundException 未找到讨论课
 	 */
-	List<User> listAbsenceStudent(BigInteger seminarId,BigInteger classId) throws
+	List<User> listAbsenceStudent(BigInteger seminarId, BigInteger classId) throws
 			IllegalArgumentException, ClassesNotFoundException, SeminarNotFoundException;
 
 	/**
@@ -178,6 +191,6 @@ public interface UserService {
 	 * @exception CourseNotFoundException throws when 对应姓名的用户未创设任何课程
 	 */
 	List<Course> listCourseByTeacherName(String teacherName) throws
-			UserNotFoundException,IllegalArgumentException,CourseNotFoundException;
+            UserNotFoundException,IllegalArgumentException,CourseNotFoundException;
 
 }

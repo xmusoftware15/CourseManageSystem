@@ -5,7 +5,6 @@ import org.springframework.stereotype.Component;
 import xmu.crms.entity.Seminar;
 import xmu.crms.entity.Topic;
 
-import java.math.BigInteger;
 import java.util.List;
 
 /**

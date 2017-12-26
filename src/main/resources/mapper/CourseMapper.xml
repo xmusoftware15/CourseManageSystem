@@ -45,19 +45,42 @@
     </select>
 
     <update id="updateCourseByCourseId">
-        UPDATE course
-        SET
-        `name` = #{course.name,jdbcType=VARCHAR},
-        start_date = #{course.startDate,jdbcType=DATE},
-        end_date = #{course.endDate,jdbcType=DATE},
-        teacher_id = #{course.teacher.id,jdbcType=BIGINT},
-        description = #{course.description,jdbcType=VARCHAR},
-        report_percentage = #{course.reportPercentage,jdbcType=TINYINT},
-        presentation_percentage = #{course.presentationPercentage,jdbcType=TINYINT},
-        five_point_percentage = #{course.fivePointPercentage,jdbcType=TINYINT},
-        four_point_percentage = #{course.fourPointPercentage,jdbcType=TINYINT},
-        three_point_percentage = #{course.threePointPercentage,jdbcType=TINYINT}
-        WHERE id = #{courseId,jdbcType=BIGINT}
+        <update id="updateCourseByCourseId">
+            UPDATE course
+            <set>
+                <if test="course.name != null">
+                    `name` = #{course.name,jdbcType=VARCHAR},
+                </if>
+                <if test="course.startDate != null">
+                    start_date = #{course.startDate,jdbcType=DATE},
+                </if>
+                <if test="course.endDate != null">
+                    end_date = #{course.endDate,jdbcType=DATE},
+                </if>
+                <if test="course.teacher != null">
+                    teacher_id = #{course.teacher.id,jdbcType=BIGINT},
+                </if>
+                <if test="course.description != null">
+                    description = #{course.description,jdbcType=VARCHAR},
+                </if>
+                <if test="course.reportPercentage != null">
+                    report_percentage = #{course.reportPercentage,jdbcType=TINYINT},
+                </if>
+                <if test="course.presentationPercentage != null">
+                    presentation_percentage = #{course.presentationPercentage,jdbcType=TINYINT},
+                </if>
+                <if test="course.fivePointPercentage != null">
+                    five_point_percentage = #{course.fivePointPercentage,jdbcType=TINYINT},
+                </if>
+                <if test="course.fourPointPercentage != null">
+                    four_point_percentage = #{course.fourPointPercentage,jdbcType=TINYINT},
+                </if>
+                <if test="course.threePointPercentage != null">
+                    three_point_percentage = #{course.threePointPercentage,jdbcType=TINYINT}
+                </if>
+            </set>
+            WHERE id = #{courseId,jdbcType=BIGINT}
+        </update>
     </update>
 
     <delete id="deleteCourseByCourseId" parameterType="java.math.BigInteger">

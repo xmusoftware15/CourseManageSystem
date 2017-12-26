@@ -3,12 +3,14 @@ package xmu.crms.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
-import xmu.crms.entity.*;
+import xmu.crms.entity.ClassInfo;
+import xmu.crms.entity.FixGroup;
+import xmu.crms.entity.FixGroupMember;
+import xmu.crms.entity.User;
 import xmu.crms.exception.*;
 import xmu.crms.service.ClassService;
 import xmu.crms.service.FixGroupService;
 import xmu.crms.vo.*;
-
 
 import java.math.BigInteger;
 import java.util.ArrayList;
@@ -91,7 +93,7 @@ public class ClassController {
     @GetMapping("/{classId}/classgroup")
     @ResponseStatus(HttpStatus.OK)
     public GroupMemberVO getClassGroup(@PathVariable("classId") String classId,
-                                       @RequestAttribute("userId") String userId) throws UserNotFoundException, ClassesNotFoundException, FixGroupNotFoundException{
+                                       @RequestAttribute("userId") String userId) throws UserNotFoundException, ClassesNotFoundException, FixGroupNotFoundException {
         FixGroup fixGroup = fixGroupService.getFixedGroupById(new BigInteger(userId), new BigInteger(classId));
         GroupMemberVO groupMemberVO = new GroupMemberVO();
         groupMemberVO.setLeader(new StudentVO(fixGroup.getLeader()));

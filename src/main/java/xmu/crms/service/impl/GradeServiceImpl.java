@@ -22,7 +22,7 @@ import java.util.List;
  * @Data: 2017/12/21 15:43
  */
 @Service
-public class GradeServiceImpl implements GradeService{
+public class GradeServiceImpl implements GradeService {
     @Autowired
     private GradeDAO gradeDAO;
 
@@ -114,7 +114,7 @@ public class GradeServiceImpl implements GradeService{
     }
 
     @Override
-    public List<SeminarGroup> listSeminarGradeByCourseId(BigInteger userId,BigInteger courseId)
+    public List<SeminarGroup> listSeminarGradeByCourseId(BigInteger userId, BigInteger courseId)
             throws IllegalArgumentException
     {
         if (userId.intValue() < 0) {

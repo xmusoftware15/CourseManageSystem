@@ -1,12 +1,11 @@
 package xmu.crms.mapper;
 
-import java.math.BigInteger;
-import java.util.List;
-
 import org.springframework.stereotype.Component;
-
 import xmu.crms.entity.Attendance;
 import xmu.crms.entity.User;
+
+import java.math.BigInteger;
+import java.util.List;
 
 /**
  * UserMapper
@@ -32,7 +31,6 @@ public interface UserMapper {
 
 	List<Attendance> getAttendanceById(BigInteger classId, BigInteger seminarId);
 
-	User getUserByOpenId(String openId);
-
-	void insertUser(String openId);
+	User getUserByUserNumber(String userNumber);
+    
 }

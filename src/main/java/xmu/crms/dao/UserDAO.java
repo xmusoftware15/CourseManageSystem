@@ -1,11 +1,7 @@
 package xmu.crms.dao;
 
-import java.math.BigInteger;
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
-
 import xmu.crms.entity.Attendance;
 import xmu.crms.entity.ClassInfo;
 import xmu.crms.entity.Seminar;
@@ -14,6 +10,9 @@ import xmu.crms.exception.ClassesNotFoundException;
 import xmu.crms.exception.SeminarNotFoundException;
 import xmu.crms.exception.UserNotFoundException;
 import xmu.crms.mapper.UserMapper;
+
+import java.math.BigInteger;
+import java.util.List;
 
 /**
  * @author YeHongjie
@@ -48,7 +47,7 @@ public class UserDAO {
 	}
 	
 	public BigInteger insertAttendanceById(BigInteger classId, BigInteger seminarId, BigInteger userId,int attendanceStatus)
-			throws ClassesNotFoundException, SeminarNotFoundException{
+			throws ClassesNotFoundException, SeminarNotFoundException {
 		Attendance attendance=new Attendance();
 		ClassInfo classInfo=new ClassInfo();
 		classInfo.setId(classId);
@@ -73,7 +72,7 @@ public class UserDAO {
 		return attendance.getId();
 	}
 	
-	public List<User> listUserByClassId(BigInteger classId, String numBeginWith, String nameBeginWith) throws ClassesNotFoundException{
+	public List<User> listUserByClassId(BigInteger classId, String numBeginWith, String nameBeginWith) throws ClassesNotFoundException {
  
 		List<User> users=null;
 		try{
@@ -107,6 +106,18 @@ public class UserDAO {
 		List<User> users=null;
 		users=userMapper.getAttendanceByIdAndStatus(classId, seminarId,status);
 		return users;
+	}
+
+	public User getUserByUserNumber(String userNumber) throws UserNotFoundException {
+		User user = null;
+        try{
+        	user = userMapper.getUserByUserNumber(userNumber);
+        }catch (Exception e){
+        	e.printStackTrace();
+        }
+//        if(user==null)
+//        	throw new UserNotFoundException("No such user");
+        return user;
 	}
 
 }

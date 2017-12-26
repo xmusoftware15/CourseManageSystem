@@ -2,7 +2,6 @@ package xmu.crms.dao;
 
 import xmu.crms.entity.ClassInfo;
 import xmu.crms.entity.Location;
-import xmu.crms.entity.Seminar;
 import xmu.crms.exception.*;
 
 import java.math.BigInteger;

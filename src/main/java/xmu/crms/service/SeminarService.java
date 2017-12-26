@@ -1,12 +1,11 @@
 package xmu.crms.service;
 
-import java.math.BigInteger;
-import java.sql.ResultSet;
-import java.util.ArrayList;
-import java.util.List;
+import xmu.crms.entity.Seminar;
+import xmu.crms.exception.CourseNotFoundException;
+import xmu.crms.exception.SeminarNotFoundException;
 
-import xmu.crms.entity.*;
-import xmu.crms.exception.*;
+import java.math.BigInteger;
+import java.util.List;
 
 /**
  *
@@ -41,7 +40,7 @@ public interface SeminarService {
 	 * @exception CourseNotFoundException 该课程不存在时抛出
 	 */
 	Boolean deleteSeminarByCourseId(BigInteger courseId) throws IllegalArgumentException,
-			CourseNotFoundException;
+            CourseNotFoundException;
 
 
 	/**

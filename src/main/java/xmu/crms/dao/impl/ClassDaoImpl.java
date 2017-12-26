@@ -18,7 +18,7 @@ public class ClassDaoImpl implements ClassDao {
     private ClassMapper classMapper;
 
     @Override
-    public List<ClassInfo> listClassByName(String courseName, String teacherName) throws UserNotFoundException, CourseNotFoundException ,ClassesNotFoundException{
+    public List<ClassInfo> listClassByName(String courseName, String teacherName) throws UserNotFoundException, CourseNotFoundException,ClassesNotFoundException {
         List<ClassInfo> classes;
         User teacher = classMapper.findTeacherIdByteacherName(teacherName);
         if(teacher == null){
@@ -148,7 +148,7 @@ public class ClassDaoImpl implements ClassDao {
 
 
     @Override
-    public BigInteger insertClassById(BigInteger courseId, ClassInfo classInfo) throws  CourseNotFoundException {
+    public BigInteger insertClassById(BigInteger courseId, ClassInfo classInfo) throws CourseNotFoundException {
         Course course = classMapper.findCourseByCourseId(courseId);
         if(course == null){
             throw new CourseNotFoundException();

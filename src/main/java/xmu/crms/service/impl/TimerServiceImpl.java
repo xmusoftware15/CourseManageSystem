@@ -1,9 +1,6 @@
 package xmu.crms.service.impl;
 
-import com.fasterxml.jackson.databind.DeserializationConfig;
-import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.json.JSONObject;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -13,14 +10,14 @@ import org.springframework.transaction.annotation.Isolation;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 import xmu.crms.dao.TimerDAO;
-import xmu.crms.service.TimerService;
 import xmu.crms.entity.Event;
+import xmu.crms.service.TimerService;
 
 import java.lang.reflect.Method;
-import java.lang.reflect.Field;
 import java.math.BigInteger;
-import java.util.*;
-import java.lang.reflect.Constructor;
+import java.util.Date;
+import java.util.HashMap;
+import java.util.List;
 
 /**
  * 实现定时器任务

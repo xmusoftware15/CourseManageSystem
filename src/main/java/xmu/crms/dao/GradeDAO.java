@@ -24,7 +24,7 @@ public class GradeDAO {
         return res > 0;
     }
 
-    public Boolean updateGroupByGroupId(SeminarGroup seminarGroup) throws GroupNotFoundException{
+    public Boolean updateGroupByGroupId(SeminarGroup seminarGroup) throws GroupNotFoundException {
         Integer res = gradeMapper.updateGroupByGroupId(seminarGroup);
         if (res > 0) {
             return true;

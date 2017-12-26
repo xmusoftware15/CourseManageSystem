@@ -12,8 +12,6 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.stereotype.Component;
 import xmu.crms.entity.User;
 
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -59,27 +57,9 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
     }
 
     private boolean comparePassword(String input, String trusted) {
-        try {
-            return md5Hex(input).equals(trusted);
-        } catch (Exception e){
-            return false;
-        }
+        return trusted.equals(input);
     }
-    private String md5Hex(String input) throws NoSuchAlgorithmException {
-        MessageDigest md5 = MessageDigest.getInstance("MD5");
-        byte[] res = md5.digest(input.getBytes());
-        return toHex(res);
-    }
-    private  String toHex(byte[] bytes) {
 
-        final char[] HEX_DIGITS = "0123456789ABCDEF".toCharArray();
-        StringBuilder ret = new StringBuilder(bytes.length * 2);
-        for (int i=0; i<bytes.length; i++) {
-            ret.append(HEX_DIGITS[(bytes[i] >> 4) & 0x0f]);
-            ret.append(HEX_DIGITS[bytes[i] & 0x0f]);
-        }
-        return ret.toString();
-    }
     private Collection<? extends GrantedAuthority> getAuthorities(
             Integer type) {
         List<GrantedAuthority> authorities = new ArrayList<>();
