@@ -20,24 +20,21 @@
                 </tr>
                 </thead>
                 <tbody class="tableContent">
-                <#list data as grade>
-                <tr>
-                    <td>${grade.order}</td>
-                    <td>${grade.groupName}</td>
-                    <td>${grade.leader}</td>
-                    <td>${grade.seminarGrade}</td>
-                    <td>${grade.topicGrade}</td>
-                    <td>${grade.score}</td>
-                </tr>
-                </#list>
+                    <#list data as grade>
+                    <tr>
+                        <td>${grade.order}</td>
+                        <td>${grade.groupName}</td>
+                        <td>${grade.leader}</td>
+                        <td>${grade.seminarGrade}</td>
+                        <td>${grade.topicGrade}</td>
+                        <td>${grade.score}</td>
+                    </tr>
+                    </#list>
                 </tbody>
             </table>
         </div>
     </div>
 </div>
-<script>
-    $("#returnButton").click(function(){
-        window.location.href = "/student/course/seminarInfo/fixed";
-    })
-</script>
+<script src="/js/student/commonCourse.js"></script>
+<script src="/js/student/grade.js"></script>
 </@frame.page>

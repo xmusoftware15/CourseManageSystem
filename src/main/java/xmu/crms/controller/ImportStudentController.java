@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import xmu.crms.service.ClassService;
+import xmu.crms.service.LoginService;
 import xmu.crms.service.UserService;
 import xmu.crms.entity.User;
 
@@ -36,6 +37,9 @@ public class ImportStudentController {
 
     @Autowired
     UserService userService;
+
+    @Autowired
+    LoginService loginService;
 
     /**
      * 导入处理
@@ -82,10 +86,12 @@ public class ImportStudentController {
                 String studentName = row.getCell(2).getStringCellValue();
 
                 User stu = userService.getUserByUserNumber(studentNumber);
-
-                if (stu != null) {
-                    classService.insertCourseSelectionById(stu.getId(), classId);
+                if (stu == null) {
+                    loginService.createStudentAccountByNumber(studentNumber);
+                    stu = userService.getUserByUserNumber(studentNumber);
                 }
+
+                classService.insertCourseSelectionById(stu.getId(), classId);
             }
         } catch (Exception e) {
             e.printStackTrace();

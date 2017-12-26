@@ -4,7 +4,7 @@ $(".returnButton").click(function () {
 
 function topic(id) {
     window.location.href = "/student/course/topicInfo?courseId=" + courseId +
-        "&seminarId=" + seminarId + "&topicId=" + id;
+        "&seminarId=" + seminarId + "&topicId=" + id + "&groupingMethod=" + groupingMethod;
 };
 $("#grade").click(function () {
     window.location.href = "/student/course/grade";
@@ -23,6 +23,7 @@ function getSeminar() {
                 "固定分组" : "随机分组");
             $("#seminarStartTime").text((new Date(data.startTime).toLocaleDateString()));
             $("#seminarEndTime").text((new Date(data.endTime)).toLocaleDateString());
+            groupingMethod = data.groupingMethod;
             for (i = 0; i < data.topics.length; i++) {
                 var html = '<div class="block" onclick="topic(' + data.topics[i].id + ')">\n' +
                     '<div class="blockFont">' + data.topics[i].name + '</div>\n' +
@@ -34,4 +35,5 @@ function getSeminar() {
 }
 
 var seminarId = getQueryString("seminarId");
+var groupingMethod;
 getSeminar();

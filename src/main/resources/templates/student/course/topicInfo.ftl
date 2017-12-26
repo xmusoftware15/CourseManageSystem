@@ -6,7 +6,7 @@
         <div class="title">查看话题</div>
         <div class="returnButton">返回上一页</div>
         <div class="line"></div>
-        <div class="itemBody">
+        <div class="itemBody" id="mainContainer">
             <div class="item">
                 <label class="itemName">题 目:</label>
                 <label class="itemName" id="topicName"></label>
@@ -23,12 +23,12 @@
                 <label class="itemName">组内人数限制:</label>
                 <label class="itemName" id="topicGroupMemberLimit"></label>
             </div>
-            <#--<#if seminar.groupingMethod == "固定分组">-->
-                <#--<div class="item" id="chooseButton">-->
-                    <#--<button class="submit" id="choose">选择话题</button>-->
-                    <#--<div class="clear"></div>-->
-                <#--</div>-->
-            <#--</#if>-->
+        <#--<#if seminar.groupingMethod == "固定分组">-->
+            <div class="item" id="chooseButton">
+                <button class="submit" id="choose">选择话题</button>
+                <div class="clear"></div>
+            </div>
+        <#--</#if>-->
         </div>
     </div>
 </div>

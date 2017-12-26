@@ -1,3 +1,7 @@
+$(".returnButton").click(function () {
+    window.history.back();
+});
+
 var deleteTable = $("#deleteTable");
 var addTable = $("#addTable");
 
@@ -65,5 +69,42 @@ function submitOnclick() {
     showNode.toggle();
     modifyNode.toggle();
 }
+
 $("#submitButton").click(submitOnclick);
 $("#modifyButton").click(modifyOnclick);
+
+
+function getGroupDetails() {
+    $.ajax({
+        url: "/class/" + classId + "/classgroup",
+        type: "GET",
+        headers: {'Authorization': 'Bearer ' + localStorage.getItem("jwt")},
+        success: function (data) {
+            groupDetail = data;
+            initGroup();
+        }
+    });
+}
+
+function initGroup() {
+    var memHtml = '';
+    for (i = 0; i < groupDetail.members.length; i++) {
+        memHtml += '<tr>\n' +
+            '<td>队员</td>\n' +
+            '<td>' + groupDetail.members[i].number + '</td>\n' +
+            '<td>' + groupDetail.members[i].name + '</td>\n' +
+            '</tr>'
+    }
+    if (groupDetail.leader) {
+        var leaderHtml = '<tr>\n' +
+            '<td>队长</td>\n' +
+            '<td>' + groupDetail.leader.number + '</td>\n' +
+            '<td>' + groupDetail.leader.name + '</td>\n' +
+            '</tr>'
+    }
+    $("#memberContainer").html(leaderHtml + memHtml);
+}
+
+var groupDetail;
+var classId = getQueryString("classId");
+getGroupDetails();

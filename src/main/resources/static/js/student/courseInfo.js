@@ -1,5 +1,9 @@
-function course(id) {
-    window.location.href = "/student/course/home?courseId=" + id;
+$(".returnButton").click(function () {
+    window.history.back();
+});
+
+function course(courseId, classId) {
+    window.location.href = "/student/course/home?courseId=" + courseId + "&classId=" + classId;
 };
 
 function deleteCourse(e) {
@@ -20,8 +24,8 @@ function deleteCourse(e) {
 };
 
 function appendCourse(course) {
-    var html = '    <div class="main_box_right_content" id="' + course.name + '" data-id="' + course.id + '">\n' +
-        '                    <h3 class="classtitle"><span id="course" onclick="course(' + course.id + ')">' + course.name + '<span>\n' +
+    var html = '    <div class="main_box_right_content" id="' + course.name + '" data-courseId="' + course.course.id + '" data-classId="' + course.id + '">\n' +
+        '                    <h3 class="classtitle"><span id="course" onclick="course(' + course.course.id + ',' + course.id + ')">' + course.name + '<span>\n' +
         '                    </h3>\n' +
         '                        <button class="main_box_right_content_button" onclick="deleteCourse(' + course.name + ')">退选课程</button>\n' +
         '                    <div class="divideline"></div>\n' +

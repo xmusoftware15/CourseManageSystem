@@ -17,19 +17,19 @@
                     <th>姓名</th>
                 </tr>
                 </thead>
-                <tbody class="tableContent">
-                <tr>
-                    <td>队长</td>
-                    <td>${group.leader.number}</td>
-                    <td>${group.leader.name}</td>
-                </tr>
-                    <#list group.members as member>
-                    <tr>
-                        <td>队员</td>
-                        <td>${member.number}</td>
-                        <td>${member.name}</td>
-                    </tr>
-                    </#list>
+                <tbody class="tableContent" id="memberContainer">
+                <#--<tr>-->
+                    <#--<td>队长</td>-->
+                    <#--<td>${group.leader.number}</td>-->
+                    <#--<td>${group.leader.name}</td>-->
+                <#--</tr>-->
+                    <#--<#list group.members as member>-->
+                    <#--<tr>-->
+                        <#--<td>队员</td>-->
+                        <#--<td>${member.number}</td>-->
+                        <#--<td>${member.name}</td>-->
+                    <#--</tr>-->
+                    <#--</#list>-->
                 </tbody>
             </table>
             <div class="item">
@@ -53,19 +53,19 @@
                 </tr>
                 </thead>
                 <tbody class="tableContent" id="deleteTable">
-                <tr>
-                    <td>队长</td>
-                    <td>${group.leader.number}</td>
-                    <td>${group.leader.name}</td>
-                </tr>
-                    <#list group.members as member>
-                    <tr>
-                        <td>队员</td>
-                        <td>${member.number}</td>
-                        <td>${member.name}</td>
-                        <td class="deleteMember">删除</td>
-                    </tr>
-                    </#list>
+                <#--<tr>-->
+                    <#--<td>队长</td>-->
+                    <#--<td>${group.leader.number}</td>-->
+                    <#--<td>${group.leader.name}</td>-->
+                <#--</tr>-->
+                    <#--<#list group.members as member>-->
+                    <#--<tr>-->
+                        <#--<td>队员</td>-->
+                        <#--<td>${member.number}</td>-->
+                        <#--<td>${member.name}</td>-->
+                        <#--<td class="deleteMember">删除</td>-->
+                    <#--</tr>-->
+                    <#--</#list>-->
                 </tbody>
             </table>
         </div>
@@ -115,5 +115,6 @@
         window.location.href = "/student/course/home/OOAD";
     })
 </script>
+<script src="/js/student/commonCourse.js"></script>
 <script src="/js/student/modifyGroupInfo.js"></script>
 </@frame.page>

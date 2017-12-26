@@ -1,5 +1,5 @@
 $("#returnButton").click(function () {
-    window.location.href = "/student/course";
+    window.history.back();
 });
 
 function seminar(i) {
@@ -13,7 +13,7 @@ function seminar(i) {
         courseId + "&seminarId=" + seminars[i].id;
 };
 $("#group").click(function () {
-    window.location.href = "/student/course/group";
+    window.location.href = window.location.href.replace("/student/course/home?", "/student/course/group?");
 });
 
 function getSeminar() {

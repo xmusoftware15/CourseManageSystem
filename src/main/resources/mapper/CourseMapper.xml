@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="xmu.crms.mapper.CourseMapper">
-    <resultMap id="ResultCourse" type="xmu.crms.entity.Course" >
-        <id column="id" property="id" jdbcType="BIGINT" />
-        <result column="name" property="name" jdbcType="VARCHAR" />
-        <result column="start_date" property="startDate" jdbcType="DATE" />
-        <result column="end_date" property="endDate" jdbcType="DATE" />
-        <result column="description" property="description" jdbcType="VARCHAR" />
-        <result column="report_percentage" property="reportPercentage" jdbcType="TINYINT" />
-        <result column="presentation_percentage" property="presentationPercentage" jdbcType="TINYINT" />
-        <result column="five_point_percentage" property="fivePointPercentage" jdbcType="TINYINT" />
-        <result column="four_point_percentage" property="fourPointPercentage" jdbcType="TINYINT" />
-        <result column="three_point_percentage" property="threePointPercentage" jdbcType="TINYINT" />
+    <resultMap id="ResultCourse" type="xmu.crms.entity.Course">
+        <id column="id" property="id" jdbcType="BIGINT"/>
+        <result column="name" property="name" jdbcType="VARCHAR"/>
+        <result column="start_date" property="startDate" jdbcType="DATE"/>
+        <result column="end_date" property="endDate" jdbcType="DATE"/>
+        <result column="description" property="description" jdbcType="VARCHAR"/>
+        <result column="report_percentage" property="reportPercentage" jdbcType="TINYINT"/>
+        <result column="presentation_percentage" property="presentationPercentage" jdbcType="TINYINT"/>
+        <result column="five_point_percentage" property="fivePointPercentage" jdbcType="TINYINT"/>
+        <result column="four_point_percentage" property="fourPointPercentage" jdbcType="TINYINT"/>
+        <result column="three_point_percentage" property="threePointPercentage" jdbcType="TINYINT"/>
         <association column="teacher_id" property="teacher" jdbcType="BIGINT" javaType="xmu.crms.entity.User"
                      select="CommonMapper.selectUser"/>
     </resultMap>
@@ -45,49 +45,47 @@
     </select>
 
     <update id="updateCourseByCourseId">
-        <update id="updateCourseByCourseId">
-            UPDATE course
-            <set>
-                <if test="course.name != null">
-                    `name` = #{course.name,jdbcType=VARCHAR},
-                </if>
-                <if test="course.startDate != null">
-                    start_date = #{course.startDate,jdbcType=DATE},
-                </if>
-                <if test="course.endDate != null">
-                    end_date = #{course.endDate,jdbcType=DATE},
-                </if>
-                <if test="course.teacher != null">
-                    teacher_id = #{course.teacher.id,jdbcType=BIGINT},
-                </if>
-                <if test="course.description != null">
-                    description = #{course.description,jdbcType=VARCHAR},
-                </if>
-                <if test="course.reportPercentage != null">
-                    report_percentage = #{course.reportPercentage,jdbcType=TINYINT},
-                </if>
-                <if test="course.presentationPercentage != null">
-                    presentation_percentage = #{course.presentationPercentage,jdbcType=TINYINT},
-                </if>
-                <if test="course.fivePointPercentage != null">
-                    five_point_percentage = #{course.fivePointPercentage,jdbcType=TINYINT},
-                </if>
-                <if test="course.fourPointPercentage != null">
-                    four_point_percentage = #{course.fourPointPercentage,jdbcType=TINYINT},
-                </if>
-                <if test="course.threePointPercentage != null">
-                    three_point_percentage = #{course.threePointPercentage,jdbcType=TINYINT}
-                </if>
-            </set>
-            WHERE id = #{courseId,jdbcType=BIGINT}
-        </update>
+        UPDATE course
+        <set>
+            <if test="course.name != null">
+                `name` = #{course.name,jdbcType=VARCHAR},
+            </if>
+            <if test="course.startDate != null">
+                start_date = #{course.startDate,jdbcType=DATE},
+            </if>
+            <if test="course.endDate != null">
+                end_date = #{course.endDate,jdbcType=DATE},
+            </if>
+            <if test="course.teacher != null">
+                teacher_id = #{course.teacher.id,jdbcType=BIGINT},
+            </if>
+            <if test="course.description != null">
+                description = #{course.description,jdbcType=VARCHAR},
+            </if>
+            <if test="course.reportPercentage != null">
+                report_percentage = #{course.reportPercentage,jdbcType=TINYINT},
+            </if>
+            <if test="course.presentationPercentage != null">
+                presentation_percentage = #{course.presentationPercentage,jdbcType=TINYINT},
+            </if>
+            <if test="course.fivePointPercentage != null">
+                five_point_percentage = #{course.fivePointPercentage,jdbcType=TINYINT},
+            </if>
+            <if test="course.fourPointPercentage != null">
+                four_point_percentage = #{course.fourPointPercentage,jdbcType=TINYINT},
+            </if>
+            <if test="course.threePointPercentage != null">
+                three_point_percentage = #{course.threePointPercentage,jdbcType=TINYINT}
+            </if>
+        </set>
+        WHERE id = #{courseId,jdbcType=BIGINT}
     </update>
 
     <delete id="deleteCourseByCourseId" parameterType="java.math.BigInteger">
         DELETE FROM course WHERE id = #{courseId,jdbcType=BIGINT}
     </delete>
 
-    <select id="listCourseByCourseName" resultMap="ResultCourse" parameterType="java.lang.String" >
+    <select id="listCourseByCourseName" resultMap="ResultCourse" parameterType="java.lang.String">
         SELECT
         <include refid="Course_Column_List"/>
         FROM course
