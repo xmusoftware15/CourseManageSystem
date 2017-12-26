@@ -2,29 +2,25 @@ package xmu.crms;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.SerializationConfig;
 import com.fasterxml.jackson.databind.SerializationFeature;
-import org.apache.ibatis.annotations.Mapper;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import java.text.SimpleDateFormat;
 
 /**
- *
- * @author badcode
- * @date 2017/12/01
+ * @author Auto-generated
  */
+@EnableTransactionManagement
 @SpringBootApplication
-@MapperScan(basePackages = "xmu.crms.mapper")
-@EnableGlobalMethodSecurity(prePostEnabled = true)
-public class CourseManageSystemApplication {
+@MapperScan("xmu.crms.mapper")
+public class CrmsApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(CourseManageSystemApplication.class, args);
+		SpringApplication.run(CrmsApplication.class, args);
 	}
 
 	/**

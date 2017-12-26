@@ -31,8 +31,8 @@ public interface UserMapper {
 
 	List<Attendance> getAttendanceById(BigInteger classId, BigInteger seminarId);
 
-	User getUserByUserNumber(String userNumber,BigInteger schoolId);
-
+	User getUserByUserNumberAndSchool(String userNumber,BigInteger schoolId);
+	User getUserByUserNumber(String userNumber);
 	User getUserByOpenId(String openid);
 	int createStudentAccountByNumber(User user);
     

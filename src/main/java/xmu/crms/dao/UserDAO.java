@@ -108,16 +108,27 @@ public class UserDAO {
 		return users;
 	}
 
-	public User getUserByUserNumber(String userNumber,BigInteger schoolId) throws UserNotFoundException {
+	public User getUserByUserNumber(String userNumber) throws UserNotFoundException {
 		User user = null;
         try{
-        	user = userMapper.getUserByUserNumber(userNumber,schoolId);
+        	user = userMapper.getUserByUserNumber(userNumber);
         }catch (Exception e){
         	e.printStackTrace();
         }
 //        if(user==null)
 //        	throw new UserNotFoundException("No such user");
         return user;
+	}
+	public User getUserByUserNumberAndSchool(String userNumber,BigInteger schoolId) throws UserNotFoundException {
+		User user = null;
+		try{
+			user = userMapper.getUserByUserNumberAndSchool(userNumber,schoolId);
+		}catch (Exception e){
+			e.printStackTrace();
+		}
+//        if(user==null)
+//        	throw new UserNotFoundException("No such user");
+		return user;
 	}
 	public BigInteger createStudentAccountByNumber(User user)
 	{

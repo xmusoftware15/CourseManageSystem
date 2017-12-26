@@ -198,15 +198,24 @@ private SchoolService schoolService;
     }
 
 	@Override
-	public User getUserByUserNumber(String userNumber,BigInteger schoolId) throws IllegalArgumentException, UserNotFoundException {
+	public User getUserByUserNumber(String userNumber) throws IllegalArgumentException, UserNotFoundException {
         User val = null;
         try {
-            val = userDAO.getUserByUserNumber(userNumber,schoolId);
+            val = userDAO.getUserByUserNumber(userNumber);
         } catch (UserNotFoundException e) {
             throw e;
         }
         return val;
 	}
-
+    @Override
+    public User getUserByUserNumberAndSchool(String userNumber,BigInteger schoolId) throws IllegalArgumentException, UserNotFoundException {
+        User val = null;
+        try {
+            val = userDAO.getUserByUserNumberAndSchool(userNumber,schoolId);
+        } catch (UserNotFoundException e) {
+            throw e;
+        }
+        return val;
+    }
 
 }

@@ -33,10 +33,15 @@
         WHERE id = #{arg0}
     </select>
     
-    <select id="getUserByUserNumber" resultMap="user">
+    <select id="getUserByUserNumberAndSchool" resultMap="user">
         SELECT id, `phone`, `name`, `number`, `email`, `type`, `gender`, `title`, `avatar`, `school_id` 
         from user_info 
         WHERE number = #{arg0} AND school_id=#{arg1}
+    </select>
+    <select id="getUserByUserNumber" resultMap="user">
+        SELECT id, `phone`, `name`, `number`, `email`, `type`, `gender`, `title`, `avatar`, `school_id`
+        from user_info
+        WHERE number = #{arg0}
     </select>
     
     <select id="selectSchool" resultType="xmu.crms.entity.School">

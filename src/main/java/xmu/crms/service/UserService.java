@@ -74,9 +74,20 @@ public interface UserService {
 	 * @exception IllegalArgumentException throws when 信息不合法 
 	 * @exception UserNotFoundException throws when 未找到对应用户
 	 */
-	User getUserByUserNumber(String userNum,BigInteger schoolId) throws IllegalArgumentException,
+	User getUserByUserNumberAndSchool(String userNum,BigInteger schoolId) throws IllegalArgumentException,
 			UserNotFoundException;
-	
+	/**
+	 * 根据用户学（工）号获取用户的信息.
+	 * <p>根据用户学（工）号获取用户的信息<br>
+	 * @author YeHongjie
+	 * @param userNum 用户学（工）号
+	 * @return user 用户信息
+	 * @see SchoolService#getSchoolBySchoolId(BigInteger schoolId)
+	 * @exception IllegalArgumentException throws when 信息不合法
+	 * @exception UserNotFoundException throws when 未找到对应用户
+	 */
+	User getUserByUserNumber(String userNum) throws IllegalArgumentException,
+			UserNotFoundException;
 	/**
 	 * 根据用户名获取用户ID.
 	 * <p>根据用户名获取用户ID<br>
