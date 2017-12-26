@@ -1,6 +1,7 @@
 $(function () {
     var seminarId = localStorage.getItem("seminarId");
     console.log(seminarId);
+    var token = localStorage.getItem("jwt");
 
     var courseJson = localStorage.getItem("courseJson");
     if (courseJson != undefined) {
@@ -13,6 +14,7 @@ $(function () {
         url:"/seminar/"+seminarId,
         // url: "http://rap2api.taobao.org/app/mock/933/GET/seminar/32",
         type: "GET",
+        headers: {"Authorization": "Bearer " + token},
         success: function (data) {
             console.log(data);
             //存储json
@@ -55,6 +57,7 @@ $(function () {
             $.ajax({
                 url: "/seminar/" + seminarId,
                 type: "DELETE",
+                headers: {"Authorization": "Bearer " + token},
                 success: function () {
                     alert("成功删除课程");
                     window.location.href = "/teacher/courseInformation";

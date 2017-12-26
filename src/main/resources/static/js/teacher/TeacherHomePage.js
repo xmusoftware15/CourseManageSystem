@@ -1,9 +1,11 @@
 $(function () {
     // console.log("aaa");
+    var token = localStorage.getItem("jwt");
     $.ajax({
         url: "/me",
         // url: "http://rap2api.taobao.org/app/mock/933/GET/me",
         type: "GET",
+        headers: {"Authorization": "Bearer " + token},
         success: function (data) {
             console.log(data);
             $("#userTitle").text(data.phone);

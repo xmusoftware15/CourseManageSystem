@@ -80,7 +80,7 @@
         leader_id = NULL
         where id = #{groupId,jdbcType=BIGINT}
     </update>
-    <select id="selectSeminarGroupNotHaveTopic" resultMap="seminarGroupTopicResultMap">
+    <select id="selectSeminarGroupNotHaveTopic" resultMap="BaseResultMap">
         SELECT seminar_group.id, seminar_id, report_grade,seminar_group.presentation_grade, final_grade,
         report, class_id, leader_id
         FROM seminar_group_topic,seminar_group

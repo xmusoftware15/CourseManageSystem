@@ -1,11 +1,13 @@
 $(function () {
     var courseId = localStorage.getItem("courseId");
     console.log(courseId);
+    var token = localStorage.getItem("jwt");
 
     $.ajax({
         url:"/course/"+courseId,
         // url: "http://rap2api.taobao.org/app/mock/933/GET/course/23",
         type: "GET",
+        headers: {"Authorization": "Bearer " + token},
         success: function (data) {
             console.log(data);
             //json存储
@@ -24,6 +26,7 @@ $(function () {
         url:"/course/"+courseId+"/class",
         // url: "http://rap.taobao.org/mockjsdata/29816/course/23/calss",
         type: "GET",
+        headers: {"Authorization": "Bearer " + token},
         success: function (data) {
             console.log(data);
             if (data.length != undefined) {
@@ -43,6 +46,7 @@ $(function () {
         url:"/course/"+courseId+"/seminar",
         // url: "http://rap.taobao.org/mockjsdata/29816/course/23/seminar",
         type: "GET",
+        headers: {"Authorization": "Bearer " + token},
         success: function (data) {
             console.log(data);
             if (data.length != undefined) {

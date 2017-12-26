@@ -11,7 +11,9 @@ function getInfo() {
 }
 
 $(function () {
+
     var courseJson = localStorage.getItem("courseJson");
+    var token = localStorage.getItem("jwt");
     if (courseJson != null) {
         courseJson = JSON.parse(courseJson);
         $(".courseName").text(courseJson.name);
@@ -42,10 +44,12 @@ $(function () {
                 a: $("#a").val()
             }
         };
-
+        var classJson = JSON.parse(localStorage.getItem("classJson"));
+        var classId = classJson.id;
         $.ajax({
-            url: "/class/" + 2,
+            url: "/class/" + classId,
             type: "PUT",
+            headers: {"Authorization": "Bearer " + token},
             contentType: "application/json",
             data: JSON.stringify(classInfo),
             success: function (data) {

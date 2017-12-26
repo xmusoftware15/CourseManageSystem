@@ -1,7 +1,9 @@
 (function () {
+    var token = localStorage.getItem("jwt");
     $.ajax({
         url: "http://apis.map.qq.com/ws/district/v1/list?key=7DFBZ-K4PWQ-TYK5Y-GL7XN-RBDSQ-XSB6M&output=jsonp",
         type: "GET",
+        headers: {"Authorization": "Bearer " + token},
         dataType: "JSONP",
         success: function (data) {
             console.log(data);
@@ -13,6 +15,7 @@
             $.ajax({
                 url: "http://apis.map.qq.com/ws/district/v1/getchildren?key=7DFBZ-K4PWQ-TYK5Y-GL7XN-RBDSQ-XSB6M&output=jsonp&id=" + $("#province option:selected").attr("id"),
                 type: "GET",
+                headers: {"Authorization": "Bearer " + token},
                 dataType: "JSONP",
                 success: function (data) {
                     var result = data.result[0];
@@ -30,6 +33,7 @@
         $.ajax({
             url: "http://apis.map.qq.com/ws/district/v1/getchildren?key=7DFBZ-K4PWQ-TYK5Y-GL7XN-RBDSQ-XSB6M&output=jsonp&id=" + $("#province option:selected").attr("id"),
             type: "GET",
+            headers: {"Authorization": "Bearer " + token},
             dataType: "JSONP",
             success: function (data) {
                 var result = data.result[0];
@@ -50,6 +54,7 @@
         $.ajax({
             url: "/school",
             type: "POST",
+            headers: {"Authorization": "Bearer " + token},
             contentType: "application/json",
             data: JSON.stringify(school),
             success: function (data) {

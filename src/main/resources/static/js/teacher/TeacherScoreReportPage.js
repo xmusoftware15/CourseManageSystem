@@ -1,4 +1,5 @@
 $(function () {
+    var token = localStorage.getItem("jwt");
     var groupId = localStorage.getItem("groupId");
     var seminarId = localStorage.getItem("seminarId");
     console.log(groupId);
@@ -6,6 +7,7 @@ $(function () {
         url:"/seminar/"+seminarId+"/group",
         // url: "http://rap.taobao.org/mockjsdata/29816/seminar/32/group",
         type: "GET",
+        headers: {"Authorization": "Bearer " + token},
         success: function (data) {
             //console.log(data);
             if (data.length != undefined) {
@@ -23,6 +25,7 @@ $(function () {
         url:"/group/"+groupId,
         // url: "http://rap2api.taobao.org/app/mock/933/GET/group/28",
         type: "GET",
+        headers: {"Authorization": "Bearer " + token},
         success: function (data) {
             console.log(data);
             $("#leader").text(data.leader.name);
@@ -33,6 +36,7 @@ $(function () {
         // url:"/seminar/"+seminarId,
         url: "http://rap2api.taobao.org/app/mock/933/GET/seminar/32",
         type: "GET",
+        headers: {"Authorization": "Bearer " + token},
         success: function (data) {
             $("#title").text(data.name);
         }
@@ -45,6 +49,7 @@ $(function () {
         $.ajax({
             url:"/group/"+groupId+"/grade/report",
             type:"PUT",
+            headers: {"Authorization": "Bearer " + token},
             contentType: "application/json",
             data: JSON.stringify(score),
             success:function () {

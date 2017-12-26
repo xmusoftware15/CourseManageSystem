@@ -40,10 +40,10 @@ public class UserController {
         user=userService.getUserByUserId(id1);
         school=schoolService.getSchoolBySchoolId(user.getSchool().getId());
         user.setSchool(school);
-        if(user==null)
-        	throw new UserNotFoundException();
-        else
-        	userVO=new UserVO(user);
+        if(user==null){
+        	throw new UserNotFoundException();}
+        else{
+        	userVO=new UserVO(user);}
         return userVO;
     }
     
@@ -65,11 +65,11 @@ public class UserController {
     	//user.setTitle(map.get("title"));
     	String gender=map.get("gender");
     	if(gender.equals("male"))
-    		user.setGender(0);
-    	else
+        {user.setGender(0);}
+    	else{
     		user.setGender(1);
     	user.setAvatar(map.get("avatar"));
-    	userService.updateUserByUserId(id1, user);
+    	userService.updateUserByUserId(id1, user);}
     }
 
     

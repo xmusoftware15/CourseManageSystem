@@ -78,4 +78,13 @@
         WHERE course_selection.class_id=#{arg0} and user_info.number like CONCAT('%',#{arg1},'%') 
         	and user_info.name like CONCAT('%',#{arg2},'%') and course_selection.student_id=user_info.id
     </select>
+    <select id="getUserByOpenId" resultMap="user">
+        SELECT id, `phone`, `name`, `number`, `email`, `type`, `gender`, `title`, `avatar`, `school_id`
+        from user_info
+        WHERE openid = #{openId}
+    </select>
+    <insert id="insertUser">
+        insert into user_info(openid)
+        values (#{openId})
+    </insert>
 </mapper>

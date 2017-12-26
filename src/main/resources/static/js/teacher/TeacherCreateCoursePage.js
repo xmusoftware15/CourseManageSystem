@@ -1,4 +1,5 @@
 (function () {
+    var token = localStorage.getItem("jwt");
     $("#submit").on("click", function () {
         var course = {
             name: $("#coursename").val(),
@@ -16,6 +17,7 @@
         $.ajax({
             url: "/course",
             type: "POST",
+            headers: {"Authorization": "Bearer " + token},
             contentType: "application/json",
             data: JSON.stringify(course),
             success: function (data) {

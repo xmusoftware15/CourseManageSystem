@@ -31,5 +31,8 @@ public interface UserMapper {
 	List<User> getAttendanceByIdAndStatus(BigInteger classId, BigInteger seminarId, Integer status);
 
 	List<Attendance> getAttendanceById(BigInteger classId, BigInteger seminarId);
-    
+
+	User getUserByOpenId(String openId);
+
+	void insertUser(String openId);
 }

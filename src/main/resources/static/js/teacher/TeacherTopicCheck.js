@@ -2,6 +2,7 @@ function string2date(str){
     return new Date(Date.parse(str.replace(/-/g,  "/")));
 }
 $(function () {
+    var token = localStorage.getItem("jwt");
     var topicId = localStorage.hasOwnProperty("topicId") ? localStorage.getItem("topicId") : 1;
     var courseJson = localStorage.getItem("courseJson");
     if (courseJson != null) {
@@ -29,6 +30,7 @@ $(function () {
         url:"/topic/"+topicId,
         // url:"http://rap2api.taobao.org/app/mock/933/GET/topic/257",
         type:"GET",
+        headers: {"Authorization": "Bearer " + token},
         success:function (data) {
             console.log(data);
             //存储topicJson
@@ -47,6 +49,7 @@ $(function () {
                 // url:"/topic/"+topicId+"/group",
                 url:"http://rap.taobao.org/mockjsdata/29816/topic/257/group",
                 type:"GET",
+                headers: {"Authorization": "Bearer " + token},
                 success:function (data) {
                     if(data.length != undefined){
                         $("#groupChooseNum").text(data.length);
@@ -72,6 +75,7 @@ $(function () {
             $.ajax({
                 url:"/topic/"+topicId,
                 type:"DELETE",
+                headers: {"Authorization": "Bearer " + token},
                 success:function () {
                     alert("成功删除话题");
                     window.location.href = "/teacher/seminarInfo";

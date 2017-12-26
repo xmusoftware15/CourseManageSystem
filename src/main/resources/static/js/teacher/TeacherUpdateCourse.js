@@ -15,6 +15,7 @@ function getInfo() {
 }
 $(function () {
 
+    var token = localStorage.getItem("jwt");
     getInfo();
     $("#submit").on("click", function () {
         var course = {
@@ -33,6 +34,7 @@ $(function () {
         $.ajax({
             url: "/course/" + courseId,
             type: "PUT",
+            headers: {"Authorization": "Bearer " + token},
             contentType: "application/json",
             data: JSON.stringify(course),
             success: function (data) {

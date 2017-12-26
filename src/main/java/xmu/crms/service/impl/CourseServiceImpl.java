@@ -58,6 +58,11 @@ public class CourseServiceImpl implements CourseService{
 
     @Override
     public void deleteCourseByCourseId(BigInteger courseId) throws IllegalArgumentException{
+        try {
+            classService.deleteClassByCourseId(courseId);
+        } catch (Exception e) {
+
+        }
         courseDao.deleteCourseByCourseId(courseId);
     }
 

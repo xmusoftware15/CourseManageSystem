@@ -1,7 +1,9 @@
 (function() {
+    var token = localStorage.getItem("jwt");
     $.ajax({
         url: "/school/province",
         type: "GET",
+        headers: {"Authorization": "Bearer " + token},
         success: function (data) {
             for(var i = 0;i<data.length;i++)
                 $("#province").append(
@@ -10,6 +12,7 @@
             $.ajax({
                 url: "/school/city?province=" + $("#province option:selected").attr("value"),
                 type: "GET",
+                headers: {"Authorization": "Bearer " + token},
                 success: function (data) {
                     for(var i = 0;i<data.length;i++)
                         $("#city").append(
@@ -18,6 +21,7 @@
                     $.ajax({
                         url: "/school?city=" + $("#city option:selected").attr("value"),
                         type: "GET",
+                        headers: {"Authorization": "Bearer " + token},
                         success: function (data) {
                             for(var i = 0;i<data.length;i++)
                                 $("#school").append(

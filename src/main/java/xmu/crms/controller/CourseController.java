@@ -44,8 +44,20 @@ public class CourseController {
 
     @GetMapping("/course")
     @ResponseStatus(HttpStatus.OK)
-    public List<Course> getCourses(@RequestAttribute("userId") String userId) throws CourseNotFoundException{
-        return courseService.listCourseByUserId(new BigInteger(userId));
+    public List<SimpleCourseVo> getCourses(@RequestAttribute("userId") String userId) throws CourseNotFoundException{
+        List<Course> courses = courseService.listCourseByUserId(new BigInteger(userId));
+        List<SimpleCourseVo> simpleCourseVos = new ArrayList<SimpleCourseVo>();
+        for(Course course:courses){
+            SimpleCourseVo simpleCourseVo = new SimpleCourseVo();
+            simpleCourseVo.setId(course.getId());
+            simpleCourseVo.setName(course.getName());
+            simpleCourseVo.setNumClass(3);
+            simpleCourseVo.setNumStudent(60);
+            simpleCourseVo.setStartTime(course.getStartDate());
+            simpleCourseVo.setEndTime(course.getEndDate());
+            simpleCourseVos.add(simpleCourseVo);
+        }
+        return simpleCourseVos;
     }
 
     @PostMapping("/course")
@@ -119,9 +131,13 @@ public class CourseController {
 
     @PostMapping("/course/{courseId}/class")
     @ResponseStatus(HttpStatus.CREATED)
-    public IdVo createClassForCourse(@RequestBody ClassVo classVo, @PathVariable("courseId") String courseId) throws CourseNotFoundException {
+    public IdVo createClassForCourse(@RequestBody ClassVo classVo, @PathVariable("courseId") String courseId)
+            throws CourseNotFoundException {
 
         ClassInfo classInfo = new ClassInfo();
+        Course course = new Course();
+        course.setId(new BigInteger(courseId));
+        classInfo.setCourse(course);
         classInfo.setName(classVo.getName());
         classInfo.setSite(classVo.getSite());
         classInfo.setClassTime(classVo.getTime());
@@ -158,6 +174,9 @@ public class CourseController {
     @ResponseStatus(HttpStatus.CREATED)
     public IdVo createSeminarForCourse(@PathVariable("courseId") String courseId,@RequestBody HQSeminarVo seminarVo) throws CourseNotFoundException {
         Seminar seminar = new Seminar();
+        Course course = new Course();
+        course.setId(new BigInteger(courseId));
+        seminar.setCourse(course);
         seminar.setName(seminarVo.getName());
         seminar.setDescription(seminarVo.getDescription());
         seminar.setStartTime(seminarVo.getStartTime());

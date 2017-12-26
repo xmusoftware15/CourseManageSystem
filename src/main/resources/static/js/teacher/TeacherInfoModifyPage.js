@@ -1,5 +1,6 @@
 $(function () {
 
+    var token = localStorage.getItem("jwt");
     var userJson = localStorage.getItem("userJson");
     userJson = JSON.parse(userJson);
     console.log(userJson);
@@ -26,6 +27,7 @@ $(function () {
         $.ajax({
             url: "/me",
             type: "PUT",
+            headers: {"Authorization": "Bearer " + token},
             contentType: "application/json",
             data: JSON.stringify(info),
             success: function () {

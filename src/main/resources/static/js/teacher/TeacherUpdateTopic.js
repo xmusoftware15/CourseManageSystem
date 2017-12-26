@@ -10,6 +10,7 @@ function getInfo() {
     }
 }
 $(function () {
+    var token = localStorage.getItem("jwt");
     var topicId = localStorage.hasOwnProperty("topicId") ? localStorage.getItem("topicId") : 1;
     var courseJson = localStorage.getItem("courseJson");
     if (courseJson != null) {
@@ -32,6 +33,7 @@ $(function () {
         $.ajax({
             url:"/topic/"+topicId,
             type:"PUT",
+            headers: {"Authorization": "Bearer " + token},
             contentType: "application/json",
             data: JSON.stringify(topicInfo),
             success:function () {

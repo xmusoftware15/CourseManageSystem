@@ -1,8 +1,10 @@
 $(function () {
     //获取课程
+    var token = localStorage.getItem("jwt");
     $.ajax({
         url:"/course",
         // url:"http://rap.taobao.org/mockjsdata/29816/course1",
+        headers: {"Authorization": "Bearer " + token},
         type:"GET",
         success:function (data) {
             console.log(data);
@@ -52,6 +54,7 @@ $(function () {
             $.ajax({
                 url:"/course/"+courseId,
                 type:"DELETE",
+                headers: {"Authorization": "Bearer " + token},
                 success:function () {
                     $("#"+courseId).hide();
                 },

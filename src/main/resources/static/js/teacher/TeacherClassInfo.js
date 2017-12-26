@@ -7,11 +7,14 @@ $(function () {
     $(".courseName").text(courseJson.name);
     $(".courseIntroduction").text(courseJson.description);
 
+    var token = localStorage.getItem("jwt");
+
 
     $.ajax({
         url:"/class/"+classId,
         // url: "http://rap.taobao.org/mockjsdata/29816/class/23",
         type: "GET",
+        headers: {"Authorization": "Bearer " + token},
         success: function (data) {
             console.log(data);
             $(".title").text(data.name);

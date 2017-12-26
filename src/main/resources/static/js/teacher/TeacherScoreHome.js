@@ -1,4 +1,5 @@
 $(function () {
+    var token = localStorage.getItem("jwt");
     var seminarId = localStorage.getItem("seminarId");
     console.log(seminarId);
 
@@ -12,6 +13,7 @@ $(function () {
         url:"/seminar/"+seminarId+"/group",
         // url: "http://rap.taobao.org/mockjsdata/29816/seminar/32/group",
         type: "GET",
+        headers: {"Authorization": "Bearer " + token},
         success: function (data) {
             console.log(data);
             if (data.length != undefined) {

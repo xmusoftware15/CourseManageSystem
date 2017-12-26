@@ -1,6 +1,8 @@
 (function () {
 
     var num = 1;
+    var token = localStorage.getItem("jwt");
+    var courseId=localStorage.getItem("courseId");
 
     if(localStorage.hasOwnProperty("courseJson")) {
         var courseJson = localStorage.getItem("courseJson");
@@ -9,8 +11,9 @@
         $(".courseIntroduction").text(course.description);
     } else {
         $.ajax({
-            url: "/course/" + 3/*localStorage.getItem("courseId")*/,
+            url: "/course/" + courseId,
             type: "GET",
+            headers: {"Authorization": "Bearer " + token},
             success: function (data) {
                 $(".courseName").text(data.name);
                 $(".courseIntroduction").text(data.description);
@@ -42,8 +45,9 @@
         };
 
         $.ajax({
-            url: "/course/" + 2 + "/class",
+            url: "/course/" + courseId + "/class",
             type: "POST",
+            headers: {"Authorization": "Bearer " + token},
             contentType: "application/json",
             data: JSON.stringify(classInfo),
             success: function (data) {

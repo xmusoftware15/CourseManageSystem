@@ -1,4 +1,5 @@
 $(function () {
+    var token = localStorage.getItem("jwt");
     var courseId = localStorage.getItem("courseId");
     var courseJson = localStorage.getItem("courseJson");
     courseJson = JSON.parse(courseJson);
@@ -39,6 +40,7 @@ $(function () {
         $.ajax({
             url: "/course/" + courseId + "/seminar",
             type: "POST",
+            headers: {"Authorization": "Bearer " + token},
             contentType: "application/json",
             data: JSON.stringify(seminarInfo),
             success: function (data) {

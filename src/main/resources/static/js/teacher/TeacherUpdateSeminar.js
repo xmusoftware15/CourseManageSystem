@@ -18,6 +18,7 @@ function getInfo() {
     }
 }
 $(function () {
+    var token = localStorage.getItem("jwt");
     var courseId = localStorage.getItem("courseId");
     var courseJson = localStorage.getItem("courseJson");
     if (courseJson != undefined) {
@@ -52,10 +53,12 @@ $(function () {
             proportions: pproportions,
         }
         console.log(seminarInfo);
-
+        var seminarJson = localStorage.getItem("seminarJson");
+        var seminarId=seminarJson.id;
         $.ajax({
-            url: "/seminar/" + 1,
+            url: "/seminar/" + seminarId,
             type: "PUT",
+            headers: {"Authorization": "Bearer " + token},
             contentType: "application/json",
             data: JSON.stringify(seminarInfo),
             success: function (data) {
