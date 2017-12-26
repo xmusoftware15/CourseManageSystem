@@ -92,9 +92,9 @@ public class UserDAO {
 		}catch (Exception e){
 			e.printStackTrace();
 		}
-		if(ret==0)
+		if(ret==0){
 			throw new UserNotFoundException("No such user");
-	}
+	}}
 	
 	public List<Attendance> listAttendanceById(BigInteger classId, BigInteger seminarId){
 		List<Attendance> attendances=null;
@@ -108,16 +108,22 @@ public class UserDAO {
 		return users;
 	}
 
-	public User getUserByUserNumber(String userNumber) throws UserNotFoundException {
+	public User getUserByUserNumber(String userNumber,BigInteger schoolId) throws UserNotFoundException {
 		User user = null;
         try{
-        	user = userMapper.getUserByUserNumber(userNumber);
+        	user = userMapper.getUserByUserNumber(userNumber,schoolId);
         }catch (Exception e){
         	e.printStackTrace();
         }
 //        if(user==null)
 //        	throw new UserNotFoundException("No such user");
         return user;
+	}
+	public BigInteger createStudentAccountByNumber(User user)
+	{
+		int res=userMapper.createStudentAccountByNumber(user);
+		if(res>0){return user.getId();}
+		else{return new BigInteger("-1");}
 	}
 
 }

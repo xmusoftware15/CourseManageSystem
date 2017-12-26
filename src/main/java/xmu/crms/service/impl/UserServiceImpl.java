@@ -3,16 +3,14 @@ package xmu.crms.service.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import xmu.crms.dao.UserDAO;
-import xmu.crms.entity.Attendance;
-import xmu.crms.entity.Course;
-import xmu.crms.entity.Location;
-import xmu.crms.entity.User;
+import xmu.crms.entity.*;
 import xmu.crms.exception.ClassesNotFoundException;
 import xmu.crms.exception.CourseNotFoundException;
 import xmu.crms.exception.SeminarNotFoundException;
 import xmu.crms.exception.UserNotFoundException;
 import xmu.crms.service.ClassService;
 import xmu.crms.service.CourseService;
+import xmu.crms.service.SchoolService;
 import xmu.crms.service.UserService;
 
 import java.math.BigInteger;
@@ -26,9 +24,12 @@ import java.util.List;
 public class UserServiceImpl implements UserService {
     @Autowired
     private UserDAO userDAO;
+    @Autowired
     private CourseService courseService;
+    @Autowired
     private ClassService classService;
-
+@Autowired
+private SchoolService schoolService;
     @Override
     public BigInteger insertAttendanceById(BigInteger classId, BigInteger seminarId, BigInteger userId, double longitude,
                                            double latitude) throws IllegalArgumentException, ClassesNotFoundException, SeminarNotFoundException {
@@ -125,6 +126,11 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    public void createStudentAccountByNumber(User user) {
+        userDAO.createStudentAccountByNumber(user);
+    }
+
+    @Override
     public List<User> listUserByUserName(String userName) throws UserNotFoundException {
 
         List<User> users = null;
@@ -133,8 +139,8 @@ public class UserServiceImpl implements UserService {
         } catch (UserNotFoundException e) {
             throw e;
         }
-        if (users == null)
-            throw new UserNotFoundException();
+        if (users == null){
+            throw new UserNotFoundException();}
         return users;
     }
 
@@ -192,10 +198,10 @@ public class UserServiceImpl implements UserService {
     }
 
 	@Override
-	public User getUserByUserNumber(String userNumber) throws IllegalArgumentException, UserNotFoundException {
+	public User getUserByUserNumber(String userNumber,BigInteger schoolId) throws IllegalArgumentException, UserNotFoundException {
         User val = null;
         try {
-            val = userDAO.getUserByUserNumber(userNumber);
+            val = userDAO.getUserByUserNumber(userNumber,schoolId);
         } catch (UserNotFoundException e) {
             throw e;
         }

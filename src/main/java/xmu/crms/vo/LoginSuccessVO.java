@@ -7,10 +7,23 @@ public class LoginSuccessVO {
     private String type;
     private String name;
     private String jwt;
+    private String openid;
+
+    public String getOpenid() {
+        return openid;
+    }
+
+    public void setOpenid(String openid) {
+        this.openid = openid;
+    }
 
     public LoginSuccessVO() {
     }
 
+    public LoginSuccessVO(String openid) {
+        this.openid = openid;
+
+    }
     public LoginSuccessVO(BigInteger id, String type, String name, String jwt) {
         this.id = id;
         this.type = type;

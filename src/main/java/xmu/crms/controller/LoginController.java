@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import xmu.crms.entity.School;
 import xmu.crms.entity.User;
+import xmu.crms.exception.UserNotFoundException;
 import xmu.crms.mapper.UserMapper;
 import xmu.crms.security.auth.JwtService;
 import xmu.crms.service.LoginService;
@@ -39,30 +40,46 @@ public class LoginController {
     private JwtService jwtService;
 
     @PostMapping("/register")
-    public LoginSuccessVO register(@RequestBody Map<String, Object> map) throws NoSuchAlgorithmException {
-        String phone = map.get("phone").toString();
-        String password = map.get("password").toString();
-
-        String name = map.get("name").toString();
-        BigInteger schoolId = BigInteger.valueOf(Long.valueOf(map.get("schoolId").toString()));
-        Integer gender = Integer.valueOf(map.get("gender").toString());
-        Integer type = Integer.valueOf(map.get("type").toString());
-        String email = map.get("email") == null ? null : map.get("email").toString();
-        String number = map.get("number") == null ? null : map.get("number").toString();
+    public LoginSuccessVO register(@RequestBody Map<String, Object> map) throws NoSuchAlgorithmException ,UserNotFoundException{
+        String openid=map.get("openid").toString();
         User user = new User();
-        user.setPhone(phone);
-        user.setPassword(md5Hex(password));
-        user.setName(name);
+        if(openid==null) {
+            String phone = map.get("phone").toString();
+            String password = map.get("password").toString();
+            String name = map.get("name").toString();
+            BigInteger schoolId = BigInteger.valueOf(Long.valueOf(map.get("schoolId").toString()));
+            Integer gender = Integer.valueOf(map.get("gender").toString());
+            Integer type = Integer.valueOf(map.get("type").toString());
+            String email = map.get("email") == null ? null : map.get("email").toString();
+            String number = map.get("number") == null ? null : map.get("number").toString();
 
-        School school = new School();
-        school.setId(schoolId);
-        user.setSchool(school);
-        user.setGender(gender);
-        user.setType(type);
-        user.setEmail(email);
-        user.setNumber(number);
+            user.setPhone(phone);
+            user.setPassword(md5Hex(password));
+            user.setName(name);
+            School school = new School();
+            school.setId(schoolId);
+            user.setSchool(school);
+            user.setGender(gender);
+            user.setType(type);
+            user.setEmail(email);
+            user.setNumber(number);
+            user = loginService.signUpPhone(user);
+        }
+        else{
+            BigInteger schoolId = BigInteger.valueOf(Long.valueOf(map.get("schoolId").toString()));
+            String name = map.get("name").toString();
+            String number = map.get("number") == null ? null : map.get("number").toString();
+            Integer type = Integer.valueOf(map.get("type").toString());
+            user.setType(type);
+            user.setName(name);
+            user.setOpenid(openid);
+            School school = new School();
+            school.setId(schoolId);
+            user.setSchool(school);
+            user.setNumber(number);
+            user=loginService.signInWeChat(user);
+        }
 
-        user = loginService.signUpPhone(user);
         String jwt = jwtService.generateJwt(user);
         return new LoginSuccessVO(user.getId(), user.getType() == 0 ? "teacher" : "student", user.getName(), jwt);
     }
@@ -136,8 +153,8 @@ public class LoginController {
         }
         if(openid!=null){
         User user=userMapper.getUserByOpenId(openid);
-        if(user==null){userMapper.insertUser(openid);
-            return null;}
+        if(user==null){
+            return new LoginSuccessVO(openid);}
         else{
             String jwt = jwtService.generateJwt(user);
             return new LoginSuccessVO(user.getId(), user.getType() == 0 ? "teacher" : "student", user.getName(), jwt);
