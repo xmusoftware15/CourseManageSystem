@@ -1,5 +1,6 @@
 package xmu.crms.mapper;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 import xmu.crms.entity.User;
 
@@ -46,7 +47,7 @@ public interface LoginMapper {
 
     void createUserWithWechat(User user);
 
-    User getUserBySchoolAndNumber(BigInteger schoolId, String number);
+    User getUserBySchoolAndNumber(@Param("schoolId") BigInteger schoolId, @Param("number") String number);
 
     void addWechatToUser(User user);
 

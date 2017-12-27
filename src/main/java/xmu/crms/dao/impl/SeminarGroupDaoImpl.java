@@ -3,10 +3,7 @@ package xmu.crms.dao.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import xmu.crms.dao.SeminarGroupDao;
-import xmu.crms.entity.SeminarGroup;
-import xmu.crms.entity.SeminarGroupMember;
-import xmu.crms.entity.SeminarGroupTopic;
-import xmu.crms.entity.Topic;
+import xmu.crms.entity.*;
 import xmu.crms.exception.GroupNotFoundException;
 import xmu.crms.exception.InvalidOperationException;
 import xmu.crms.exception.SeminarNotFoundException;
@@ -69,8 +66,9 @@ public class SeminarGroupDaoImpl implements SeminarGroupDao {
 
     @Override
     public BigInteger getSeminarGroupLeaderByGroupId(BigInteger groupId) throws IllegalArgumentException, GroupNotFoundException {
-        BigInteger leaderId = seminarGroupMapper.getSeminarGroupLeaderByGroupId(groupId);
-        return leaderId;
+        SeminarGroup s = seminarGroupMapper.getSeminarGroupLeaderByGroupId(groupId);
+        User leader=s.getLeader();
+        return leader.getId();
     }
 
     @Override

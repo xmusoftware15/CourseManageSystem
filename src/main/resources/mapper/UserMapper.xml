@@ -56,8 +56,8 @@
 
     <insert id="createStudentAccountByNumber" useGeneratedKeys="true"
             keyProperty="id" parameterType="xmu.crms.entity.User">
-        INSERT INTO user_info(school_id,name,number,openid)
-        VALUES (#{school.id},#{name}, #{number}, #{openid})
+        INSERT INTO user_info(school_id,name,number,openid,type)
+        VALUES (#{school.id},#{name}, #{number}, #{openid},#{type})
     </insert>
     
     <select id="getUserByUserName" resultMap="user">
@@ -75,43 +75,43 @@
     <update id="updateUserByUserId">
     	UPDATE user_info
         <set >
-            <if test="phone != null" >
+            <if test="arg1.phone != null" >
                 phone = #{arg1.phone,jdbcType=CHAR},
             </if>
-            <if test="wechatId != null" >
+            <if test="arg1.wechatId != null" >
                 wechat_id = #{arg1.wechatId,jdbcType=VARCHAR},
             </if>
-            <if test="openid != null" >
+            <if test="arg1.openid != null" >
                 openid = #{arg1.openid,jdbcType=VARCHAR},
             </if>
-            <if test="avatar != null" >
+            <if test="arg1.avatar != null" >
                 avatar = #{arg1.avatar,jdbcType=VARCHAR},
             </if>
-            <if test="password != null" >
+            <if test="arg1.password != null" >
                 password = #{arg1.password,jdbcType=VARCHAR},
             </if>
-            <if test="name != null" >
+            <if test="arg1.name != null" >
                 name = #{arg1.name,jdbcType=VARCHAR},
             </if>
-            <if test="schoolId != null" >
-                school_id = #{arg1.schoolId,jdbcType=BIGINT},
+            <if test="arg1.school != null" >
+                school_id = #{arg1.school.id,jdbcType=BIGINT},
             </if>
-            <if test="gender != null" >
+            <if test="arg1.gender != null" >
                 gender = #{arg1.gender,jdbcType=BIT},
             </if>
-            <if test="type != null" >
+            <if test="arg1.type != null" >
                 type = #{arg1.type,jdbcType=BIT},
             </if>
-            <if test="number != null" >
+            <if test="arg1.number != null" >
                 number = #{arg1.number,jdbcType=VARCHAR},
             </if>
-            <if test="education != null" >
+            <if test="arg1.education != null" >
                 education = #{arg1.education,jdbcType=BIT},
             </if>
-            <if test="title != null" >
+            <if test="arg1.title != null" >
                 title = #{arg1.title,jdbcType=VARCHAR},
             </if>
-            <if test="email != null" >
+            <if test="arg1.email != null" >
                 email = #{arg1.email,jdbcType=VARCHAR},
             </if>
         </set>

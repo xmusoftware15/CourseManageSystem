@@ -81,7 +81,7 @@ public class LoginController {
         }
 
         String jwt = jwtService.generateJwt(user);
-        return new LoginSuccessVO(user.getId(), user.getType() == 0 ? "teacher" : "student", user.getName(), jwt);
+        return new LoginSuccessVO(user.getId(), user.getType() == 1 ? "teacher" : "student", user.getName(), jwt);
     }
 
     private String md5Hex(String input) throws NoSuchAlgorithmException {
@@ -154,11 +154,12 @@ public class LoginController {
         if(openid!=null){
         User user=userMapper.getUserByOpenId(openid);
         if(user==null){
-            return new LoginSuccessVO(openid);}
-        else{
+            return new LoginSuccessVO(openid);
+        } else{
             String jwt = jwtService.generateJwt(user);
-            return new LoginSuccessVO(user.getId(), user.getType() == 0 ? "teacher" : "student", user.getName(), jwt);
-        }}
+            return new LoginSuccessVO(user.getId(), user.getType() == 1 ? "teacher" : "student", user.getName(), jwt);
+            }
+        }
         else {return null;}
     }
 }

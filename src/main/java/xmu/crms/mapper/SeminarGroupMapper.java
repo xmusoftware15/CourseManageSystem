@@ -4,6 +4,7 @@ import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 import xmu.crms.entity.SeminarGroup;
+import xmu.crms.entity.User;
 
 import java.math.BigInteger;
 import java.util.List;
@@ -12,7 +13,7 @@ import java.util.List;
 @Mapper
 public interface SeminarGroupMapper {
  SeminarGroup selectSeminarGroupByGroupId(BigInteger seminarGroupId);
- BigInteger getSeminarGroupLeaderByGroupId(BigInteger groupId);
+ SeminarGroup getSeminarGroupLeaderByGroupId(BigInteger groupId);
  List<SeminarGroup> listSeminarGroupBySeminarId(BigInteger seminarId);
  void deleteSeminarGroupBySeminarId(BigInteger seminarId);
  Integer insertSeminarGroupBySeminarId(@Param("seminarId") BigInteger seminarId, @Param("classId") BigInteger classId, @Param("seminarGroup") SeminarGroup seminarGroup);

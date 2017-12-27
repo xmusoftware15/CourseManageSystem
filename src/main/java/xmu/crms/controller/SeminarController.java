@@ -366,6 +366,7 @@ public class SeminarController {
         Status status = new Status();
 
         Location location=classService.getCallStatusById(new BigInteger(classId),new BigInteger(seminarId));
+        System.out.println(site);
         userService.insertAttendanceById(new BigInteger(classId),new BigInteger(seminarId),new BigInteger(studentId)
                 ,site.getLongitude(),site.getLatitude());
         if(location.getStatus()==1){
