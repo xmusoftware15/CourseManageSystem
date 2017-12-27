@@ -69,7 +69,7 @@ public class LoginController {
             BigInteger schoolId = BigInteger.valueOf(Long.valueOf(map.get("schoolId").toString()));
             String name = map.get("name").toString();
             String number = map.get("number") == null ? null : map.get("number").toString();
-            Integer type = Integer.valueOf(map.get("type").toString());
+            Integer type = Integer.valueOf(map.get("Type").toString());
             user.setType(type);
             user.setName(name);
             user.setOpenid(openid);

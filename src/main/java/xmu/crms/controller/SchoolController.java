@@ -41,10 +41,11 @@ public class SchoolController {
     }
 
     @GetMapping("/school")
-    public List<School> school(String city) {
-        System.out.print(city);
-        List<School> school = new ArrayList<>();
-        school = schoolService.listSchoolByCity(city);
+    public List<School> school(@RequestParam("city") String city) {
+
+        System.out.println("city=================>"+city);
+        List<School> school = schoolService.listSchoolByCity(city);
+        System.out.println(school.toString());
         return school;
     }
 }
