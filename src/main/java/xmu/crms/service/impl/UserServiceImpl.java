@@ -37,7 +37,7 @@ private SchoolService schoolService;
         double eps = 0.05;
         try {
             Location tmp = classService.getCallStatusById(seminarId, classId);
-
+System.out.println("tmp:"+tmp+"seminarId and classId:"+seminarId+classId);
             if (Math.abs(tmp.getLatitude() - latitude) > eps
                     || Math.abs(tmp.getLongitude() - longitude) > eps) {
                 throw new ClassesNotFoundException("Calling failed.");

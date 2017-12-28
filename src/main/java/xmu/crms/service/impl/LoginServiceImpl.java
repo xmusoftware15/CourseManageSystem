@@ -70,6 +70,7 @@ public class LoginServiceImpl implements LoginService {
     @Override
     public User signInWeChat(User user) throws UserNotFoundException {
         User u=loginDAO.getUserBySchoolAndNumber(user.getSchool().getId(),user.getNumber());
+        System.out.println("11111111"+u);
         if(u==null){
              userService.createStudentAccountByNumber(user);
         }

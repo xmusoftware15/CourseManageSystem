@@ -69,7 +69,7 @@ public class LoginController {
             BigInteger schoolId = BigInteger.valueOf(Long.valueOf(map.get("schoolId").toString()));
             String name = map.get("name").toString();
             String number = map.get("number") == null ? null : map.get("number").toString();
-            Integer type = Integer.valueOf(map.get("type").toString());
+            Integer type = Integer.valueOf(map.get("Type").toString());
             user.setType(type);
             user.setName(name);
             user.setOpenid(openid);
@@ -81,7 +81,7 @@ public class LoginController {
         }
 
         String jwt = jwtService.generateJwt(user);
-        return new LoginSuccessVO(user.getId(), user.getType() == 0 ? "teacher" : "student", user.getName(), jwt);
+        return new LoginSuccessVO(user.getId(), user.getType() == 1 ? "teacher" : "student", user.getName(), jwt);
     }
 
     private String md5Hex(String input) throws NoSuchAlgorithmException {
@@ -154,11 +154,12 @@ public class LoginController {
         if(openid!=null){
         User user=userMapper.getUserByOpenId(openid);
         if(user==null){
-            return new LoginSuccessVO(openid);}
-        else{
+            return new LoginSuccessVO(openid);
+        } else{
             String jwt = jwtService.generateJwt(user);
-            return new LoginSuccessVO(user.getId(), user.getType() == 0 ? "teacher" : "student", user.getName(), jwt);
-        }}
+            return new LoginSuccessVO(user.getId(), user.getType() == 1 ? "teacher" : "student", user.getName(), jwt);
+            }
+        }
         else {return null;}
     }
 }

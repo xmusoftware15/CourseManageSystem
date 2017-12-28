@@ -12,6 +12,7 @@ public class CourseClassVO {
     private Integer numStudent;
     private String time;
     private String site;
+    private BigInteger courseId;
     private String courseName;
     private String courseTeacher;
 
@@ -24,6 +25,14 @@ public class CourseClassVO {
         this.site = classInfo.getSite();
         this.courseName = classInfo.getCourse().getName();
         this.courseTeacher = classInfo.getCourse().getTeacher().getName();
+    }
+
+    public BigInteger getCourseId() {
+        return courseId;
+    }
+
+    public void setCourseId(BigInteger courseId) {
+        this.courseId = courseId;
     }
 
     public BigInteger getId() {

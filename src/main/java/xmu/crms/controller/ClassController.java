@@ -33,15 +33,29 @@ public class ClassController {
 
     @GetMapping
     @ResponseStatus(HttpStatus.OK)
-    public List<CourseClassVO> getClassList(String courseName, String courseTeacher)
+    public List<CourseClassVO> getClassList(@RequestAttribute("userId") BigInteger userId, @RequestParam(value = "courseName", required = false)String courseName, @RequestParam(value = "courseTeacher", required = false)String courseTeacher)
             throws ClassesNotFoundException, UserNotFoundException, CourseNotFoundException {
-        List<CourseClassVO> courseClasses = new ArrayList<>();
-        List<ClassInfo> classInfos = classService.listClassByName(courseName, courseTeacher);
-        for (ClassInfo classInfo : classInfos) {
-            CourseClassVO courseClassVO = new CourseClassVO(classInfo);
-            courseClasses.add(courseClassVO);
+        List <ClassInfo> list=classService.listClassByUserId(userId);
+        List<CourseClassVO> courseClassVOS=new ArrayList<CourseClassVO>();
+        for(ClassInfo c:list){
+            CourseClassVO d=new CourseClassVO();
+            d.setCourseName(c.getCourse().getName());
+            d.setCourseTeacher(c.getCourse().getTeacher().getName());
+            d.setId(c.getId());
+            d.setName(c.getName());
+            d.setSite(c.getSite());
+            d.setTime(c.getCourse().getStartDate().toString());
+            d.setCourseId(c.getCourse().getId());
+            courseClassVOS.add(d);
         }
-        return courseClasses;
+//        List<CourseClassVO> courseClasses = new ArrayList<>();
+//        List<ClassInfo> classInfos = classService.listClassByName(courseName, courseTeacher);
+//        for (ClassInfo classInfo : classInfos) {
+//            CourseClassVO courseClassVO = new CourseClassVO(classInfo);
+//            courseClasses.add(courseClassVO);
+//        }
+
+        return courseClassVOS;
     }
 
     @GetMapping("/{classId}")

@@ -19,7 +19,7 @@
     </select>
 
     <select id="getUserBySchoolAndNumber" resultMap="loginUser">
-        SELECT id, phone, password, `type`, `name` from user_info WHERE school_id = #{arg0} AND number = #{arg1}
+        SELECT id, phone, password, `type`, `name` from user_info WHERE school_id = #{schoolId} AND `number` = #{number}
     </select>
 
     <delete id="deleteUserById">
