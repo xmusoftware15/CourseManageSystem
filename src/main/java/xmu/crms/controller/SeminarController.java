@@ -125,23 +125,18 @@ public class SeminarController {
         }
         List<Topic> topics = topicService.listTopicBySeminarId(new BigInteger(seminarId));
         SeminarGroup seminarGroup = seminarGroupService.getSeminarGroupById(new BigInteger(seminarId), userId);
-        BigInteger groupId = seminarGroup.getId();
-        Boolean areTopicsSelected = false;
-        for (Topic topic : topics
-                ) {
-            SeminarGroupTopic seminarGroupTopic = topicService.getSeminarGroupTopicById(topic.getId(), groupId);
-            if (seminarGroupTopic != null) {
-                areTopicsSelected = true;
-                break;
+        if(seminarGroup!=null) {
+            BigInteger groupId = seminarGroup.getId();
+            List<SeminarGroupTopic> seminarGroupTopics = topicService.listSeminarGroupTopicByGroupId(groupId);
+            if (seminarGroupTopics != null) {
+                studentSeminar.setAreTopicsSelected("true");
+            } else {
+                studentSeminar.setAreTopicsSelected("false");
             }
         }
-        if (areTopicsSelected) {
-            studentSeminar.setAreTopicsSelected("true");
-        } else {
-            studentSeminar.setAreTopicsSelected("true");
+        else{
+            studentSeminar.setAreTopicsSelected("false");
         }
-        studentSeminar.setAreTopicsSelected("false");
-
         return studentSeminar;
     }
 
@@ -188,9 +183,11 @@ public class SeminarController {
     public List<TopicVO> getTopics(@PathVariable("seminarId") String seminarId) throws IllegalArgumentException {
         List<TopicVO> topicVOS=new ArrayList<>();
         List<Topic> topics=topicService.listTopicBySeminarId(new BigInteger(seminarId));
-        for (Topic topic:topics
-             ) {
+
+        for (Topic topic:topics) {
+            List<SeminarGroup> groups=seminarGroupService.listGroupByTopicId(topic.getId());
             TopicVO topicVO=new TopicVO();
+            topicVO.setGroupLeft(topic.getGroupNumberLimit()-groups.size());
             topicVO.setId(topic.getId());
             topicVO.setSerial(topic.getSerial());
             topicVO.setName(topic.getName());
@@ -252,36 +249,72 @@ public class SeminarController {
         return seminarGroupVOS;
     }
 
+    @GetMapping("/{seminarId}/class/{classId}/group")
+    @ResponseStatus(HttpStatus.OK)
+    public List<SeminarGroupVO> getGroups(@RequestAttribute("userId") BigInteger userId,@PathVariable("seminarId") String seminarId,@PathVariable("classId") String classId)
+            throws SeminarNotFoundException, CourseNotFoundException,GroupNotFoundException {
+
+        List<SeminarGroupVO> seminarGroupVOS = new ArrayList<>();
+        List<SeminarGroup> seminarGroups = seminarGroupService.listSeminarGroupById(new BigInteger(seminarId),new BigInteger(classId));
+        List<Topic> topics = topicService.listTopicBySeminarId(new BigInteger(seminarId));
+        SeminarGroup seminarGroup=seminarGroupService.getSeminarGroupById(new BigInteger(seminarId),userId);
+        List<SeminarGroupTopic> mytopics=topicService.listSeminarGroupTopicByGroupId(seminarGroup.getId());
+        for(SeminarGroupTopic s:mytopics){
+            if(topics.contains(s.getTopic())){topics.remove(s.getTopic());}
+        }
+        for(Topic t:topics){
+            List<SeminarGroup> seminarGroups1=seminarGroupService.listGroupByTopicId(t.getId());
+            for(SeminarGroup s:seminarGroups1){
+                SeminarGroupVO seminarGroupVO=new SeminarGroupVO();
+                seminarGroupVO.setId(s.getId().longValue());
+                TopicBasicVO topicBasicVO=new TopicBasicVO();
+                topicBasicVO.setId(t.getId().longValue());
+                topicBasicVO.setName(t.getName());
+                seminarGroupVO.setTopics(topicBasicVO);
+                seminarGroupVOS.add(seminarGroupVO);
+            }
+        }
+        return seminarGroupVOS;
+    }
+
     @GetMapping("/{seminarId}/group/my")
     @ResponseStatus(HttpStatus.OK)
-    public SeminarGroupDetail getMyGroup(@PathVariable("seminarId") String seminarId)
+    public SeminarGroupDetail getMyGroup(@RequestAttribute("userId")BigInteger userId,@PathVariable("seminarId") String seminarId)
             throws GroupNotFoundException,UserNotFoundException {
         SeminarGroupDetail seminarGroupDetail=new SeminarGroupDetail();
-
         //todo
-        BigInteger userId = new BigInteger("8");
-
         SeminarGroup seminarGroup = seminarGroupService.getSeminarGroupById(new BigInteger(seminarId), userId);
         seminarGroupDetail.setId(seminarGroup.getId());
         seminarGroupDetail.setName(seminarGroup.getId().toString());
         BigInteger leaderId=seminarGroupService.getSeminarGroupLeaderByGroupId(seminarGroup.getId());
-        User leader=userService.getUserByUserId(leaderId);
+        User leader;
+        if(leaderId!=null) {
+             leader = userService.getUserByUserId(leaderId);
 
-        UserIdNameVO leaderVO=new UserIdNameVO(leader);
-        seminarGroupDetail.setLeader(leaderVO);
-
+            UserIdNameVO leaderVO = new UserIdNameVO(leader);
+            seminarGroupDetail.setLeader(leaderVO);
+        }
+        else{leader=null;}
         List<UserIdNameVO> members=new ArrayList<>();
         List<User> seminarGroupMembers;
         seminarGroupMembers = seminarGroupService.listSeminarGroupMemberByGroupId(seminarGroup.getId());
         for (User user:seminarGroupMembers
              ) {
             UserIdNameVO userIdNameVO=new UserIdNameVO(user);
-            if(!user.getId().equals(leader.getId())){
-                members.add(userIdNameVO);
+
+            if(leaderId!=null&&user.getId().equals(leader.getId())){
+
             }
+            else{
+            members.add(userIdNameVO);}
         }
         seminarGroupDetail.setMembers(members);
-
+        List<SeminarGroupTopic> seminarGroupTopics=topicService.listSeminarGroupTopicByGroupId(seminarGroup.getId());
+        List<Topic> topics=new ArrayList<>();
+        for(SeminarGroupTopic s:seminarGroupTopics){
+            topics.add(s.getTopic());
+        }
+seminarGroupDetail.setTopics(topics);
         return seminarGroupDetail;
     }
 

@@ -68,6 +68,13 @@ public class SeminarGroupServiceImpl implements SeminarGroupService {
     }
 
     @Override
+    public List<SeminarGroup> listSeminarGroupById(BigInteger seminarId, BigInteger classId) throws IllegalArgumentException, SeminarNotFoundException {
+        List<SeminarGroup> list=seminarGroupDao.listSeminarGroupById(seminarId,classId);
+
+                return list;
+    }
+
+    @Override
     public void deleteSeminarGroupBySeminarId(BigInteger seminarId) throws IllegalArgumentException, SeminarNotFoundException {
         List<SeminarGroup> list = listSeminarGroupBySeminarId(seminarId);
         for (SeminarGroup s : list) {

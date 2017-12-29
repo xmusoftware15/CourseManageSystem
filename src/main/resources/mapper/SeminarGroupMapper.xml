@@ -28,7 +28,7 @@
         where id = #{seminarGroupId,jdbcType=BIGINT}
     </select>
     <select id="getSeminarGroupLeaderByGroupId" resultMap="BaseResultMap" parameterType="java.math.BigInteger" >
-        select leader_id
+        select  <include refid="Base_Column_List" />
         from seminar_group
         where id = #{groupId,jdbcType=BIGINT}
     </select>
@@ -37,6 +37,12 @@
         <include refid="Base_Column_List" />
         from seminar_group
         where seminar_id = #{seminarId,jdbcType=BIGINT}
+    </select>
+    <select id="listSeminarGroupById" resultMap="BaseResultMap" parameterType="java.math.BigInteger" >
+        select
+        <include refid="Base_Column_List" />
+        from seminar_group
+        where seminar_id = #{seminarId,jdbcType=BIGINT} AND class_id=#{classId}
     </select>
     <delete id="deleteSeminarGroupBySeminarId" parameterType="java.math.BigInteger" >
         delete from seminar_group

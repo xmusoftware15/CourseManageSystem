@@ -85,6 +85,8 @@ public interface SeminarGroupDao {
     List<SeminarGroup> listSeminarGroupBySeminarId(BigInteger seminarId) throws
             IllegalArgumentException,SeminarNotFoundException;
 
+    List<SeminarGroup> listSeminarGroupById(BigInteger seminarId, BigInteger classId)throws
+            IllegalArgumentException,SeminarNotFoundException;
     /**
      * 按seminarId删除讨论课小组信息.
      * <p>根据seminarId获得SeminarGroup，然后根据SeminarGroupId删除SeminarGroupMember信息，最后再删除SeminarGroup信息<br>

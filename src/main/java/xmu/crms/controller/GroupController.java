@@ -81,20 +81,20 @@ private GradeService gradeService;
     @PutMapping("/{groupId}/resign")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void leaderResign(@PathVariable("groupId") BigInteger groupId,
-                             @RequestBody User leader) throws GroupNotFoundException,
+                             @RequestAttribute("userId") BigInteger leaderId) throws GroupNotFoundException,
             UserNotFoundException,
             InvalidOperationException
     {
 
-        seminarGroupService.resignLeaderById(groupId,leader.getId());
+        seminarGroupService.resignLeaderById(groupId,leaderId);
     }
 
 
     @PutMapping("/{groupId}/assign")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void leaderAssign(@PathVariable("groupId") BigInteger groupId,
-                             @RequestBody User leader) throws UserNotFoundException,GroupNotFoundException,InvalidOperationException {
-seminarGroupService.assignLeaderById(groupId,leader.getId());
+                             @RequestAttribute("userId") BigInteger leaderId) throws UserNotFoundException,GroupNotFoundException,InvalidOperationException {
+seminarGroupService.assignLeaderById(groupId,leaderId);
     }
 
     @PutMapping("/{groupId}/remove")

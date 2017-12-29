@@ -1,5 +1,7 @@
 package xmu.crms.vo;
 
+import xmu.crms.entity.Topic;
+
 import java.math.BigInteger;
 import java.util.List;
 
@@ -13,7 +15,7 @@ public class SeminarGroupDetail {
     private String name;
     private UserIdNameVO leader;
     private List<UserIdNameVO> members;
-    private List<TopicBasicVO> topics;
+    private List<Topic> topics;
 
     public BigInteger getId() {
         return id;
@@ -43,15 +45,17 @@ public class SeminarGroupDetail {
         return members;
     }
 
+    public List<Topic> getTopics() {
+        return topics;
+    }
+
+    public void setTopics(List<Topic> topics) {
+        this.topics = topics;
+    }
+
     public void setMembers(List<UserIdNameVO> members) {
         this.members = members;
     }
 
-    public List<TopicBasicVO> getTopics() {
-        return topics;
-    }
 
-    public void setTopics(List<TopicBasicVO> topics) {
-        this.topics = topics;
-    }
 }

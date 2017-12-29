@@ -68,7 +68,9 @@ public class SeminarGroupDaoImpl implements SeminarGroupDao {
     public BigInteger getSeminarGroupLeaderByGroupId(BigInteger groupId) throws IllegalArgumentException, GroupNotFoundException {
         SeminarGroup s = seminarGroupMapper.getSeminarGroupLeaderByGroupId(groupId);
         User leader=s.getLeader();
-        return leader.getId();
+        if(leader!=null){
+        return leader.getId();}
+        else{return  null;}
     }
 
     @Override
@@ -79,6 +81,12 @@ public class SeminarGroupDaoImpl implements SeminarGroupDao {
         } else {
             return list;
         }
+    }
+
+    @Override
+    public List<SeminarGroup> listSeminarGroupById(BigInteger seminarId, BigInteger classId) throws IllegalArgumentException, SeminarNotFoundException {
+        List<SeminarGroup> list=seminarGroupMapper.listSeminarGroupById(seminarId,classId);
+        return list;
     }
 
     @Override

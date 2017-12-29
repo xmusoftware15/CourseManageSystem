@@ -91,6 +91,19 @@ public interface SeminarGroupService {
 			IllegalArgumentException,SeminarNotFoundException;
 
 	/**
+	 * 按seminarId和classId获取SeminarGroup.
+	 * <p>获取与自己组选题不同的小组<br>
+	 * @author huhui
+	 * @param seminarId 课程Id
+	 * @param classId 班级Id
+	 * @return 讨论课小组列表
+	 * @exception IllegalArgumentException 信息不合法，id格式错误
+	 * @exception SeminarNotFoundException 未找到讨论课
+	 */
+	List<SeminarGroup> listSeminarGroupById(BigInteger seminarId,BigInteger classId) throws
+			IllegalArgumentException,SeminarNotFoundException;
+
+	/**
 	 * 按seminarId删除讨论课小组信息.
 	 * <p>根据seminarId获得SeminarGroup，然后根据SeminarGroupId删除SeminarGroupMember信息，最后再删除SeminarGroup信息<br>
 	 * @author zhouzhongjun
