@@ -38,11 +38,11 @@
         from seminar_group
         where seminar_id = #{seminarId,jdbcType=BIGINT}
     </select>
-    <select id="listSeminarGroupById" resultMap="BaseResultMap" parameterType="java.math.BigInteger" >
+    <select id="listSeminarGroupById" resultMap="BaseResultMap"  >
         select
         <include refid="Base_Column_List" />
         from seminar_group
-        where seminar_id = #{seminarId,jdbcType=BIGINT} AND class_id=#{classId}
+        where seminar_id = #{arg0,jdbcType=BIGINT} AND class_id=#{arg1}
     </select>
     <delete id="deleteSeminarGroupBySeminarId" parameterType="java.math.BigInteger" >
         delete from seminar_group

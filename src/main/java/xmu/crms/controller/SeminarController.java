@@ -142,12 +142,9 @@ public class SeminarController {
 
     @GetMapping("/{seminarId}/detail")
     @ResponseStatus(HttpStatus.OK)
-    public SeminarDetail getSeminarDetail(@PathVariable("seminarId") String seminarId)
+    public SeminarDetail getSeminarDetail(@RequestAttribute("userId")BigInteger userId,@PathVariable("seminarId") String seminarId)
             throws SeminarNotFoundException, CourseNotFoundException, ClassesNotFoundException, UserNotFoundException {
         SeminarDetail seminarDetail = new SeminarDetail();
-
-        //todo
-        BigInteger userId = new BigInteger("8");
 
         Seminar seminar = seminarService.getSeminarBySeminarId(new BigInteger(seminarId));
         seminarDetail.setId(seminar.getId().longValue());
@@ -259,9 +256,11 @@ public class SeminarController {
         List<Topic> topics = topicService.listTopicBySeminarId(new BigInteger(seminarId));
         SeminarGroup seminarGroup=seminarGroupService.getSeminarGroupById(new BigInteger(seminarId),userId);
         List<SeminarGroupTopic> mytopics=topicService.listSeminarGroupTopicByGroupId(seminarGroup.getId());
-        for(SeminarGroupTopic s:mytopics){
-            if(topics.contains(s.getTopic())){topics.remove(s.getTopic());}
+        System.out.println("topic:"+topics+"mytopic"+mytopics);
+        for(int i=0;i<mytopics.size();i++){
+
         }
+        System.out.println("111111111"+topics);
         for(Topic t:topics){
             List<SeminarGroup> seminarGroups1=seminarGroupService.listGroupByTopicId(t.getId());
             for(SeminarGroup s:seminarGroups1){
@@ -271,6 +270,8 @@ public class SeminarController {
                 topicBasicVO.setId(t.getId().longValue());
                 topicBasicVO.setName(t.getName());
                 seminarGroupVO.setTopics(topicBasicVO);
+                String name = classId+"-"+t.getSerial()+"-"+ s.getId();
+                seminarGroupVO.setName(name);
                 seminarGroupVOS.add(seminarGroupVO);
             }
         }
