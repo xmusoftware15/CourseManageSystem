@@ -6,13 +6,22 @@ public class StudentSeminar {
 
     private Long id;
     private String name;
-    private String groupingMethond;
+    private String groupingMethod;
     private String courseName;
     private Date startTime;
     private Date endTime;
     private Integer classCalling;
     private String isLeader;
     private String areTopicsSelected;
+    private Integer status;
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
 
     public Long getId() {
         return id;
@@ -30,12 +39,12 @@ public class StudentSeminar {
         this.name = name;
     }
 
-    public String getGroupingMethond() {
-        return groupingMethond;
+    public String getGroupingMethod() {
+        return groupingMethod;
     }
 
-    public void setGroupingMethond(String groupingMethond) {
-        this.groupingMethond = groupingMethond;
+    public void setGroupingMethod(String groupingMethod) {
+        this.groupingMethod = groupingMethod;
     }
 
     public String getCourseName() {
@@ -91,7 +100,7 @@ public class StudentSeminar {
         return "StudentSeminar{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", groupingMethond='" + groupingMethond + '\'' +
+                ", groupingMethond='" + groupingMethod + '\'' +
                 ", courseName='" + courseName + '\'' +
                 ", startTime=" + startTime +
                 ", endTime=" + endTime +

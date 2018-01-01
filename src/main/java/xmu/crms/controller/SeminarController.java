@@ -82,9 +82,9 @@ public class SeminarController {
         seminarService.deleteSeminarBySeminarId(new BigInteger(seminarId));
     }
 
-    @GetMapping("/{seminarId}/my")
+    @GetMapping("/{seminarId}/class/{classId}/my")
     @ResponseStatus(HttpStatus.OK)
-    public StudentSeminar getRelatedSeminar(@PathVariable("seminarId") String seminarId)
+    public StudentSeminar getRelatedSeminar(@PathVariable("classId") BigInteger classId,@RequestAttribute("userId")BigInteger userId,@PathVariable("seminarId") String seminarId)
             throws SeminarNotFoundException, CourseNotFoundException, ClassesNotFoundException, GroupNotFoundException {
 
         StudentSeminar studentSeminar = new StudentSeminar();
@@ -92,9 +92,9 @@ public class SeminarController {
         studentSeminar.setId(seminar.getId().longValue());
         studentSeminar.setName(seminar.getName());
         if (seminar.getFixed() == true) {
-            studentSeminar.setGroupingMethond("fixed");
+            studentSeminar.setGroupingMethod("fixed");
         } else {
-            studentSeminar.setGroupingMethond("random");
+            studentSeminar.setGroupingMethod("random");
         }
 
         Course course = courseService.getCourseByCourseId(seminar.getCourse().getId());
@@ -102,11 +102,8 @@ public class SeminarController {
 
         studentSeminar.setStartTime(seminar.getStartTime());
         studentSeminar.setEndTime(seminar.getEndTime());
-
-        //todo
-        BigInteger userId = new BigInteger("5");
-
-        BigInteger classId = new BigInteger("-1");
+        Location location=classService.getCallStatusById(classId,new BigInteger(seminarId));
+        studentSeminar.setStatus(location.getStatus());
         List<ClassInfo> classInfos = classService.listClassByUserId(userId);
         for (ClassInfo classInfo : classInfos
                 ) {
@@ -137,6 +134,7 @@ public class SeminarController {
         else{
             studentSeminar.setAreTopicsSelected("false");
         }
+
         return studentSeminar;
     }
 
@@ -256,11 +254,11 @@ public class SeminarController {
         List<Topic> topics = topicService.listTopicBySeminarId(new BigInteger(seminarId));
         SeminarGroup seminarGroup=seminarGroupService.getSeminarGroupById(new BigInteger(seminarId),userId);
         List<SeminarGroupTopic> mytopics=topicService.listSeminarGroupTopicByGroupId(seminarGroup.getId());
-        System.out.println("topic:"+topics+"mytopic"+mytopics);
+        for(int j=0;j<topics.size();j++){
         for(int i=0;i<mytopics.size();i++){
+            if(topics.get(i).getId().equals(mytopics.get(i).getTopic().getId())){topics.remove(j);}
+        }}
 
-        }
-        System.out.println("111111111"+topics);
         for(Topic t:topics){
             List<SeminarGroup> seminarGroups1=seminarGroupService.listGroupByTopicId(t.getId());
             for(SeminarGroup s:seminarGroups1){

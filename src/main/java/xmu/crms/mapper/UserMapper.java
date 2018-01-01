@@ -1,5 +1,6 @@
 package xmu.crms.mapper;
 
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Component;
 import xmu.crms.entity.Attendance;
 import xmu.crms.entity.User;
@@ -23,7 +24,7 @@ public interface UserMapper {
 	
 	int insertAttendanceById(Attendance attendance);
 	
-	int updateUserByUserId(BigInteger userId, User user);
+	int updateUserByUserId(@Param("arg0")BigInteger userId,@Param("arg1") User user);
 	
 	List<User> getUserByClassId(BigInteger classId, String numBeginWith, String nameBeginWith);
 	
