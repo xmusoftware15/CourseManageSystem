@@ -28,11 +28,11 @@ public class AttendanceVO {
 		return attendanceStatus;
 	}
 	public void setAttendanceStatus(Integer attendanceStatus) {
-		if(attendanceStatus==0)
-			this.attendanceStatus = "出勤";
-		else if(attendanceStatus==1)
-			this.attendanceStatus="迟到";
-		else {
+		if(attendanceStatus==0) {
+            this.attendanceStatus = "出勤";
+        } else if(attendanceStatus==1) {
+            this.attendanceStatus = "迟到";
+        } else {
 			this.attendanceStatus="缺勤";
 		}
 	}

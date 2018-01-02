@@ -71,16 +71,16 @@ public class GradeServiceImpl implements GradeService {
     }
 
     @Override
-    public void updateGroupByGroupId(BigInteger seminar_group_id, BigInteger grade)
+    public void updateGroupByGroupId(BigInteger seminarGroupId, BigInteger grade)
             throws GroupNotFoundException, IllegalArgumentException
     {
-        if (seminar_group_id.intValue() <= 0) {
+        if (seminarGroupId.intValue() <= 0) {
             IllegalArgumentException exception = new IllegalArgumentException("seminar_group_id");
             throw exception;
         }
         SeminarGroup seminarGroup=new SeminarGroup();
         seminarGroup.setReportGrade(grade.intValue());
-        seminarGroup.setId(seminar_group_id);
+        seminarGroup.setId(seminarGroupId);
         gradeDAO.updateGroupByGroupId(seminarGroup);
     }
 

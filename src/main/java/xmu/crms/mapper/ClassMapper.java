@@ -40,6 +40,8 @@ public interface ClassMapper {
 
     Location getCallStatusById(@Param("classId") BigInteger classId, @Param("seminarId") BigInteger seminarId);
 
+    int updateLocationById(@Param("classId") BigInteger classId,@Param("seminarId") BigInteger seminarId,@Param("status") BigInteger status);
+
     Seminar findSeminarById(BigInteger semiarId);
 
     Integer insertClassById(ClassInfo classInfo);
@@ -53,7 +55,7 @@ public interface ClassMapper {
 
     Integer insertScoreRule(ClassInfo classInfo);
 
-    Integer CallInRollById(Location location);
+    Integer callInRollById(Location location);
 
     List<CourseSelection> findClassByUserId(BigInteger userId);
 

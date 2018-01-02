@@ -43,19 +43,21 @@ public class UserVO {
         phone=user.getPhone();
         email=user.getEmail();
         Integer genderInt=user.getGender();
-        if(genderInt==null)
-        	gender=null;
-        else if(genderInt==0)
-        	gender="male";
-        else
-			gender="female";
+        if(genderInt==null) {
+            gender = null;
+        } else if(genderInt==0) {
+            gender = "male";
+        } else {
+            gender = "female";
+        }
         Integer typeInt=user.getType();
-        if(typeInt==null)
-        	type=null;
-        else if(typeInt==0)
-        	type="student";
-        else
-			type="teacher";
+        if(typeInt==null) {
+            type = null;
+        } else if(typeInt==0) {
+            type = "student";
+        } else {
+            type = "teacher";
+        }
         school=new SchoolIdNameVO(user.getSchool());
         title=user.getTitle();
         avatar=user.getAvatar();

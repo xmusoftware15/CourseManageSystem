@@ -54,7 +54,28 @@ public class CourseController {
             return classes;
         } else {
             List<Course> courses = courseService.listCourseByUserId(userId);
-            return courses;
+            List<CourseVohuhui> list=new ArrayList<CourseVohuhui>();
+            for(Course c:courses){
+                CourseVohuhui courseVohuhui=new CourseVohuhui();
+                courseVohuhui.setDescription(c.getDescription());
+                courseVohuhui.setEndDate(c.getEndDate());
+                courseVohuhui.setFourPointPercentage(c.getFourPointPercentage());
+                courseVohuhui.setFivePointPercentage(c.getFivePointPercentage());
+                courseVohuhui.setId(c.getId());
+                courseVohuhui.setName(c.getName());
+                courseVohuhui.setPresentationPercentage(c.getPresentationPercentage());
+                courseVohuhui.setReportPercentage(c.getReportPercentage());
+                courseVohuhui.setStartDate(c.getStartDate());
+                courseVohuhui.setTeacher(c.getTeacher());
+                courseVohuhui.setThreePointPercentage(c.getThreePointPercentage());
+                CurrentSeminarVO currentSeminarVO=this.getCurrentSeminar(c.getId().toString());
+                if(currentSeminarVO==null){
+                courseVohuhui.setFlag(false);}
+                else{courseVohuhui.setFlag(true);}
+                list.add(courseVohuhui);
+            }
+
+            return list;
         }
     }
 
@@ -181,7 +202,7 @@ public class CourseController {
         course.setId(new BigInteger(courseId));
         seminar.setCourse(course);
         seminar.setName(seminarVo.getName());
-        if(seminarVo.getGroupingMethod().equals("fixed") ){
+        if("fixed".equals(seminarVo.getGroupingMethod())){
             seminar.setFixed(true);
         }
         else{
@@ -206,7 +227,10 @@ public class CourseController {
         for (Seminar seminar : seminars) {
             if (current.after(seminar.getStartTime()) && current.before(seminar.getEndTime())) {
                 CurrentSeminarVO currentSeminarVO = new CurrentSeminarVO(seminar);
-                currentSeminarVO.setClasses(courseService.listClassByCourseName(seminar.getCourse().getName()));
+                currentSeminarVO.setClasses(classService.listClassByCourseId(new BigInteger(courseId)));
+//                System.out.println(courseId);
+//                System.out.println(classService.listClassByCourseId(new BigInteger(courseId)));
+//                System.out.println(currentSeminarVO.getClasses());
                 return currentSeminarVO;
             }
         }

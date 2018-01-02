@@ -134,7 +134,7 @@ public class ClassServiceImpl implements ClassService {
 
     @Override
     public BigInteger callInRollById(Location location) throws SeminarNotFoundException, ClassesNotFoundException {
-        return classDao.CallInRollById(location);
+        return classDao.callInRollById(location);
     }
 
     @Override

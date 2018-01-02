@@ -8,6 +8,7 @@ import xmu.crms.entity.FixGroup;
 import xmu.crms.entity.FixGroupMember;
 import xmu.crms.entity.User;
 import xmu.crms.exception.*;
+import xmu.crms.mapper.ClassMapper;
 import xmu.crms.service.ClassService;
 import xmu.crms.service.FixGroupService;
 import xmu.crms.vo.*;
@@ -27,6 +28,8 @@ public class ClassController {
 
     @Autowired
     private ClassService classService;
+    @Autowired
+    private ClassMapper classMapper;
 
     @Autowired
     private FixGroupService fixGroupService;
@@ -73,6 +76,15 @@ public class ClassController {
                             @RequestBody ClassInfoVO newClass) throws ClassesNotFoundException {
         ClassInfo classInfo = newClass.transferToClassInfo();
         classService.updateClassByClassId(new BigInteger(classId), classInfo);
+    }
+
+    @PutMapping("/{classId}/seminar/{seminarId}/location")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void updateLocation(@PathVariable("classId") BigInteger classId,
+                               @PathVariable("seminarId") BigInteger seminarId,@RequestParam(value="status",required = false) BigInteger status) throws ClassesNotFoundException {
+
+        classMapper.updateLocationById(classId,seminarId,status);
+
     }
 
     @DeleteMapping("/{classId}")

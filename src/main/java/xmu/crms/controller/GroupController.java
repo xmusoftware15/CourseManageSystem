@@ -146,6 +146,6 @@ seminarGroupService.assignLeaderById(groupId,leaderId);
     public void studentSetGrade(@RequestBody GradeVO grade, @PathVariable("groupId") BigInteger groupId, @PathVariable("studentId") BigInteger studentId) throws IllegalArgumentException {
 
         for(PresentationGrade p:grade.getList()){
-        gradeService.insertGroupGradeByUserId(p.getTopic_id(),studentId,groupId,p.getGrade());
+        gradeService.insertGroupGradeByUserId(p.getTopicId(),studentId,groupId,p.getGrade());
     }}
 }

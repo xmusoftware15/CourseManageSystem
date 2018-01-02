@@ -52,7 +52,7 @@ public interface ClassDao {
     BigInteger insertScoreRule(BigInteger classId, ClassInfo proportions)
             throws InvalidOperationException,ClassesNotFoundException;
 
-    BigInteger CallInRollById(Location location)
+    BigInteger callInRollById(Location location)
             throws SeminarNotFoundException,ClassesNotFoundException;
 
     List<ClassInfo> listClassByUserId(BigInteger userId)

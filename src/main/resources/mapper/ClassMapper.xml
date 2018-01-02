@@ -162,6 +162,13 @@
         AND class_id = #{classId}
     </select>
 
+    <update id="updateLocationById" >
+        update location
+        set status=#{status}
+        where seminar_id = #{seminarId}
+        AND class_id = #{classId}
+    </update>
+
     <insert id="insertClassById" keyProperty="id" parameterType="ClassInfo" useGeneratedKeys="true">
         INSERT INTO class_info
         (`name`,
@@ -217,7 +224,7 @@
         WHERE id = #{id}
     </update>
 
-    <insert id="CallInRollById" keyProperty="id" useGeneratedKeys="true" parameterType="Location">
+    <insert id="callInRollById" keyProperty="id" useGeneratedKeys="true" parameterType="Location">
         INSERT INTO location
         (class_id,seminar_id,longitude,latitude,status)
         VALUES (#{classInfo.id},#{seminar.id},#{longitude},#{latitude},1)

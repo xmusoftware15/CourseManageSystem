@@ -12,6 +12,7 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 @RestController
 public class SchoolController {
@@ -27,11 +28,11 @@ public class SchoolController {
     @PostMapping("/school")
     public School school(@RequestBody School school) {
         BigInteger id = schoolService.insertSchool(school);
-        if( id == BigInteger.valueOf(0)){
+        if(Objects.equals(id, BigInteger.valueOf(0))){
             System.out.print("id读取失败");
 
         }
-        else if(id == BigInteger.valueOf(-1)){
+        else if(Objects.equals(id, BigInteger.valueOf(-1))){
             System.out.print("学校已被创建");
         }
         else {

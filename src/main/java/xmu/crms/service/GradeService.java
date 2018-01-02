@@ -77,13 +77,13 @@ public interface GradeService {
     /**
      * 按ID设置小组报告分.
      *
-     * @param seminar_group_id 讨论课组id
+     * @param seminarGroupId 讨论课组id
      * @param grade            分数
      * @throws GroupNotFoundException   未找到小组
      * @throws IllegalArgumentException seminar_group_id或grade格式错误
      * @author Huhui
      */
-    void updateGroupByGroupId(BigInteger seminar_group_id, BigInteger grade)
+    void updateGroupByGroupId(BigInteger seminarGroupId, BigInteger grade)
             throws GroupNotFoundException, IllegalArgumentException;
 
     /**

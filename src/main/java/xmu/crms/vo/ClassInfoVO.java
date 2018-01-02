@@ -18,6 +18,7 @@ public class ClassInfoVO {
     private String site;
     private Proportions proportions;
 
+
     public ClassInfoVO() {}
 
     public ClassInfoVO(ClassInfo classInfo) {

@@ -29,8 +29,9 @@ public class UserDAO {
         }catch (Exception e){
         	e.printStackTrace();
         }
-        if(user==null)
-        	throw new UserNotFoundException("No such user");
+        if(user==null) {
+            throw new UserNotFoundException("No such user");
+        }
         return user;
 	}
 
@@ -41,8 +42,9 @@ public class UserDAO {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if(users==null||users.isEmpty())
-        	throw new UserNotFoundException("No such user");
+        if(users==null||users.isEmpty()) {
+			throw new UserNotFoundException("No such user");
+		}
         return users;
 	}
 	
@@ -66,8 +68,9 @@ public class UserDAO {
 		}catch (Exception e) {
 			e.printStackTrace();
 		}
-		if(ret!=1)
+		if(ret!=1) {
 			throw new ClassesNotFoundException("Class not found");
+		}
 
 		return attendance.getId();
 	}
@@ -80,8 +83,9 @@ public class UserDAO {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		if(users==null||users.isEmpty())
+		if(users==null||users.isEmpty()) {
 			throw new ClassesNotFoundException("Class not found");
+		}
 		return users;
 	}
 	

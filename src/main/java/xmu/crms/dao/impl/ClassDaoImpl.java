@@ -220,7 +220,7 @@ public class ClassDaoImpl implements ClassDao {
 
 
     @Override
-    public BigInteger CallInRollById(Location location) throws SeminarNotFoundException, ClassesNotFoundException {
+    public BigInteger callInRollById(Location location) throws SeminarNotFoundException, ClassesNotFoundException {
        ClassInfo classInfo = classMapper.findClassByClassId(location.getClassInfo().getId());
        if(classInfo == null){
            throw new ClassesNotFoundException();
@@ -229,7 +229,7 @@ public class ClassDaoImpl implements ClassDao {
            if(seminar == null){
                throw new SeminarNotFoundException();
            }else{
-               Integer b =  classMapper.CallInRollById(location);
+               Integer b =  classMapper.callInRollById(location);
                if (b > 0)
                {
                    return location.getId();
