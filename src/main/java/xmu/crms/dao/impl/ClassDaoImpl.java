@@ -11,6 +11,9 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author hxr
+ */
 @Component
 public class ClassDaoImpl implements ClassDao {
 
@@ -199,11 +202,12 @@ public class ClassDaoImpl implements ClassDao {
 
     @Override
     public BigInteger insertScoreRule(BigInteger classId, ClassInfo proportions) throws InvalidOperationException, ClassesNotFoundException {
+        Integer total = 100;
         ClassInfo classInfo = classMapper.findClassByClassId(classId);
         if(classInfo == null){
             throw new ClassesNotFoundException();
         }else{
-            if(proportions.getReportPercentage()+proportions.getPresentationPercentage()!=100||proportions.getFivePointPercentage()+proportions.getFourPointPercentage()+proportions.getThreePointPercentage()!=100){
+            if(proportions.getReportPercentage()+proportions.getPresentationPercentage()!=total||proportions.getFivePointPercentage()+proportions.getFourPointPercentage()+proportions.getThreePointPercentage()!=total){
                 throw new InvalidOperationException();
             }else{
                 proportions.setId(classId);

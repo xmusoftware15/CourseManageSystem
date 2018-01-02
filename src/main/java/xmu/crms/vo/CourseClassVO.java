@@ -5,6 +5,9 @@ import xmu.crms.entity.ClassInfo;
 
 import java.math.BigInteger;
 
+/**
+ * @author badcode
+ */
 public class CourseClassVO {
 
     private BigInteger id;

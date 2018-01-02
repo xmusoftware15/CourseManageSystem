@@ -5,6 +5,9 @@ import xmu.crms.entity.User;
 import java.math.BigInteger;
 import java.util.Date;
 
+/**
+ * @author Huhui
+ */
 public class CourseVohuhui {
     private BigInteger id;
     private String name;

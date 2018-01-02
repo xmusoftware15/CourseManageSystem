@@ -33,13 +33,15 @@ public class CustomAuthenticationProvider implements AuthenticationProvider {
 
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
+        String wechat = "wechat";
+        String phone = "phone";
         String username = authentication.getName();
         User user = userDetailsService.loadUserByUsername(username);
         UsernamePasswordAuthenticationToken auth;
-        if (username.startsWith("wechat")) {
+        if (username.startsWith(wechat)) {
             auth = new UsernamePasswordAuthenticationToken(username, null, getAuthorities(user.getType()));
             auth.setDetails(user);
-        } else if (username.startsWith("phone")
+        } else if (username.startsWith(phone)
                 && comparePassword(authentication.getCredentials().toString(), user.getPassword())) {
             auth = new UsernamePasswordAuthenticationToken(username, null, getAuthorities(user.getType()));
             auth.setDetails(user);

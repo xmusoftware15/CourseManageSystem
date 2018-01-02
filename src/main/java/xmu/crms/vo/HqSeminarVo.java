@@ -2,7 +2,10 @@ package xmu.crms.vo;
 
 import java.util.Date;
 
-public class HQSeminarVo {
+/**
+ * @author Heqi
+ */
+public class HqSeminarVo {
     private String name;
     private String description;
     private String groupingMethod;

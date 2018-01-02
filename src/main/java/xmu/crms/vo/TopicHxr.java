@@ -2,7 +2,10 @@ package xmu.crms.vo;
 
 import java.math.BigInteger;
 
-public class TopicHXR {
+/**
+ * @author hxr
+ */
+public class TopicHxr {
     BigInteger id;
     String name;
 

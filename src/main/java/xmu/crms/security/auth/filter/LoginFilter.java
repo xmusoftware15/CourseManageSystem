@@ -47,7 +47,8 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
     @Override
     public Authentication attemptAuthentication(HttpServletRequest request,
                                                 HttpServletResponse response) throws AuthenticationException {
-        if (!"POST".equals(request.getMethod())) {
+        String post = "POST";
+        if (!post.equals(request.getMethod())) {
             throw new AuthenticationServiceException(
                     "Authentication method not supported: " + request.getMethod());
         }
@@ -55,13 +56,15 @@ public class LoginFilter extends UsernamePasswordAuthenticationFilter {
         String username = null;
         String password = null;
         try {
+            String phone = "phone";
+            String code = "code";
             ObjectMapper objectMapper = new ObjectMapper();
             Map map;
             map = objectMapper.readValue(request.getInputStream(), Map.class);
-            if (map.get("phone") != null) {
+            if (map.get(phone) != null) {
                 username = "phone " + map.get("phone");
                 password = map.get("password").toString();
-            } else if (map.get("code") != null) {
+            } else if (map.get(code) != null) {
                 username = "code " + map.get("code");
             }
         } catch (Exception e) {

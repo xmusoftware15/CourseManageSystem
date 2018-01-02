@@ -2,6 +2,9 @@ package xmu.crms.vo;
 
 import java.util.Date;
 
+/**
+ * @author 1-11、2-4
+ */
 public class StudentSeminar {
 
     private Long id;

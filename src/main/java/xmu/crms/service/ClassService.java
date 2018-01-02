@@ -13,7 +13,7 @@ import java.util.List;
  */
 public interface ClassService {
     /**
-     * 按classId删除CourseSelection表的一条记录 .
+     * 按classId删除CourseSelection表的一条记录.
      *
      * @param classId 班级Id
      * @author zhouzhongjun
@@ -30,6 +30,7 @@ public interface ClassService {
      * @return List 班级列表
      * @throws UserNotFoundException   无此姓名的教师
      * @throws CourseNotFoundException 无此名称的课程
+     * @throws ClassesNotFoundException 无此班级
      * @author yexiaona
      * @see CourseService #listClassByCourseName(String courseName)
      * @see CourseService #listClassByTeacherName(String teacherName)
@@ -153,6 +154,7 @@ public interface ClassService {
      *
      * @param courseId 课程Id
      * @throws CourseNotFoundException 无此Id的课程
+     * @throws ClassesNotFoundException 无此班级
      * @author zhouzhongjun
      * @see ClassService #listClassByCourseId(BigInteger courseId)
      * @see ClassService #deleteClasssSelectionByClassId(BigInteger classId)

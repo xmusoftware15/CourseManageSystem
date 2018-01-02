@@ -60,13 +60,14 @@ public class UserController {
     @PutMapping("/me")
     public void updateUserByUserId(@RequestAttribute("userId") BigInteger id1,@RequestBody Map<String, String> map) throws IllegalArgumentException,UserNotFoundException
     {
+        String male = "male";
     	User user=new User();
     	user.setName(map.get("name"));
     	user.setNumber(map.get("number"));
     	user.setEmail(map.get("email"));
     	//user.setTitle(map.get("title"));
     	String gender=map.get("gender");
-    	if("male".equals(gender)) {
+    	if(male.equals(gender)) {
             user.setGender(0);
         } else {
             user.setGender(1);

@@ -96,4 +96,17 @@ public class TopicVO {
     public void setGroupLeft(Integer groupLeft) {
         this.groupLeft = groupLeft;
     }
+
+    @Override
+    public String toString() {
+        return "TopicVO{" +
+                "id=" + id +
+                ", serial='" + serial + '\'' +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", groupLimit=" + groupLimit +
+                ", groupMemberLimit=" + groupMemberLimit +
+                ", groupLeft=" + groupLeft +
+                '}';
+    }
 }

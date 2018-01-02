@@ -7,6 +7,10 @@ import xmu.crms.entity.SeminarGroupMember;
 import java.math.BigInteger;
 import java.util.List;
 
+/**
+ * @author Huhui
+ */
+
 @Component
 public interface SeminarGroupMemberMapper {
     /**
@@ -22,6 +26,7 @@ public interface SeminarGroupMemberMapper {
      * @author YeHongjie
      * @param userId 学生的id
      * @param groupId 要加入讨论课小组的id
+     * @param id
      * @return BigInteger 若创建成功返回该条记录的id，失败则返回-1
      */
     Integer insertSeminarGroupMemberById(@Param("id") BigInteger id, @Param("userId") BigInteger userId, @Param("groupId") BigInteger groupId);
@@ -46,6 +51,7 @@ public interface SeminarGroupMemberMapper {
      * 创建小组成员信息.
      * <p>在指定小组成员表下创建一个新的小组信息<br>
      * @param seminarGroupMember 小组成员信息
+     * @param groupId 小组id
      * @return BigInteger 若创建成功返回该小组成员表的id，失败则返回-1
      */
     Integer insertSeminarGroupMemberByGroupId(@Param("groupId") BigInteger groupId, @Param("seminarGroupMember") SeminarGroupMember seminarGroupMember);

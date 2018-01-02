@@ -99,6 +99,7 @@ public interface CourseService {
      * @author YeXiaona
      * @see CourseService #listCourseByCourseName(String courseName)
      * @see ClassService #listClassByCourseId(BigInteger courseId)
+     * @throws CourseNotFoundException 未找到课程
      */
     List<ClassInfo> listClassByCourseName(String courseName) throws CourseNotFoundException;
 
@@ -113,6 +114,8 @@ public interface CourseService {
      * @see UserService #listUserIdByUserName(String userName)
      * @see CourseService #listCourseByUserId(BigInteger)
      * @see ClassService #listClassByCourseId(BigInteger)
+     * @throws UserNotFoundException 无此用户
+     * @throws ClassesNotFoundException 无此班级
      */
     List<ClassInfo> listClassByTeacherName(String teacherName) throws UserNotFoundException,ClassesNotFoundException;
 

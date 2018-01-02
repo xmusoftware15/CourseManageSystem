@@ -12,6 +12,9 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.File;
 import java.util.Base64;
 
+/**
+ * @author 1-11、2-4
+ */
 @RestController
 public class UploadController {
 
@@ -21,7 +24,6 @@ public class UploadController {
     @Value("mp.upload.base-dir")
     private String baseDir;
 
-    //    private static final String BASE_DIR = "/var/mywebapp/data";
     @PostMapping("/upload/avatar")
     public Object uploadAvatar(@RequestParam MultipartFile avatar) {
 

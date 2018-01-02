@@ -86,4 +86,17 @@ public class SeminarWithGradeVO {
     public void setGrade(Integer grade) {
         this.grade = grade;
     }
+
+    @Override
+    public String toString() {
+        return "SeminarWithGradeVO{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", groupingMethod='" + groupingMethod + '\'' +
+                ", startTime=" + startTime +
+                ", endTime=" + endTime +
+                ", grade=" + grade +
+                '}';
+    }
 }

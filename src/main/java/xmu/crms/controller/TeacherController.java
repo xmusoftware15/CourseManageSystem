@@ -10,6 +10,9 @@ import xmu.crms.vo.SimpleCourseVo;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * @author 1-11、2-4
+ */
 @Controller
 public class TeacherController {
 

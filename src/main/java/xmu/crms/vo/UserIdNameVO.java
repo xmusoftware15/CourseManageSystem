@@ -4,6 +4,9 @@ import xmu.crms.entity.User;
 
 import java.math.BigInteger;
 
+/**
+ * @author 1-11、2-4
+ */
 public class UserIdNameVO {
 
 	private BigInteger id;

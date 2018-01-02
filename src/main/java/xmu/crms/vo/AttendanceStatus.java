@@ -1,5 +1,8 @@
 package xmu.crms.vo;
 
+/**
+ * @author 1-11、2-4
+ */
 public class AttendanceStatus {
 
     private Integer numPresent;
