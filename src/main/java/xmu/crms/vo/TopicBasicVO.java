@@ -1,5 +1,7 @@
 package xmu.crms.vo;
 
+import xmu.crms.entity.Topic;
+
 /**
  * @author yexiaona
  * @create 2017/12/24

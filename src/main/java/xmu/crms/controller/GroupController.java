@@ -37,17 +37,18 @@ private GradeService gradeService;
     @Autowired
     private FixGroupService fixGroupService;
 
-    @GetMapping("/{id}")
+    @GetMapping("/{groupId}")
     @ResponseStatus(HttpStatus.OK)
-    public GroupVO getGroupInfo(@PathVariable("id") BigInteger id) throws GroupNotFoundException,UserNotFoundException,FixGroupNotFoundException {
+    public GroupVO getGroupInfo(@PathVariable("groupId") BigInteger id) throws GroupNotFoundException,UserNotFoundException,FixGroupNotFoundException {
         GroupVO groupVO = new GroupVO();
         Member leader = new Member();//队长
         List<TopicHXR> topics = new ArrayList<>();//选题
         List<Member> members = new ArrayList<>();
 
-        List<User> users = fixGroupService.listFixGroupMemberByGroupId(id);//获得所有成员
-        Member member = new Member();
+        List<User> users = seminarGroupService.listSeminarGroupMemberByGroupId(id);//获得所有成员
+
         for (int i = 0; i <users.size() ; i++) {
+            Member member = new Member();
             member.setId(users.get(i).getId());
             member.setName(users.get(i).getName());
             members.add(member);

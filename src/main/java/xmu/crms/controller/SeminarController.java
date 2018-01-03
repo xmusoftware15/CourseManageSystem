@@ -212,34 +212,32 @@ public class SeminarController {
 
     @GetMapping("/{seminarId}/group")
     @ResponseStatus(HttpStatus.OK)
-    public List<SeminarGroupVO> getGroups(@PathVariable("seminarId") String seminarId)
+    public List<SeminarGroupVO> getGroups(@RequestParam("classId") BigInteger classId,@PathVariable("seminarId") BigInteger seminarId)
             throws SeminarNotFoundException, CourseNotFoundException {
 
         List<SeminarGroupVO> seminarGroupVOS = new ArrayList<>();
 
-        List<SeminarGroup> seminarGroups = seminarGroupService.listSeminarGroupBySeminarId(new BigInteger(seminarId));
-        List<Topic> topics = topicService.listTopicBySeminarId(new BigInteger(seminarId));
-        List<ClassInfo> classInfos = classService.listClassByCourseId(seminarGroups.get(0).getSeminar().getId());
-        for (ClassInfo classInfo : classInfos
-                ) {
-            for (Topic topic : topics
-                    ) {
-                for (SeminarGroup seminarGroup : seminarGroups
-                        ) {
-                    SeminarGroupTopic isChosen = topicService.getSeminarGroupTopicById(topic.getId(), seminarGroup.getId());
-                    if (isChosen != null) {
-                        SeminarGroupVO seminarGroupVO = new SeminarGroupVO();
-                        seminarGroupVO.setId(isChosen.getId().longValue());
-                        seminarGroupVO.setName(classInfos.indexOf(classInfo) + topics.indexOf(topic) + seminarGroups.indexOf(seminarGroup) + "");
-                        TopicBasicVO topicBasicVO=new TopicBasicVO();
-                        topicBasicVO.setId(topic.getId().longValue());
-                        topicBasicVO.setName(topic.getName());
-                        seminarGroupVO.setTopics(topicBasicVO);
-                        seminarGroupVOS.add(seminarGroupVO);
-                    }
-                }
-            }
-        }
+       List<SeminarGroup> seminarGroups=seminarGroupService.listSeminarGroupById(seminarId,classId);
+       for(SeminarGroup s:seminarGroups)
+       {
+           SeminarGroupVO seminarGroupVO=new SeminarGroupVO();
+           seminarGroupVO.setId(s.getId().longValue());
+
+           List<SeminarGroupTopic> topics=topicService.listSeminarGroupTopicByGroupId(s.getId());
+           List<TopicBasicVO> topicBasicVOS=new ArrayList<>();
+           String name="";
+           String serial="";
+           for(SeminarGroupTopic seminarGroupTopic:topics){
+            name+=seminarGroupTopic.getTopic().getName();
+           serial+= seminarGroupTopic.getTopic().getSerial();
+           }
+TopicBasicVO topicBasicVO=new TopicBasicVO();
+           topicBasicVO.setName(name);
+           seminarGroupVO.setTopics(topicBasicVO);
+           String groupname = classId+"-"+serial+"-"+ s.getId();
+           seminarGroupVO.setName(groupname);
+           seminarGroupVOS.add(seminarGroupVO);
+       }
 
         return seminarGroupVOS;
     }
@@ -331,14 +329,20 @@ seminarGroupDetail.setTopics(topics);
         attendanceStatus.setNumStudent(students.size());
 
         Location location=classService.getCallStatusById(new BigInteger(classId),new BigInteger(seminarId));
-        if(location.getStatus()==0){
-            attendanceStatus.setStatus("签到结束");
-            attendanceStatus.setGroup("已分组");
+        if(location.getStatus()==null){
+            attendanceStatus.setStatus("未开始签到");
+            attendanceStatus.setGroup("不能分组");
         }
-        else{
+        else {
+            if(location.getStatus()==0) {
+                attendanceStatus.setStatus("签到结束");
+                attendanceStatus.setGroup("未知");
+            }
+        else if(location.getStatus()==1){
             attendanceStatus.setStatus("正在签到");
             attendanceStatus.setGroup("未完成分组");
-        }
+        }}
+
 
         return attendanceStatus;
     }
@@ -378,12 +382,28 @@ seminarGroupDetail.setTopics(topics);
     @ResponseStatus(HttpStatus.OK)
     public List<UserIdNameVO> getAbsent(@PathVariable("seminarId") String seminarId,
                                 @PathVariable("classId") String classId)
-            throws ClassesNotFoundException,SeminarNotFoundException {
+            throws ClassesNotFoundException,SeminarNotFoundException,UserNotFoundException {
         List<UserIdNameVO> userIdNameVOS=new ArrayList<>();
-        List<User> absents = userService.listAbsenceStudent(new BigInteger(seminarId),new BigInteger(classId));
-        for (User absent:absents
-             ) {
-            userIdNameVOS.add(new UserIdNameVO(absent));
+        List<User> allstudents = userService.listUserByClassId(new BigInteger(classId),null,null);
+        List<User> presents;
+
+        presents=userService.listPresentStudent(new BigInteger(seminarId),new BigInteger(classId));
+        System.out.println(allstudents.size()+"  "+presents.size());
+        List<User> nopresents=new ArrayList<>();
+        for(int i=0;i<allstudents.size();i++){
+            int signal=0;
+            for(int j=0;j<presents.size();j++)
+            {
+                if(allstudents.get(i).getId().equals(presents.get(j).getId())){signal=1;break;}
+            }
+            if(signal==0){
+            nopresents.add(allstudents.get(i));}
+        }
+       // allstudents.removeAll(presents);
+        System.out.println("final`"+nopresents.size());
+        for(User user:nopresents){
+            UserIdNameVO userIdNameVO=new UserIdNameVO(user);
+            userIdNameVOS.add(userIdNameVO);
         }
         return userIdNameVOS;
     }
