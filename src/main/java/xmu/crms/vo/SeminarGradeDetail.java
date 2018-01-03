@@ -6,6 +6,9 @@ import xmu.crms.entity.SeminarGroup;
 import java.math.BigInteger;
 import java.util.List;
 
+/**
+ * @author badcode
+ */
 public class SeminarGradeDetail {
 
     private String seminarName;

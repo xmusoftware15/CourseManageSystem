@@ -196,13 +196,14 @@ public class CourseController {
 
     @PostMapping("/course/{courseId}/seminar")
     @ResponseStatus(HttpStatus.CREATED)
-    public IdVo createSeminarForCourse(@PathVariable("courseId") String courseId, @RequestBody HQSeminarVo seminarVo) throws CourseNotFoundException {
+    public IdVo createSeminarForCourse(@PathVariable("courseId") String courseId, @RequestBody HqSeminarVo seminarVo) throws CourseNotFoundException {
+        String fixed = "fixed";
         Seminar seminar = new Seminar();
         Course course = new Course();
         course.setId(new BigInteger(courseId));
         seminar.setCourse(course);
         seminar.setName(seminarVo.getName());
-        if("fixed".equals(seminarVo.getGroupingMethod())){
+        if(fixed.equals(seminarVo.getGroupingMethod())){
             seminar.setFixed(true);
         }
         else{

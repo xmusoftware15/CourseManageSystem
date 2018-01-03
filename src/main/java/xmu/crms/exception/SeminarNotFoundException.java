@@ -1,9 +1,10 @@
 package xmu.crms.exception;
 
+/**
+ * @author badcode
+ */
 public class SeminarNotFoundException extends Exception {
-	/**
-	 * 
-	 */
+
 	private static final long serialVersionUID = 1L;
 	
 	private String errorCode;

@@ -4,6 +4,9 @@ import xmu.crms.entity.School;
 
 import java.math.BigInteger;
 
+/**
+ * @author badcode
+ */
 public class SchoolIdNameVO {
 	private BigInteger id;
 	private String name;
@@ -25,5 +28,13 @@ public class SchoolIdNameVO {
 	}
 	public void setName(String name) {
 		this.name = name;
+	}
+
+	@Override
+	public String toString() {
+		return "SchoolIdNameVO{" +
+				"id=" + id +
+				", name='" + name + '\'' +
+				'}';
 	}
 }

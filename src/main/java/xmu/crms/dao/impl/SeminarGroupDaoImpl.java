@@ -16,6 +16,9 @@ import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * @author Huhui
+ */
 @Component
 public class SeminarGroupDaoImpl implements SeminarGroupDao {
     @Autowired

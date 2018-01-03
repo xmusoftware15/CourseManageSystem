@@ -2,6 +2,9 @@ package xmu.crms.vo;
 
 import java.util.List;
 
+/**
+ * @author 1-11、2-4
+ */
 public class GroupMemberVO {
 
     private StudentVO leader;
@@ -21,5 +24,13 @@ public class GroupMemberVO {
 
     public void setMembers(List<StudentVO> members) {
         this.members = members;
+    }
+
+    @Override
+    public String toString() {
+        return "GroupMemberVO{" +
+                "leader=" + leader +
+                ", members=" + members +
+                '}';
     }
 }

@@ -3,6 +3,9 @@ package xmu.crms.vo;
 import java.math.BigInteger;
 import java.util.Date;
 
+/**
+ * @author Heqi
+ */
 public class SimpleCourseVo {
     private BigInteger id;
     private String name;

@@ -6,6 +6,9 @@ import xmu.crms.entity.ClassInfo;
 import xmu.crms.entity.Seminar;
 import xmu.crms.entity.User;
 
+/**
+ * @author 1-11、2-4
+ */
 public class AttendanceVO {
 	private BigInteger id;
 	private User student;
@@ -35,5 +38,14 @@ public class AttendanceVO {
         } else {
 			this.attendanceStatus="缺勤";
 		}
+	}
+
+	@Override
+	public String toString() {
+		return "AttendanceVO{" +
+				"id=" + id +
+				", student=" + student +
+				", attendanceStatus='" + attendanceStatus + '\'' +
+				'}';
 	}
 }

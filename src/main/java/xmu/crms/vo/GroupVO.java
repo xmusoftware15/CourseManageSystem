@@ -3,12 +3,15 @@ package xmu.crms.vo;
 import java.math.BigInteger;
 import java.util.List;
 
+/**
+ * @author 1-11、2-4
+ */
 public class GroupVO {
     BigInteger id;
     String name;
     Member leader;
     List<Member> members;
-    List<TopicHXR> topics;
+    List<TopicHxr> topics;
     String report;
 
     public BigInteger getId() {
@@ -43,11 +46,11 @@ public class GroupVO {
         this.members = members;
     }
 
-    public List<TopicHXR> getTopics() {
+    public List<TopicHxr> getTopics() {
         return topics;
     }
 
-    public void setTopics(List<TopicHXR> topics) {
+    public void setTopics(List<TopicHxr> topics) {
         this.topics = topics;
     }
 

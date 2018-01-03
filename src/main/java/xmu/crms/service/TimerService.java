@@ -25,7 +25,11 @@ public interface TimerService {
 
 
     /**
-     * 如果用hashMap实现不了 ，可以参考赖神提供的意见使用List<Object>：
+     * 如果用hashMap实现不了 ，可以参考赖神提供的意见使用List<Object>.
+     * @param time
+     * @param beanName
+     * @param methodName
+     * @param paramList
      */
     void insertEvent(Date time, String beanName, String methodName, List<Object> paramList);
 

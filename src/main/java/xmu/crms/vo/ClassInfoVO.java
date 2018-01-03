@@ -86,4 +86,15 @@ public class ClassInfoVO {
     public void setProportions(Proportions proportions) {
         this.proportions = proportions;
     }
+
+    @Override
+    public String toString() {
+        return "ClassInfoVO{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", time='" + time + '\'' +
+                ", site='" + site + '\'' +
+                ", proportions=" + proportions +
+                '}';
+    }
 }

@@ -4,6 +4,9 @@ import xmu.crms.entity.Seminar;
 
 import java.util.Date;
 
+/**
+ * @author badcode
+ */
 public class SeminarWithGrade {
 
     private Long id;

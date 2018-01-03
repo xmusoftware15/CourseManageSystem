@@ -10,6 +10,7 @@ package xmu.crms.controller;
 
 /**
  * 对权限测试和获取当前用户信息
+ * @author 1-11、2-4
  */
 @RestController
 public class TestController {

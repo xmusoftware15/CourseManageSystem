@@ -2,6 +2,9 @@ package xmu.crms.vo;
 
 import java.math.BigInteger;
 
+/**
+ * @author 1-11、2-4
+ */
 public class LoginSuccessVO {
     private BigInteger id;
     private String type;
@@ -67,4 +70,14 @@ public class LoginSuccessVO {
         this.jwt = header + '.' + payload + '.' + signature;
     }
 
+    @Override
+    public String toString() {
+        return "LoginSuccessVO{" +
+                "id=" + id +
+                ", type='" + type + '\'' +
+                ", name='" + name + '\'' +
+                ", jwt='" + jwt + '\'' +
+                ", openid='" + openid + '\'' +
+                '}';
+    }
 }

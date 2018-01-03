@@ -10,12 +10,13 @@ import java.math.BigInteger;
  * @version 2.10
  */
 public interface LoginService {
-	
+
 	/**
 	 * 微信登录.
 	 * <p>微信登录<br>
+	 * @param user
 	 * @return user 该用户信息
-	 * @exception UserNotFoundException 登录失败时抛出
+	 * @throws UserNotFoundException 登录失败时抛出
 	 */
 	 User signInWeChat(User user) throws UserNotFoundException;
 	
@@ -26,7 +27,7 @@ public interface LoginService {
 	 * @author qinlingyun 
 	 * @param user 用户信息(手机号Phone和密码Password)
 	 * @return user 该用户信息
-	 * @exception UserNotFoundException 登录失败时抛出
+	 * @throws UserNotFoundException 登录失败时抛出
 	 */
 	 User signInPhone(User user) throws UserNotFoundException;
 	
@@ -46,8 +47,8 @@ public interface LoginService {
 	 * @param userId 用户id
 	 * @see CourseService#listCourseByUserId(BigInteger userId)
 	 * @see CourseService#deleteCourseByCourseId(BigInteger courseId)
-	 * @exception IllegalArgumentException 信息不合法，id格式错误
-	 * @exception UserNotFoundException 未找到对应用户
+	 * @throws IllegalArgumentException 信息不合法，id格式错误
+	 * @throws UserNotFoundException 未找到对应用户
 	 */
 	void deleteTeacherAccount(BigInteger userId) throws IllegalArgumentException,
             UserNotFoundException;
@@ -58,8 +59,8 @@ public interface LoginService {
 	 * @author qinlingyun
 	 * @param userId 用户id
 	 * @see ClassService#deleteCourseSelectionById(BigInteger userId,BigInteger classId)
-	 * @exception IllegalArgumentException 信息不合法，id格式错误
-	 * @exception UserNotFoundException 未找到对应用户
+	 * @throws IllegalArgumentException 信息不合法，id格式错误
+	 * @throws UserNotFoundException 未找到对应用户
 	 */
 	void deleteStudentAccount(BigInteger userId) throws IllegalArgumentException,
             UserNotFoundException;

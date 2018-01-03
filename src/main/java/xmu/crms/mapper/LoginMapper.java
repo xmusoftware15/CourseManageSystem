@@ -39,17 +39,34 @@ public interface LoginMapper {
     void deleteUserbyId(BigInteger id);
 
     /**
-     * 手机注册
-     *
-     * @return
+     * 手机注册.
+     * @param user
      */
     void createUserWithPhone(User user);
 
+    /**
+     * 用微信号创建用户.
+     * @param user
+     */
     void createUserWithWechat(User user);
 
+    /**
+     * 通过学校id和学工号获取用户.
+     * @param schoolId
+     * @param number
+     * @return User
+     */
     User getUserBySchoolAndNumber(@Param("schoolId") BigInteger schoolId, @Param("number") String number);
 
+    /**
+     * 为用户添加微信.
+     * @param user
+     */
     void addWechatToUser(User user);
 
+    /**
+     * 为用户添加手机.
+     * @param user
+     */
     void addPhoneToUser(User user);
 }

@@ -14,6 +14,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+/**
+ * @author 1-11、2-4
+ */
 @RestController
 public class SchoolController {
     @Autowired

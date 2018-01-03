@@ -126,44 +126,47 @@ private BigInteger addGroup(User student,BigInteger seminarId,BigInteger classId
     public void automaticallyGrouping(BigInteger seminarId, BigInteger classId) throws IllegalArgumentException, ClassesNotFoundException,
             SeminarNotFoundException, GroupNotFoundException, UserNotFoundException, InvalidOperationException {
        List<Attendance> list= userService.listAttendanceById(classId, seminarId);
-              int num=list.size();//签到的总人数
-              int groupmemberlimit=num/9;//每组人数
-              int left=num-groupmemberlimit*9;//不够整除，余下的人
-              int k=0;//数组指针
-              for(int i = 0;i<9;i++){
-               if(left!=0){
-                   BigInteger seminarGroupId=null;
-                   for(int j=0;j<=groupmemberlimit;j++)
-                   {
-                       User student=list.get(k+j).getStudent();
-                       if(j==0) {
-                         seminarGroupId=addGroup(student,seminarId,classId);
-                       }
-                       if(seminarGroupId!=null) {
-                           insertSeminarGroupMemberById(student.getId(), seminarGroupId);
-                       }
+
+       //签到的总人数
+       int num=list.size();
+
+       //每组人数
+       int groupmemberlimit=num/9;
+
+       //不够整除，余下的人
+       int left=num-groupmemberlimit*9;
+
+       //数组指针
+       int k=0,x=9;
+       for(int i = 0;i<x;i++){
+           if(left!=0){
+               BigInteger seminarGroupId=null;
+               for(int j=0;j<=groupmemberlimit;j++){
+                   User student=list.get(k+j).getStudent();
+                   if(j==0){
+                       seminarGroupId=addGroup(student,seminarId,classId);
                    }
-                   k+=groupmemberlimit+1;
-               }
-                else{
-                   BigInteger seminarGroupId=null;
-                   for(int j=0;j<groupmemberlimit;j++)
-                   {
-                       User student=list.get(k+j).getStudent();
-                       if(j==0) {
-                           seminarGroupId=addGroup(student,seminarId,classId);
-                       }
-                       if(seminarGroupId!=null) {
-                           insertSeminarGroupMemberById(student.getId(), seminarGroupId);
-                       }
+                   if(seminarGroupId!=null) {
+                       insertSeminarGroupMemberById(student.getId(), seminarGroupId);
                    }
-                   k+=groupmemberlimit;
-
                }
-        }
-
-
-    }
+               k+=groupmemberlimit+1;
+           }
+           else{
+               BigInteger seminarGroupId=null;
+               for(int j=0;j<groupmemberlimit;j++) {
+                   User student=list.get(k+j).getStudent();
+                   if(j==0) {
+                       seminarGroupId=addGroup(student,seminarId,classId);
+                   }
+                   if(seminarGroupId!=null) {
+                       insertSeminarGroupMemberById(student.getId(), seminarGroupId);
+                   }
+               }
+               k+=groupmemberlimit;
+           }
+       }
+}
 
     @Override
     public List<SeminarGroup> listSeminarGroupNotHaveTopic(BigInteger seminarId) {

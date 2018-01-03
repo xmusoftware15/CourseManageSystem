@@ -127,6 +127,7 @@ public interface FixGroupService {
      * @param groupId 小组的id
      * @return List 固定小组成员列表对象，若未找到相关成员返回空(null)
      * @throws IllegalArgumentException        信息不合法，id格式错误
+     * @throws FixGroupNotFoundException 未找到固定小组
      * @author YeHongjie
      * @see FixGroupService #listFixGroupMemberByGroupId(BigInteger groupId)
      */

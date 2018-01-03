@@ -2,6 +2,9 @@ package xmu.crms.vo;
 
 import java.math.BigInteger;
 
+/**
+ * @author 1-11、2-4
+ */
 public class Member {
     BigInteger id;
     String name;

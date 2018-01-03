@@ -36,4 +36,13 @@ public class SeminarGroupVO {
     public void setTopics(TopicBasicVO topics) {
         this.topics = topics;
     }
+
+    @Override
+    public String toString() {
+        return "SeminarGroupVO{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", topics=" + topics +
+                '}';
+    }
 }

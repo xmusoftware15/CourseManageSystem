@@ -41,11 +41,16 @@ private GradeService gradeService;
     @ResponseStatus(HttpStatus.OK)
     public GroupVO getGroupInfo(@PathVariable("groupId") BigInteger id) throws GroupNotFoundException,UserNotFoundException,FixGroupNotFoundException {
         GroupVO groupVO = new GroupVO();
-        Member leader = new Member();//队长
-        List<TopicHXR> topics = new ArrayList<>();//选题
+
+        //队长
+        Member leader = new Member();
+
+        //选题
+        List<TopicHxr> topics = new ArrayList<>();
         List<Member> members = new ArrayList<>();
 
         List<User> users = seminarGroupService.listSeminarGroupMemberByGroupId(id);//获得所有成员
+
 
         for (int i = 0; i <users.size() ; i++) {
             Member member = new Member();
@@ -54,8 +59,9 @@ private GradeService gradeService;
             members.add(member);
         }
 
-        List<SeminarGroupTopic> listTopics= topicService.listSeminarGroupTopicByGroupId(id);//获得所有选题
-        TopicHXR topic = new TopicHXR();
+        //获得所有选题
+        List<SeminarGroupTopic> listTopics= topicService.listSeminarGroupTopicByGroupId(id);
+        TopicHxr topic = new TopicHxr();
         for (int i = 0; i <listTopics.size() ; i++) {
             topic.setId(listTopics.get(i).getId());
             topic.setName(listTopics.get(i).getTopic().getName());

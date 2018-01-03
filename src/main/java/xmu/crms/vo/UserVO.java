@@ -4,6 +4,9 @@ import xmu.crms.entity.User;
 
 import java.math.BigInteger;
 
+/**
+ * @author 1-11、2-4
+ */
 public class UserVO {
     private BigInteger id;
     private String type;
@@ -127,5 +130,19 @@ public class UserVO {
 		this.school = school;
 	}
 
-
+    @Override
+    public String toString() {
+        return "UserVO{" +
+                "id=" + id +
+                ", type='" + type + '\'' +
+                ", name='" + name + '\'' +
+                ", number='" + number + '\'' +
+                ", phone='" + phone + '\'' +
+                ", email='" + email + '\'' +
+                ", gender='" + gender + '\'' +
+                ", school=" + school +
+                ", title=" + title +
+                ", avatar='" + avatar + '\'' +
+                '}';
+    }
 }

@@ -26,4 +26,12 @@ public class TopicBasicVO {
     public void setName(String name) {
         this.name = name;
     }
+
+    @Override
+    public String toString() {
+        return "TopicBasicVO{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

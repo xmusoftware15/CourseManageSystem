@@ -99,4 +99,18 @@ public class CurrentSeminarVO {
     public void setClasses(List<ClassInfo> classes) {
         this.classes = classes;
     }
+
+    @Override
+    public String toString() {
+        return "CurrentSeminarVO{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", description='" + description + '\'' +
+                ", groupingMethod='" + groupingMethod + '\'' +
+                ", startTime=" + startTime +
+                ", endTime=" + endTime +
+                ", courseName='" + courseName + '\'' +
+                ", classes=" + classes +
+                '}';
+    }
 }

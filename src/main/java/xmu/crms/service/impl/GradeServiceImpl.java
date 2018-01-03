@@ -232,7 +232,8 @@ public class GradeServiceImpl implements GradeService {
             finalGrades.add(finalGrade1);
         }
         //将成绩从高到低排序
-        for (int i = 0; i < finalGrades.size() - 2; i++) {
+        int x = 2;
+        for (int i = 0; i < finalGrades.size() - x; i++) {
             for (int j = i + 1; j < finalGrades.size(); j++) {
                 if (finalGrades.get(i).compareTo(finalGrades.get(j)) < 0) {
                     //交换两数

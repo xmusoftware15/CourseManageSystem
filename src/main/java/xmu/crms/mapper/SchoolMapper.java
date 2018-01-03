@@ -23,13 +23,14 @@ public interface SchoolMapper {
     /**
      * 插入学校
      * @param school
+     * @return Integer
      */
     Integer insertSchool(School school);
 
     /**
      * 学校查重
      * @param school
-     * @return
+     * @return int
      */
     int rechecking(School school);
 
