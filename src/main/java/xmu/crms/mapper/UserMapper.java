@@ -71,7 +71,7 @@ public interface UserMapper {
 	 * @param seminarId
 	 * @return List<Attendance>
 	 */
-	List<Attendance> getAttendanceById(BigInteger classId, BigInteger seminarId);
+	List<Attendance> getAttendanceById(@Param("classId")BigInteger classId, @Param("seminarId") BigInteger seminarId);
 
 	/**
 	 * 通过学工号和学校id获取用户信息.

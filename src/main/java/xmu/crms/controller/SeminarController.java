@@ -125,7 +125,8 @@ public class SeminarController {
         if(seminarGroup!=null) {
             BigInteger groupId = seminarGroup.getId();
             List<SeminarGroupTopic> seminarGroupTopics = topicService.listSeminarGroupTopicByGroupId(groupId);
-            if (seminarGroupTopics != null) {
+           System.out.println("222222222222222"+seminarGroupTopics);
+            if (seminarGroupTopics.size() != 0) {
                 studentSeminar.setAreTopicsSelected("true");
             } else {
                 studentSeminar.setAreTopicsSelected("false");
@@ -134,7 +135,7 @@ public class SeminarController {
         else{
             studentSeminar.setAreTopicsSelected("false");
         }
-
+           System.out.println("11111111111"+studentSeminar.getAreTopicsSelected());
         return studentSeminar;
     }
 
@@ -318,23 +319,35 @@ seminarGroupDetail.setTopics(topics);
     @GetMapping("/{seminarId}/class/{classId}/attendance")
     @ResponseStatus(HttpStatus.OK)
     public AttendanceStatus getAttendanceStatus(@PathVariable("seminarId") String seminarId,
-                                                @PathVariable("classId") String classId)
+                                                @PathVariable("classId") String classId,
+    @RequestParam(value="longitude",required = false) Double longitude,@RequestParam(value = "latitude",required = false) Double latitude)
             throws ClassesNotFoundException,SeminarNotFoundException,UserNotFoundException {
         AttendanceStatus attendanceStatus = new AttendanceStatus();
 
-        List<Attendance> attendances=userService.listAttendanceById(new BigInteger(classId),new BigInteger(seminarId));
+        List<User> attendances=userService.listPresentStudent(new BigInteger(seminarId),new BigInteger(classId));;
         attendanceStatus.setNumPresent(attendances.size());
 
         List<User> students=userService.listUserByClassId(new BigInteger(classId),"","");
         attendanceStatus.setNumStudent(students.size());
 
         Location location=classService.getCallStatusById(new BigInteger(classId),new BigInteger(seminarId));
-        if(location.getStatus()==null){
+        if(location==null){
+            Seminar seminar=new Seminar();
+            ClassInfo classInfo=new ClassInfo();
+            seminar.setId(new BigInteger(seminarId));
+            classInfo.setId(new BigInteger(classId));
+            Location location1=new Location();
+            location1.setSeminar(seminar);
+            location1.setClassInfo(classInfo);
+            location1.setLatitude(latitude);
+            location1.setLongitude(longitude);
+            classService.callInRollById(location1);
+        }
+        else { if(location.getStatus()==null){
             attendanceStatus.setStatus("未开始签到");
             attendanceStatus.setGroup("不能分组");
         }
-        else {
-            if(location.getStatus()==0) {
+           else if(location.getStatus()==0) {
                 attendanceStatus.setStatus("签到结束");
                 attendanceStatus.setGroup("未知");
             }
@@ -418,6 +431,7 @@ seminarGroupDetail.setTopics(topics);
         Status status = new Status();
 
         Location location=classService.getCallStatusById(new BigInteger(classId),new BigInteger(seminarId));
+        System.out.println("111111111111111"+seminarId);
         System.out.println(site);
         userService.insertAttendanceById(new BigInteger(classId),new BigInteger(seminarId),new BigInteger(studentId)
                 ,site.getLongitude(),site.getLatitude());

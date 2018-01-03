@@ -36,12 +36,12 @@ private SchoolService schoolService;
         BigInteger recordId = null;
         double eps = 0.05;
         try {
-            Location tmp = classService.getCallStatusById(seminarId, classId);
-System.out.println("tmp:"+tmp+"seminarId and classId:"+seminarId+classId);
+            Location tmp = classService.getCallStatusById(classId, seminarId);
+         System.out.println("tmp:"+tmp+"seminarId and classId:"+seminarId+classId);
             if (Math.abs(tmp.getLatitude() - latitude) > eps
                     || Math.abs(tmp.getLongitude() - longitude) > eps) {
                 throw new ClassesNotFoundException("Calling failed.");
-            } else if (tmp.getStatus() == 0) {
+            } else if (tmp.getStatus() == 1) {
                 //正常签到
                 recordId = userDAO.insertAttendanceById(classId, seminarId, userId, 0);
             } else {//迟到

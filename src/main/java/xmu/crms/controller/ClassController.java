@@ -11,6 +11,7 @@ import xmu.crms.exception.*;
 import xmu.crms.mapper.ClassMapper;
 import xmu.crms.service.ClassService;
 import xmu.crms.service.FixGroupService;
+import xmu.crms.service.SeminarGroupService;
 import xmu.crms.vo.*;
 
 import java.math.BigInteger;
@@ -30,7 +31,8 @@ public class ClassController {
     private ClassService classService;
     @Autowired
     private ClassMapper classMapper;
-
+@Autowired
+private SeminarGroupService seminarGroupService;
     @Autowired
     private FixGroupService fixGroupService;
 
@@ -81,10 +83,12 @@ public class ClassController {
     @PutMapping("/{classId}/seminar/{seminarId}/location")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void updateLocation(@PathVariable("classId") BigInteger classId,
-                               @PathVariable("seminarId") BigInteger seminarId,@RequestParam(value="status",required = false) BigInteger status) throws ClassesNotFoundException {
+                               @PathVariable("seminarId") BigInteger seminarId,@RequestParam(value="status",required = false) BigInteger status) throws ClassesNotFoundException
+    ,GroupNotFoundException,UserNotFoundException,SeminarNotFoundException,InvalidOperationException{
 
         classMapper.updateLocationById(classId,seminarId,status);
-
+        if(status.equals(new BigInteger("0"))){
+        seminarGroupService.automaticallyGrouping(seminarId,classId);}
     }
 
     @DeleteMapping("/{classId}")

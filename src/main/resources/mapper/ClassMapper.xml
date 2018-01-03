@@ -145,8 +145,8 @@
         AND student_id = #{userId}
     </select>
 
-    <select id="findSeminarById"  parameterType="java.math.BigInteger" resultMap="CommonMapper.seminarResultMap">
-        SELECT id FROM seminar
+    <select id="findSeminarById" resultMap="CommonMapper.seminarResultMap">
+        SELECT * FROM seminar
         WHERE id = #{seminarId}
     </select>
 

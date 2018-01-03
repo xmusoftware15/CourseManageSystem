@@ -142,6 +142,7 @@ public class ClassDaoImpl implements ClassDao {
     @Override
     public Location getCallStatusById(BigInteger classId, BigInteger seminarId) throws SeminarNotFoundException {
         Seminar seminar = classMapper.findSeminarById(seminarId);
+        System.out.println("000000"+seminar);
         if(seminar == null){
             throw new SeminarNotFoundException();
         }else{

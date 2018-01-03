@@ -108,7 +108,7 @@ public class SeminarGroupServiceImpl implements SeminarGroupService {
     public BigInteger getSeminarGroupLeaderById(BigInteger userId, BigInteger seminarId) throws IllegalArgumentException, GroupNotFoundException {
         SeminarGroup seminarGroup = this.getSeminarGroupById(seminarId, userId);
         if (seminarGroup == null) {
-            throw new GroupNotFoundException();
+            return null;
         } else {
             BigInteger leaderId = getSeminarGroupLeaderByGroupId(seminarGroup.getId());
             return leaderId;
@@ -125,7 +125,7 @@ private BigInteger addGroup(User student,BigInteger seminarId,BigInteger classId
     @Override
     public void automaticallyGrouping(BigInteger seminarId, BigInteger classId) throws IllegalArgumentException, ClassesNotFoundException,
             SeminarNotFoundException, GroupNotFoundException, UserNotFoundException, InvalidOperationException {
-       List<Attendance> list= userService.listAttendanceById(classId, seminarId);
+       List<User> list= userService.listPresentStudent(seminarId, classId);
 
        //签到的总人数
        int num=list.size();
@@ -136,26 +136,29 @@ private BigInteger addGroup(User student,BigInteger seminarId,BigInteger classId
        //不够整除，余下的人
        int left=num-groupmemberlimit*9;
 
+       System.out.println("leftttttttttttt"+left);
        //数组指针
        int k=0,x=9;
        for(int i = 0;i<x;i++){
            if(left!=0){
                BigInteger seminarGroupId=null;
-               for(int j=0;j<=groupmemberlimit;j++){
-                   User student=list.get(k+j).getStudent();
+               for(int j=0;j<groupmemberlimit+1;j++){
+                   User student=list.get(k+j);
                    if(j==0){
                        seminarGroupId=addGroup(student,seminarId,classId);
+                       System.out.println(seminarGroupId);
                    }
                    if(seminarGroupId!=null) {
                        insertSeminarGroupMemberById(student.getId(), seminarGroupId);
                    }
                }
                k+=groupmemberlimit+1;
+               left--;
            }
            else{
                BigInteger seminarGroupId=null;
                for(int j=0;j<groupmemberlimit;j++) {
-                   User student=list.get(k+j).getStudent();
+                   User student=list.get(k+j);
                    if(j==0) {
                        seminarGroupId=addGroup(student,seminarId,classId);
                    }

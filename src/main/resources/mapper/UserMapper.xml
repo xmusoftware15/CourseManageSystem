@@ -121,7 +121,7 @@
     <select id="getAttendanceById" resultMap="attendance">
     	SELECT id,student_id,seminar_id,class_id, attendance_status 
     	from attendance
-    	where class_id=#{arg0} and seminar_id=#{arg1}
+    	where class_id=#{classId} and seminar_id=#{seminarId}
     </select>
     
     <select id="getAttendanceByIdAndStatus" resultMap="user">
