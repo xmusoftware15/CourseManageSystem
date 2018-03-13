@@ -1,0 +1,24 @@
+<page>
+  <view class="box5" style="position:relative;">
+    <!-- 背景图的view -->
+    <image class="img2" src="../images/background.jpg"  />
+    <image class="img1" bindtap="CheckTeacherInfoUI" src="{{info.avatar}}"  />
+    <view class="FONT4 personName">姓名：{{info.name}}</view>
+
+    <view class="FONT4 number">教工号：{{info.number}}</view>
+  </view>
+<!--
+<view wx:for="{{course}}" class="box4" bindtap="ClassManage" data-course-obj="{{item}}">
+    <text class="FONT1"> {{item.name}}</text>
+</view>-->
+
+<view wx:for="{{course}}" data-course-obj="{{item}}" wx:if="{{item.flag}}" class="box3" bindtap="ClassManage"  id="{{item.id}}">
+    <text class="FONT1"> {{item.name}}</text>
+</view>
+
+<view wx:for="{{course}}" data-course-obj="{{item}}" wx:if="{{!item.flag}}" class="box4"  id="{{item.id}}">
+    <text class="FONT1"> {{item.name}}</text>
+</view>
+</page>
+<!--wx:if="{{date<item.endTime&&date>item.startTime}}"
+wx:if="{{date>item.endTime||date<item.startTime}}" -->
